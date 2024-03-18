@@ -122,6 +122,92 @@ var products=context.Products.OrderByDescending(p=>p.Price).ThenByDescending(p=>
 #endregion
 
 #region Query methods which brings singular data 
+//These methods are used to bring only one data from the query result. single,SingleOrDefault
+#region SingleAsync
+// It is a method which used to bring only one data from the query result, if there is more than one data, it throws an exception.
+#region Only one data
+//var product= await context.Products.SingleAsync(p=>p.Id==1);
+#endregion
+#region No data
+//var product = await context.Products.SingleAsync(p => p.Id == 5555);
+#endregion
+#region more than one data
+//var product = await context.Products.SingleAsync(p => p.Id > 1);
+#endregion
+#endregion
+
+#region SingleOrDefaultAsync
+// It is a method which used to bring only one data from the query result, if there is more than one data, it throws an exception.
+// If there is no data, it returns default value.(null for reference types, 0 for numeric types)
+#region Only one data
+//var product= await context.Products.SingleOrDefaultAsync(p=>p.Id==1);
+#endregion
+#region No data
+//var product = await context.Products.SingleOrDefaultAsync(p => p.Id == 5555);
+#endregion
+#region more than one data
+//var product = await context.Products.SingleOrDefaultAsync(p => p.Id > 1);
+#endregion
+
+#endregion
+
+//It is a method which used to bring only one data from the query result, if there is more than one data, it throws an exception.
+#region FirstAsync 
+//the first data from the query result is returned, if there is no data, it throws an exception.
+
+#region Only one data
+//var product= await context.Products.FirstAsync(p=>p.Id==1);
+#endregion
+#region No data
+//var product = await context.Products.FirstAsync(p => p.Id == 5555);
+#endregion
+#region More than one data
+//var product = await context.Products.FirstAsync(p => p.Id > 1);
+#endregion
+
+#endregion
+
+#region FirstOrDefaultAsync
+// the first data from the query result is returned, if there is no data, it returns default value.(null for reference types, 0 for numeric types)
+
+#region Only one data
+//var product= await context.Products.FirstOrDefaultAsync(p=>p.Id==1);
+#endregion
+#region No data
+//var product = await context.Products.FirstOrDefaultAsync(p => p.Id == 5555);
+#endregion
+#region More than one data
+//var product = await context.Products.FirstOrDefaultAsync(p => p.Id > 1);
+#endregion
+
+#endregion
+
+#region SingleAsync,SingleOrDefaultAsync,FirstAsync,FirstOrDefaultAsync comparison
+
+#endregion
+
+#region FindAsync
+
+#endregion
+
+#region FindAsync and SingleAsync,SingleOrDefaultAsync,FirstAsync,FirstOrDefaultAsync methods comparison
+
+#endregion
+
+#region LastAsync
+
+#endregion
+
+#region LastOrDefaultAsync
+
+#endregion
+
+#region MyRegion
+
+#endregion
+
+
+
 #endregion
 #region Other query methods
 #endregion
