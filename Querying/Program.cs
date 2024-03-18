@@ -11,6 +11,7 @@ ECommerceDbContext context = new ();
 //                      select p).ToListAsync();
 #endregion
 #endregion
+
 #region What needs to be done to execute a query?
 #region ToListAsync
 #region Method Syntax
@@ -21,15 +22,15 @@ ECommerceDbContext context = new ();
 //                      select p).ToListAsync();
 #endregion
 #endregion
-int ProductId = 5;
-var products = from p in context.Products
-               where p.Id > ProductId
-               select p;
-ProductId = 10;
-foreach(Product product in products)
-{
-    Console.WriteLine(product.ProductName);
-}
+//int ProductId = 5;
+//var products = from p in context.Products
+//               where p.Id > ProductId
+//               select p;
+//ProductId = 10;
+//foreach(Product product in products)
+//{
+//    Console.WriteLine(product.ProductName);
+//}
 
 #region Foreach
 //foreach(Product product in products)
@@ -57,6 +58,67 @@ foreach(Product product in products)
 #endregion
 
 #region Query methods which brings plural data
+#region ToListAsync
+//: It is used to execute the query and load the data into memory.
+#region Method Syntax
+//var products =await context.Products.ToListAsync();
+#endregion
+#region Query Syntax
+//var products = await (from p in context.Products
+//                      select p).ToListAsync();
+#endregion
+#endregion
+
+#region Where
+//It is a method which used to filter the data based on where condition.
+#region Method Syntax
+//var products =await context.Products.Where(p=>p.Price>100).ToListAsync();
+//var products=await context.Products.Where(p=>p.ProductName.StartsWith("A")).ToListAsync();
+#endregion
+#region Query Syntax
+//var products =  (from p in context.Products
+//                      where p.Price > 100&&p.ProductName.StartsWith("A")
+//                      select p);
+//var data =await products.ToListAsync();
+#endregion
+#endregion
+
+#region OrderBy
+//It is a method which used to sort the data based on the given condition with query.(Ascending)
+
+#region Method Syntax
+//var products =await context.Products.Where(products=>products.Price>100).OrderBy(p=>p.Price).ToListAsync();
+#endregion
+#region Query Syntax
+//var products2 = await (from p in context.Products
+//                       where p.Price>100
+//                        orderby p.Price //ascending with default
+//                        select p).ToListAsync();              
+//#endregion
+#endregion
+#endregion
+
+#region Thenby
+//It is a method which used to sort the data after the OrderBy method with query.(Ascending)
+//var products =context.Products.Where(p=>p.Id>10||p.ProductName.EndsWith("A")).OrderBy(p=>p.Price).ThenBy(p=>p.ProductName).ThenBy(p=>p.Id);
+
+#endregion
+
+#region OrderByDescending
+#region Method Syntax
+//var products =await context.Products.OrderByDescending(u=>u.Price).ToListAsync();
+#endregion
+#region Query Syntax
+//var products = await (from p in context.Products
+//                      orderby p.Price descending
+//                      select p).ToListAsync();
+#endregion
+#endregion
+
+#region ThenByDescending
+//It is a method which used to sort the data after the OrderByDescending method with query.(Descending)
+var products=context.Products.OrderByDescending(p=>p.Price).ThenByDescending(p=>p.ProductName);
+#endregion
 #endregion
 
 #region Query methods which brings singular data 
