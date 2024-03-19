@@ -216,11 +216,7 @@ var products=context.Products.OrderByDescending(p=>p.Price).ThenByDescending(p=>
 #region LastOrDefaultAsync
 //It is used to bring the last data from the query result, if there is no data, it returns default value.(null for reference types, 0 for numeric types)
 //It requires OrderBy method before it.
-var product = await context.Products.OrderBy(p=>p.ProductName).LastOrDefaultAsync(p => p.Id > 1);
-
-#endregion
-
-#region MyRegion
+//var product = await context.Products.OrderBy(p=>p.ProductName).LastOrDefaultAsync(p => p.Id > 1);
 
 #endregion
 
@@ -228,45 +224,73 @@ var product = await context.Products.OrderBy(p=>p.ProductName).LastOrDefaultAsyn
 
 #region Other querying methods
 
-#region CountAsync
+#region CountAsync 
+////countasync is used to bring the row counts of the query result. it returns the number (with int) of rows in the query result without loading the data into memory.
+//var product = (await context.Products.ToListAsync()).Count();
+//it brings all the data into memory and then counts the rows, it is not efficient.
 
+//var productcount = await context.Products.CountAsync();
+////it brings the row counts of the query result without loading the data into memory. it is more efficient.
 #endregion
 
 #region LongCountAsync
-
+//LongCountAsync is used to bring the row counts of the query result. it returns the number (with long) of rows in the query result without loading the data into memory.
+//var productcount1 = await context.Products.LongCountAsync(p=>p.Price>5000);
 #endregion
 
-#region AnyAsync
+#region AnyAsync 
+//it is used to check if there is any data in the query result. it returns true if there is any data, otherwise it returns false.(Boolean)
+//var product = await context.Products.AnyAsync(p=>p.Price>5000);
+//var product = await context.Products.Where(p=>p.ProductName.StartsWith("A")).AnyAsync();
 
 #endregion
 
 #region MaxAsync
-
+//it is used to bring the maximum value of the query result. it returns the maximum value of the query result without loading the data into memory.
+//var maxPrice= await context.Products.MaxAsync(p=>p.Price);
 #endregion
 
 #region MinAsync
-
+//it is used to bring the minimum value of the query result.
+//var minPrice = await context.Products.MaxAsync(p => p.Price);
 #endregion
 
-#region Distinc
-
+#region Distinct
+// if there is any duplicate data in the query result, it brings only one of them. it is used to remove the duplicate data from the query result.
+//var product = await context.Products.Distinct().ToListAsync();
 #endregion
 
 #region AllAsync
-
+//it is used to check if all the data in the query result meets the given condition.
+//it returns true if all the data meets the condition, otherwise it returns false.
+//var p= await context.Products.AllAsync(p=>p.Price>100);
 #endregion
 
-#region SumAsync
-
+#region SumAsync 
+//it is used to bring the sum of the query result. it returns the sum of the query result without loading the data into memory.
+//var sumPrice = await context.Products.SumAsync(p=>p.Price);
 #endregion
 
 #region AverageAsync
-
+//it is used to bring the average of the query result.
+//var averagePrice = await context.Products.AverageAsync(p=>p.Price);
 #endregion
 
 #region ContainsAsync
-
+//it is used to check if the query result contains the given data.(like in sql '%...%')
+//var product = await context.Products.Where(p=>p.ProductName.Contains("A")).ToListAsync();
 #endregion
+
+#region StartsWith
+//it is used to check if the query result contains the given data.(like in sql '...%')
+//var product = await context.Products.Where(p=>p.ProductName.StartsWith("A")).ToListAsync();
+#endregion
+
+#region EndsWith
+// it is used to check if the query result contains the given data.(like in sql '%...')
+//var product = await context.Products.Where(p=>p.ProductName.EndsWith("A")).ToListAsync();
+#endregion
+
 #endregion
 
 #region Transform methods after query results
