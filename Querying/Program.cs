@@ -183,22 +183,40 @@ var products=context.Products.OrderByDescending(p=>p.Price).ThenByDescending(p=>
 #endregion
 
 #region SingleAsync,SingleOrDefaultAsync,FirstAsync,FirstOrDefaultAsync comparison
-
+//SingleAsync: It is used to bring only one data from the query result, if there is more than one data, it throws an exception.
+//SingleOrDefaultAsync: It is used to bring only one data from the query result, if there is more than one data, it throws an exception.
+//If there is no data, it returns default value.(null for reference types, 0 for numeric types)
+//FirstAsync: the first data from the query result is returned, if there is no data, it throws an exception.
+//FirstOrDefaultAsync: the first data from the query result is returned, if there is no data, it returns default value.(null for reference types, 0 for numeric types)
 #endregion
 
 #region FindAsync
-
+//It is used to bring the data from the database based on the primary key.
+//Product product = await context.Products.FirstOrDefaultAsync(p=>p.Id==1);
+//Product product= await context.Products.FindAsync(1);
+#region Composite Primary Key state
+//ProductComponent pc = await context.ProductComponents.FindAsync(1, 1);
+#endregion
 #endregion
 
-#region FindAsync and SingleAsync,SingleOrDefaultAsync,FirstAsync,FirstOrDefaultAsync methods comparison
-
+#region FindAsync and SingleAsync,SingleOrDefaultAsync,FirstAsync,FirstOrDefaultAsync methods comparison 
+//FindAsync: It is used to bring the data from the database based on the primary key.
+//SingleAsync: It is used to bring only one data from the query result, if there is more than one data, it throws an exception.
+//SingleOrDefaultAsync: It is used to bring only one data from the query result, if there is more than one data, it throws an exception.
+//If there is no data, it returns default value.(null for reference types, 0 for numeric types)
+//FirstAsync: the first data from the query result is returned, if there is no data, it throws an exception.
+//FirstOrDefaultAsync: the first data from the query result is returned, if there is no data, it returns default value.(null for reference types, 0 for numeric types)
 #endregion
 
 #region LastAsync
-
+//It is used to bring the last data from the query result, if there is no data, it throws an exception. It requires OrderBy method before it.
+//var product = await context.Products.OrderBy(p=>p.ProductName).LastAsync(p => p.Id > 1);
 #endregion
 
 #region LastOrDefaultAsync
+//It is used to bring the last data from the query result, if there is no data, it returns default value.(null for reference types, 0 for numeric types)
+//It requires OrderBy method before it.
+var product = await context.Products.OrderBy(p=>p.ProductName).LastOrDefaultAsync(p => p.Id > 1);
 
 #endregion
 
@@ -206,14 +224,68 @@ var products=context.Products.OrderByDescending(p=>p.Price).ThenByDescending(p=>
 
 #endregion
 
+#endregion
 
+#region Other querying methods
+
+#region CountAsync
 
 #endregion
-#region Other query methods
+
+#region LongCountAsync
+
+#endregion
+
+#region AnyAsync
+
+#endregion
+
+#region MaxAsync
+
+#endregion
+
+#region MinAsync
+
+#endregion
+
+#region Distinc
+
+#endregion
+
+#region AllAsync
+
+#endregion
+
+#region SumAsync
+
+#endregion
+
+#region AverageAsync
+
+#endregion
+
+#region ContainsAsync
+
+#endregion
 #endregion
 
 #region Transform methods after query results
 
+#region ToDictionaryAsync
+
+#endregion
+
+#region ToArrayAsync
+
+#endregion
+
+#region Select
+
+#endregion
+
+#region SelectMany
+
+#endregion
 #endregion,
 
 #region GroupBy method
@@ -227,10 +299,15 @@ public class ECommerceDbContext : DbContext
 {
     public DbSet<Product> Products { get; set; }
     public DbSet<Component> Components { get; set; }
+    public DbSet<ProductComponent> ProductComponents { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         //Provider, ConnectionString, LazyLoading
         optionsBuilder.UseSqlServer("Server=localhost, 1433;Database=ECommerceDb;User Id=sa;Password=Password1;TrustServerCertificate=True");
+    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ProductComponent>().HasKey(pc => new { pc.ProductId, pc.ComponentId });
     }
 }
 //Entity
@@ -249,4 +326,11 @@ public class Component
 {
     public int Id { get; set; }
     public string ComponentName { get; set; }
+}
+public class ProductComponent
+{
+    public int ProductId { get; set; }
+    public Product Product { get; set; }
+    public int ComponentId { get; set; }
+    public Component Component { get; set; }
 }
