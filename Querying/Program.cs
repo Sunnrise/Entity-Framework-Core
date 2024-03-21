@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 ECommerceDbContext context = new ();
 #region How can create a basic query?
 #region Method Syntax
@@ -294,21 +295,54 @@ var products=context.Products.OrderByDescending(p=>p.Price).ThenByDescending(p=>
 #endregion
 
 #region Transform methods after query results
-
+// with this methods we can transform the query result
+// into another type.
 #region ToDictionaryAsync
+//it is used to transform the query result into a dictionary.
 
+//var product= await context.Products.ToDictionaryAsync(p=>p.Id);
+
+//It has same aim with ToListAsync,
+//but it transforms the query result into a dictionary.
+//ToList: it transforms the query result into a list.(List<TEntity>)
+//ToDictionary: it transforms the query result into a collection dictionary.(Dictionary<TKey,TValue>)
 #endregion
 
 #region ToArrayAsync
+// it is used to transform the query result into an EntityArray.
+//It has same aim with ToListAsync. So, it transforms the query result into an array.
 
+//var product= await context.Products.ToArrayAsync();
 #endregion
 
 #region Select
+//Select method has more than one fuctionality.
+//We use select method arrange columns for generating a query
 
+  //var product= await context.Products.Select(p=>new Product
+  //{
+  //    Id=p.Id,
+  //    Price=p.Price
+  //}).ToListAsync();
+
+//2. Select method is used to transform the query result into another type. T,AnonimousType
+//var product =await context.Products.Select(p => new
+//{
+//    p.Id,
+//    p.Price
+//}).ToListAsync();
 #endregion
 
 #region SelectMany
+//It has same aim with Select method, but it used to project the collection of collection into a single collection which comes with relational tables result.
+var product = await context.Products.Include(p => p.Components).SelectMany(p => p.Components, (p,c) => new
+{
+    p.Id,
+    p.ProductName,
+    c.ComponentName
 
+
+}).ToListAsync();
 #endregion
 #endregion,
 
