@@ -319,11 +319,11 @@ var products=context.Products.OrderByDescending(p=>p.Price).ThenByDescending(p=>
 //Select method has more than one fuctionality.
 //We use select method arrange columns for generating a query
 
-  //var product= await context.Products.Select(p=>new Product
-  //{
-  //    Id=p.Id,
-  //    Price=p.Price
-  //}).ToListAsync();
+//var product= await context.Products.Select(p=>new Product
+//{
+//    Id=p.Id,
+//    Price=p.Price
+//}).ToListAsync();
 
 //2. Select method is used to transform the query result into another type. T,AnonimousType
 //var product =await context.Products.Select(p => new
@@ -335,23 +335,52 @@ var products=context.Products.OrderByDescending(p=>p.Price).ThenByDescending(p=>
 
 #region SelectMany
 //It has same aim with Select method, but it used to project the collection of collection into a single collection which comes with relational tables result.
-var product = await context.Products.Include(p => p.Components).SelectMany(p => p.Components, (p,c) => new
-{
-    p.Id,
-    p.ProductName,
-    c.ComponentName
 
-
-}).ToListAsync();
+//var product = await context.Products.Include(p => p.Components).SelectMany(p => p.Components, (p,c) => new
+//{
+//    p.Id,
+//    p.ProductName,
+//    c.ComponentName
+//}).ToListAsync();
 #endregion
 #endregion,
 
 #region GroupBy method
+//GroupBy method is used to group the query result based on the given condition.
+#region Method Syntax
+//var datas = await context.Products.GroupBy(p => p.Price).Select(group => new
+//{
+//   Count= group.Count(),
+//   Price= group.Key
+
+//}).ToListAsync();
+
+#endregion
+#region Query Syntax
+var datas = (from product in context.Products
+            group product by product.Price
+            into @group
+            select new
+            {
+                Price = @group.Key, 
+                Count = @group.Count()
+            }).ToListAsync();
+#endregion
+
+
 #endregion
 
 #region Foreach method
-#endregion
+// It is not a query method, it is used to iterate the query result for each data.
+foreach(var item in datas)
+{    
 
+}
+datas.ForEach(x =>
+{
+
+});
+#endregion
 
 public class ECommerceDbContext : DbContext
 {
