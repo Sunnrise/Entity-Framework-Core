@@ -370,17 +370,17 @@ var datas = (from product in context.Products
 
 #endregion
 
-#region Foreach method
+//#region Foreach method
 // It is not a query method, it is used to iterate the query result for each data.
-foreach(var item in datas)
-{    
+//foreach(var item in datas)
+//{    
 
-}
-datas.ForEach(x =>
-{
+//}
+//datas.ForEach(x =>
+//{
 
-});
-#endregion
+//});
+//#endregion
 
 public class ECommerceDbContext : DbContext
 {
