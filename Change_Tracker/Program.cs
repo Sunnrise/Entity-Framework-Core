@@ -5,13 +5,90 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection.Emit;
 ECommerceDbContext context = new();
 
-#region What is Change Tracking
+#region What is Change Tracking 
+//the data and obejcts which are being tracked by the context, are called change tracking. Change Tracker tracks the data and objects and keeps the record of the changes made to the objects. and then Sql Queries are generated based on the changes made to the objects and data.
+#endregion
+
+#region Property of Change Tracker
+//We can access the Change Tracker using the ChangeTracker property of the DbContext class.  Change Tracker has the following properties and methods.
+Product product = new Product { ProductName = "Laptop", Price = 1000 };
+context.Products.Add(product);
+context.SaveChanges();
+
+
+var products =await context.Products.ToListAsync();
+
+products[0].Price = 2000;
+context.Products.Remove(products[7]); // delete the product at index 7
+products[3].ProductName = "Desktop";// update the product at index 3
+
+var datas =context.ChangeTracker.Entries(); //Returns all the entities being tracked by the context
+Console.WriteLine();
+
+#region DetectChanges Method
 
 #endregion
 
-#region Property of ChanceTracker
+#region AutoDetectChangesEnabled Property
 
 #endregion
+
+#region Entries Method
+
+#endregion
+
+#region AcceptAllChanges Method
+
+#endregion
+
+#region HasChanges Method
+
+#endregion
+
+#endregion
+
+#region Entity States
+
+#region Detached
+
+
+
+#endregion
+
+#region Added
+
+
+
+#endregion
+
+#region Unchanged
+
+
+
+#endregion
+
+#region Modified
+
+
+
+#endregion
+
+#region Deleted
+
+
+
+#endregion
+
+#endregion
+
+#region Using Change Tracker for Interceptor
+
+#endregion
+
+#region Context object with Change Tracker 
+
+#endregion
+
 
 
 public class ECommerceDbContext : DbContext
