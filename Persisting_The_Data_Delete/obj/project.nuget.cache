@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "f6EiuLWCDjBMlKLqwrN1/Odj+colxAw1rDkVHNJfWgd3Y07UXk3zaA5XzUJ5VtC+8UDWSFRs/BRHd6R31NZFUw==",
+  "dgSpecHash": "KR+zCybSo6S5fDti8i/uYCBsIBNbvvzzZAnfl449dq++oZQ9J87CGFPP7f3v0kgUEEe2Oj9WVeK9E4qRHRCpUA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\alper\\Desktop\\Entity Framework\\Entity-Framework-Core\\Persisting_The_Data_Delete\\Persisting_The_Data_Delete.csproj",
+  "projectFilePath": "C:\\Users\\alper\\Documents\\vsstudio project\\Entity-Framework-Core\\Persisting_The_Data_Delete\\Persisting_The_Data_Delete.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\alper\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\alper\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

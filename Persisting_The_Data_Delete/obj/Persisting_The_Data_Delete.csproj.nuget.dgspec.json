@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\alper\\Desktop\\Entity Framework\\Entity-Framework-Core\\Persisting_The_Data_Delete\\Persisting_The_Data_Delete.csproj": {}
+    "C:\\Users\\alper\\Documents\\vsstudio project\\Entity-Framework-Core\\Persisting_The_Data_Delete\\Persisting_The_Data_Delete.csproj": {}
   },
   "projects": {
-    "C:\\Users\\alper\\Desktop\\Entity Framework\\Entity-Framework-Core\\Persisting_The_Data_Delete\\Persisting_The_Data_Delete.csproj": {
+    "C:\\Users\\alper\\Documents\\vsstudio project\\Entity-Framework-Core\\Persisting_The_Data_Delete\\Persisting_The_Data_Delete.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alper\\Desktop\\Entity Framework\\Entity-Framework-Core\\Persisting_The_Data_Delete\\Persisting_The_Data_Delete.csproj",
+        "projectUniqueName": "C:\\Users\\alper\\Documents\\vsstudio project\\Entity-Framework-Core\\Persisting_The_Data_Delete\\Persisting_The_Data_Delete.csproj",
         "projectName": "Persisting_The_Data_Delete",
-        "projectPath": "C:\\Users\\alper\\Desktop\\Entity Framework\\Entity-Framework-Core\\Persisting_The_Data_Delete\\Persisting_The_Data_Delete.csproj",
+        "projectPath": "C:\\Users\\alper\\Documents\\vsstudio project\\Entity-Framework-Core\\Persisting_The_Data_Delete\\Persisting_The_Data_Delete.csproj",
         "packagesPath": "C:\\Users\\alper\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alper\\Desktop\\Entity Framework\\Entity-Framework-Core\\Persisting_The_Data_Delete\\obj\\",
+        "outputPath": "C:\\Users\\alper\\Documents\\vsstudio project\\Entity-Framework-Core\\Persisting_The_Data_Delete\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\alper\\AppData\\Roaming\\NuGet\\NuGet.Config",

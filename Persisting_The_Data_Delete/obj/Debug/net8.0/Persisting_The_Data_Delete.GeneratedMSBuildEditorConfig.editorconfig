@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Persisting_The_Data_Delete
-build_property.ProjectDir = C:\Users\alper\Desktop\Entity Framework\Entity-Framework-Core\Persisting_The_Data_Delete\
+build_property.ProjectDir = C:\Users\alper\Documents\vsstudio project\Entity-Framework-Core\Persisting_The_Data_Delete\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
