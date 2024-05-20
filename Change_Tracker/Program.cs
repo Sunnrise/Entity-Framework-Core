@@ -29,16 +29,17 @@ ECommerceDbContext context = new();
 //EF Core automatically detects the changes made to the objects being tracked by the context. 
 //However, if you want to manually detect the changes, you can use the DetectChanges method of the Change Tracker. So we can sure that the changes are being tracked by the context.
 
-var product =await context.Products.FirstOrDefaultAsync(u=>u.Id==3);
-product.Price = 987;
-context.ChangeTracker.DetectChanges();
-await context.SaveChangesAsync();
-
-
+//var product =await context.Products.FirstOrDefaultAsync(u=>u.Id==3);
+//product.Price = 987;
+//context.ChangeTracker.DetectChanges();
+//await context.SaveChangesAsync();
 #endregion
 
 #region AutoDetectChangesEnabled Property
-
+// that methods(SaveChanges,Entries) automatically detect the changes made to the objects being tracked by the context. 
+//However, if you want to disable the automatic detection of changes, you can set the AutoDetectChangesEnabled property of the Change Tracker to false.
+//We can configure that detect changes automatically or manually by setting the AutoDetectChangesEnabled property of the Change Tracker.
+//It will be useful when we are working with a large number of entities and we want to improve the performance of the application.
 #endregion
 
 #region Entries Method
