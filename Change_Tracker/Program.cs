@@ -11,21 +11,29 @@ ECommerceDbContext context = new();
 
 #region Property of Change Tracker
 //We can access the Change Tracker using the ChangeTracker property of the DbContext class.  Change Tracker has the following properties and methods.
-Product product = new Product { ProductName = "Laptop", Price = 1000 };
-context.Products.Add(product);
-context.SaveChanges();
+//Product product = new Product { ProductName = "Laptop", Price = 1000 };
+//context.Products.Add(product);
+//context.SaveChanges();
 
 
-var products =await context.Products.ToListAsync();
+//var products =await context.Products.ToListAsync();
 
-products[0].Price = 2000;
-context.Products.Remove(products[7]); // delete the product at index 7
-products[3].ProductName = "Desktop";// update the product at index 3
+//products[0].Price = 2000;
+//context.Products.Remove(products[7]); // delete the product at index 7
+//products[3].ProductName = "Desktop";// update the product at index 3
 
-var datas =context.ChangeTracker.Entries(); //Returns all the entities being tracked by the context
-Console.WriteLine();
+//var datas =context.ChangeTracker.Entries(); //Returns all the entities being tracked by the context
+//Console.WriteLine();
 
 #region DetectChanges Method
+//EF Core automatically detects the changes made to the objects being tracked by the context. 
+//However, if you want to manually detect the changes, you can use the DetectChanges method of the Change Tracker. So we can sure that the changes are being tracked by the context.
+
+var product =await context.Products.FirstOrDefaultAsync(u=>u.Id==3);
+product.Price = 987;
+context.ChangeTracker.DetectChanges();
+await context.SaveChangesAsync();
+
 
 #endregion
 
