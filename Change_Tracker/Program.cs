@@ -48,39 +48,56 @@ ECommerceDbContext context = new();
 //Entries method trigger the DetectChanges method to detect the changes made to the objects being tracked by the context. It causes some performance overhead.
 //So, if you want to manually detect the changes, you can use the DetectChanges method of the Change Tracker.
 
-var products =await context.Products.ToListAsync();
-products.FirstOrDefault(u=>u.Id==7).Price = 2001;
-context.Products.Remove(products.FirstOrDefault(u => u.Id == 8)); // delete the product at index 7
-products.FirstOrDefault(u => u.Id == 9).ProductName = "Sunnrise";// update the product at index 3
+//var products =await context.Products.ToListAsync();
+//products.FirstOrDefault(u=>u.Id==7).Price = 2001;
+//context.Products.Remove(products.FirstOrDefault(u => u.Id == 8)); // delete the product at index 7
+//products.FirstOrDefault(u => u.Id == 9).ProductName = "Sunnrise";// update the product at index 3
 
-context.ChangeTracker.Entries().ToList().ForEach(e=>
-{
-    if (e.State==EntityState.Unchanged)
-    {
+//context.ChangeTracker.Entries().ToList().ForEach(e=>
+//{
+//    if (e.State==EntityState.Unchanged)
+//    {
 
-    }
-    else if (e.State == EntityState.Added)
-    {
+//    }
+//    else if (e.State == EntityState.Added)
+//    {
 
-    }
-    else if (e.State == EntityState.Modified)
-    {
+//    }
+//    else if (e.State == EntityState.Modified)
+//    {
 
-    }
-    else if (e.State == EntityState.Deleted)
-    {
+//    }
+//    else if (e.State == EntityState.Deleted)
+//    {
 
-    }
-    else if (e.State == EntityState.Detached)
-    {
+//    }
+//    else if (e.State == EntityState.Detached)
+//    {
 
-    }
+//    }
 
-}); //Returns all the entities being tracked by the context
+//}); //Returns all the entities being tracked by the context
 
 #endregion
 
 #region AcceptAllChanges Method
+//SaveChanges or SaveChanges(true) method will accept all the changes made to the objects being tracked by the context. Then Ef core will not track the changes made to the objects. So if there is any error while saving the changes, the changes will not be rolled back.
+
+//If you want to accept all the changes made to the objects being tracked by the context, you can use the AcceptAllChanges method of the Change Tracker.
+
+//If you are sure about process with SaveChanges(false) method and you want to accept all the changes made to the objects being tracked by the context, you can use the AcceptAllChanges method of the Change Tracker.
+
+
+var products = await context.Products.ToListAsync();
+products.FirstOrDefault(u => u.Id == 7).Price = 2001;
+context.Products.Remove(products.FirstOrDefault(u => u.Id == 8)); // delete the product at index 7
+products.FirstOrDefault(u => u.Id == 9).ProductName = "Sunnrise";// update the product at index 3
+
+//await context.SaveChangesAsync();
+//await context.SaveChangesAsync(true);
+//they are same
+await context.SaveChangesAsync(false);
+context.ChangeTracker.AcceptAllChanges();
 
 #endregion
 
