@@ -149,23 +149,40 @@ ECommerceDbContext context = new();
 #endregion
 
 #region Deleted
-// The entity is being tracked by the context and it is marked as Deleted. The entity is present in the database and it will be deleted from the database when SaveChanges method is called. It creates a delete query.
-var product = await context.Products.FirstOrDefaultAsync(u => u.Id == 4);
-context.Products.Remove(product);
-Console.WriteLine(context.Entry(product).State);
-context.SaveChanges();
+//// The entity is being tracked by the context and it is marked as Deleted. The entity is present in the database and it will be deleted from the database when SaveChanges method is called. It creates a delete query.
+//var product = await context.Products.FirstOrDefaultAsync(u => u.Id == 4);
+//context.Products.Remove(product);
+//Console.WriteLine(context.Entry(product).State);
+//context.SaveChanges();
+#endregion
+#endregion
+
+#region Change Tracker with Context object  
+var product= await context.Products.FirstOrDefaultAsync(u=>u.Id==55);
+product.Price = 2000;
+product.ProductName = "Ipad";//modified|updated
+
+#region Entry Method 
+#region Property of OriginalValues
+//OriginalValues property of the EntityEntry object is used to get the original values of the entity being tracked by the context. It returns the original values of the entity before the changes were made to the entity.
+var price =context.Entry(product).OriginalValues.GetValue<float>(nameof(product.Price));//It returns the original value of the property
+var productName = context.Entry(product).OriginalValues.GetValue<string>(nameof(product.ProductName));//It returns the original value of the property
+Console.WriteLine(  );
+#endregion
+
+#region Property of CurrentValues
+
+#endregion
+
+#region Property of GetDataBaseValues
+
+#endregion
 #endregion
 #endregion
 
 #region Using Change Tracker for Interceptor
 
 #endregion
-
-#region Context object with Change Tracker 
-
-#endregion
-
-
 
 public class ECommerceDbContext : DbContext
 {
