@@ -171,12 +171,15 @@ product.ProductName = "Ipad";//modified|updated
 #endregion
 
 #region Property of CurrentValues
-var productName=context.Entry(product).CurrentValues.GetValue<string>(nameof(product.ProductName));//It returns the current value of the property
-Console.WriteLine();// for the break point
+//var productName=context.Entry(product).CurrentValues.GetValue<string>(nameof(product.ProductName));//It returns the current value of the property
+//Console.WriteLine();// for the break point
 #endregion
 
 #region Property of GetDataBaseValues
-
+var _product = await context.Entry(product).GetDatabaseValuesAsync();//It returns the database values of the entity
+_product.EntityType.GetProperties();
+var a =_product.GetValue<float>(nameof(product.Price));
+Console.WriteLine("Breakpoint");
 #endregion
 #endregion
 #endregion
