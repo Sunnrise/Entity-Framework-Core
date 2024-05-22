@@ -140,22 +140,21 @@ ECommerceDbContext context = new();
 
 #region Modified
 //// The entity is being tracked by the context and it is marked as Modified. The entity is present in the database and it has been modified. The modified entity will be updated in the database when SaveChanges method is called. It creates an update query.
-var product = await context.Products.FirstOrDefaultAsync(u=>u.Id==3);
-Console.WriteLine(context.Entry(product).State);
-product.ProductName = "update";
-Console.WriteLine(context.Entry(product).State);
-await context.SaveChangesAsync(false);// it will not accept the changes, so the state will be modified
-Console.WriteLine(context.Entry(product).State);
-
-
+//var product = await context.Products.FirstOrDefaultAsync(u=>u.Id==3);
+//Console.WriteLine(context.Entry(product).State);
+//product.ProductName = "update";
+//Console.WriteLine(context.Entry(product).State);
+//await context.SaveChangesAsync(false);// it will not accept the changes, so the state will be modified
+//Console.WriteLine(context.Entry(product).State);
 #endregion
 
 #region Deleted
-
-
-
+// The entity is being tracked by the context and it is marked as Deleted. The entity is present in the database and it will be deleted from the database when SaveChanges method is called. It creates a delete query.
+var product = await context.Products.FirstOrDefaultAsync(u => u.Id == 4);
+context.Products.Remove(product);
+Console.WriteLine(context.Entry(product).State);
+context.SaveChanges();
 #endregion
-
 #endregion
 
 #region Using Change Tracker for Interceptor
