@@ -121,21 +121,21 @@ ECommerceDbContext context = new();
 #endregion
 
 #region Added
-// The entity is being tracked by the context and it is marked as Added. The entity is not present in the database and it will be inserted into the database when SaveChanges method is called.
-Product product = new() { Price=2300, ProductName="SmartPhone" };
-Console.WriteLine(context.Entry(product).State);
-await context.Products.AddAsync(product);
-Console.WriteLine(context.Entry(product).State);
-await context.SaveChangesAsync();
-product.Price = 2500;
-Console.WriteLine(context.Entry(product).State);
-await context.SaveChangesAsync();
-
-
+//// The entity is being tracked by the context and it is marked as Added. The entity is not present in the database and it will be inserted into the database when SaveChanges method is called.
+//Product product = new() { Price=2300, ProductName="SmartPhone" };
+//Console.WriteLine(context.Entry(product).State);
+//await context.Products.AddAsync(product);
+//Console.WriteLine(context.Entry(product).State);
+//await context.SaveChangesAsync();
+//product.Price = 2500;
+//Console.WriteLine(context.Entry(product).State);
+//await context.SaveChangesAsync();
 #endregion
 
 #region Unchanged
-
+// The entity is being tracked by the context and it is marked as Unchanged. The entity is present in the database and it has not been modified.
+Product product =await context.Products.FirstOrDefaultAsync();
+Console.WriteLine(context.Entry(product).State);
 
 
 #endregion
