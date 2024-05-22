@@ -110,11 +110,14 @@ ECommerceDbContext context = new();
 #endregion
 
 #region Entity States
-
+// Entity States are the states of the entity being tracked by the context. Entity States are used to determine the state of the entity and based on the state of the entity, EF Core generates the SQL queries to perform the CRUD operations.
 #region Detached
-
-
-
+//It is not being tracked by the context.
+Product product = new();
+Console.WriteLine(context.Entry(product).State);
+product.ProductName = "Laptop";
+await context.SaveChangesAsync();
+//The state of the entity is Detached because the entity is not being tracked by the context. if we want to track the entity, we need to add the entity to the context.
 #endregion
 
 #region Added
