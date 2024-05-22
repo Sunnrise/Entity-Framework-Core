@@ -87,21 +87,23 @@ ECommerceDbContext context = new();
 
 //If you are sure about process with SaveChanges(false) method and you want to accept all the changes made to the objects being tracked by the context, you can use the AcceptAllChanges method of the Change Tracker.
 
+//var products = await context.Products.ToListAsync();
+//products.FirstOrDefault(u => u.Id == 7).Price = 2001;
+//context.Products.Remove(products.FirstOrDefault(u => u.Id == 8)); // delete the product at index 7
+//products.FirstOrDefault(u => u.Id == 9).ProductName = "Sunnrise";// update the product at index 3
 
-var products = await context.Products.ToListAsync();
-products.FirstOrDefault(u => u.Id == 7).Price = 2001;
-context.Products.Remove(products.FirstOrDefault(u => u.Id == 8)); // delete the product at index 7
-products.FirstOrDefault(u => u.Id == 9).ProductName = "Sunnrise";// update the product at index 3
-
-//await context.SaveChangesAsync();
-//await context.SaveChangesAsync(true);
-//they are same
-await context.SaveChangesAsync(false);
-context.ChangeTracker.AcceptAllChanges();
+////await context.SaveChangesAsync();
+////await context.SaveChangesAsync(true);
+////they are same
+//await context.SaveChangesAsync(false);
+//context.ChangeTracker.AcceptAllChanges();
 
 #endregion
 
 #region HasChanges Method
+////If you want to check whether there are any changes made to the objects being tracked by the context, you can use the HasChanges method of the Change Tracker.
+////This method have to use detectChanges method to detect the changes made to the objects being tracked by the context.
+//var result =context.ChangeTracker.HasChanges();
 
 #endregion
 
