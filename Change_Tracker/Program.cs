@@ -164,14 +164,15 @@ product.ProductName = "Ipad";//modified|updated
 
 #region Entry Method 
 #region Property of OriginalValues
-//OriginalValues property of the EntityEntry object is used to get the original values of the entity being tracked by the context. It returns the original values of the entity before the changes were made to the entity.
-var price =context.Entry(product).OriginalValues.GetValue<float>(nameof(product.Price));//It returns the original value of the property
-var productName = context.Entry(product).OriginalValues.GetValue<string>(nameof(product.ProductName));//It returns the original value of the property
-Console.WriteLine(  );
+////OriginalValues property of the EntityEntry object is used to get the original values of the entity being tracked by the context. It returns the original values of the entity before the changes were made to the entity.
+//var price =context.Entry(product).OriginalValues.GetValue<float>(nameof(product.Price));//It returns the original value of the property
+//var productName = context.Entry(product).OriginalValues.GetValue<string>(nameof(product.ProductName));//It returns the original value of the property
+//Console.WriteLine(  );
 #endregion
 
 #region Property of CurrentValues
-
+var productName=context.Entry(product).CurrentValues.GetValue<string>(nameof(product.ProductName));//It returns the current value of the property
+Console.WriteLine();// for the break point
 #endregion
 
 #region Property of GetDataBaseValues
