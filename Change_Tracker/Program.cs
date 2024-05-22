@@ -158,9 +158,9 @@ ECommerceDbContext context = new();
 #endregion
 
 #region Change Tracker with Context object  
-var product= await context.Products.FirstOrDefaultAsync(u=>u.Id==55);
-product.Price = 2000;
-product.ProductName = "Ipad";//modified|updated
+//var product= await context.Products.FirstOrDefaultAsync(u=>u.Id==55);
+//product.Price = 2000;
+//product.ProductName = "Ipad";//modified|updated
 
 #region Entry Method 
 #region Property of OriginalValues
@@ -176,16 +176,18 @@ product.ProductName = "Ipad";//modified|updated
 #endregion
 
 #region Property of GetDataBaseValues
-var _product = await context.Entry(product).GetDatabaseValuesAsync();//It returns the database values of the entity
-_product.EntityType.GetProperties();
-var a =_product.GetValue<float>(nameof(product.Price));
-Console.WriteLine("Breakpoint");
+////GetDataBaseValues method of the EntityEntry object is used to get the database values of the entity being tracked by the context. It returns the database values of the entity.
+//var _product = await context.Entry(product).GetDatabaseValuesAsync();//It returns the database values of the entity
+//_product.EntityType.GetProperties();
+//var a =_product.GetValue<float>(nameof(product.Price));
+//Console.WriteLine("Breakpoint");
 #endregion
 #endregion
 #endregion
 
 #region Using Change Tracker for Interceptor
-
+//Change Tracker is used to track the changes made to the objects being tracked by the context. It is also used to intercept the changes made to the objects being tracked by the context. We can use the Change Tracker to intercept the changes made to the objects being tracked by the context and perform some operations before saving the changes to the database.
+//we override the SaveChangesAsync method of the DbContext class and use the Change Tracker to intercept the changes made to the objects being tracked by the context. you can find the code below.
 #endregion
 
 public class ECommerceDbContext : DbContext
@@ -201,6 +203,23 @@ public class ECommerceDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ProductComponent>().HasKey(pc => new { pc.ProductId, pc.ComponentId });
+    }
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        var entries =ChangeTracker.Entries();
+        foreach (var entry in entries)
+        {
+            if (entry.State == EntityState.Added)
+            {
+                entry.Property("CreatedDate").CurrentValue = DateTime.Now;
+            }
+            else if (entry.State == EntityState.Modified)
+            {
+                entry.Property("ModifiedDate").CurrentValue = DateTime.Now;
+            }
+        }
+
+        return base.SaveChangesAsync(cancellationToken);
     }
 }
 //Entity
