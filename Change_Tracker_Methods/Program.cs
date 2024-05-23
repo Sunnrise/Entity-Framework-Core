@@ -27,24 +27,28 @@ ECommerceDbContext context = new();
 #endregion
 
 #region AsNoTrackingWithIdentityResolution
-// Change Tracker Mechanism is bring the repeated entities from the database as the same instance. So, if we get the same entity from the database, the change tracker will return the same instance of the entity.
+//// Change Tracker Mechanism is bring the repeated entities from the database as the same instance. So, if we get the same entity from the database, the change tracker will return the same instance of the entity.
 
-//If we use AsNoTracking method, the entities will be returned as different instances. So, if we want to get the same instance of the entity, we can use AsNoTrackingWithIdentityResolution method.
+////If we use AsNoTracking method, the entities will be returned as different instances. So, if we want to get the same instance of the entity, we can use AsNoTrackingWithIdentityReso lution method.
 
-//AsNoTracking method is used to prevent the entities from being tracked by the context. So if we use AsNoTracking method, the entities will be returned as different instances.
+////AsNoTracking method is used to prevent the entities from being tracked by the context. So if we use AsNoTracking method, the entities will be returned as different instances.
 
-//In these condition we can use AsNoTrackingWithIdentityResolution method to get the same instance of the entity. At the same time we save the cost of change tracker.
+////In these condition we can use AsNoTrackingWithIdentityResolution method to get the same instance of the entity. At the same time we save the cost of change tracker.
 
-var books = await context.Books.Include(b => b.Authors).AsNoTrackingWithIdentityResolution().ToListAsync();
+//var books = await context.Books.Include(b => b.Authors).AsNoTrackingWithIdentityResolution().ToListAsync();
 
-//AsNoTrackingWithIdentityResolution method is used to get the same instance of the entities which are retrieved by AsNoTracking method.
-//Its performance is slower than AsNoTracking method but faster than Change Tracker.
-// It should be better if we use much  relational data.
+////AsNoTrackingWithIdentityResolution method is used to get the same instance of the entities which are retrieved by AsNoTracking method.
+////Its performance is slower than AsNoTracking method but faster than Change Tracker.
+//// It should be better if we use much  relational data.
 
 
 #endregion
 
 #region AsTracking
+//Data which they come from context to the memory, they are tracked by the change tracker. So, if we want to update the entities, we should use AsTracking method to track the entities.
+
+//We will see the UseQueryTrackingBehavior method in the next section. It is used to set the tracking behavior for the queries.We will set the tracking behavior for the queries with UseQueryTrackingBehavior method. We can set the tracking behavior as NoTracking or Tracking for default.
+var books= await context.Books.AsTracking().ToListAsync();
 
 #endregion
 
