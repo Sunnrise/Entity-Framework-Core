@@ -45,15 +45,15 @@ ECommerceDbContext context = new();
 #endregion
 
 #region AsTracking
-//Data which they come from context to the memory, they are tracked by the change tracker. So, if we want to update the entities, we should use AsTracking method to track the entities.
+////Data which they come from context to the memory, they are tracked by the change tracker. So, if we want to update the entities, we should use AsTracking method to track the entities.
 
-//We will see the UseQueryTrackingBehavior method in the next section. It is used to set the tracking behavior for the queries.We will set the tracking behavior for the queries with UseQueryTrackingBehavior method. We can set the tracking behavior as NoTracking or Tracking for default.
-var books= await context.Books.AsTracking().ToListAsync();
+////We will see the UseQueryTrackingBehavior method in the next section. It is used to set the tracking behavior for the queries.We will set the tracking behavior for the queries with UseQueryTrackingBehavior method. We can set the tracking behavior as NoTracking or Tracking for default.
+//var books= await context.Books.AsTracking().ToListAsync();
 
 #endregion
 
 #region UseQueryTrackingBehavior
-
+//We can set the Change Tracker behavior basically. It is a configuration method. We can set the tracking behavior as NoTracking or Tracking for default.
 #endregion
 
 Console.WriteLine("BreakPoint for runtime values");
@@ -69,7 +69,9 @@ public class ECommerceDbContext : DbContext
     {
         //Provider, ConnectionString, LazyLoading
         optionsBuilder.UseSqlServer("Server=localhost, 1433;Database=ECommerceDb;User Id=sa;Password=Password1;TrustServerCertificate=True");
+        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
+
 }
 //Entity
 public class User
