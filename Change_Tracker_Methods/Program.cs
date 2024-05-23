@@ -5,6 +5,34 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection.Emit;
 ECommerceDbContext context = new();
 
+#region AsNoTracking Method
+// Data which they come from context to the memory, they are tracked by the context.
+// Change Tracker Costs are paralel to the tracked entities number. So, if we don't do any operation on the entities, change tracker will be unnecessary. It is important for the performance.
+
+//AsNoTracking method is used to prevent the entities from being tracked by the context.
+
+//with AsNoTracking method, we can get the entities without tracking them. So, we can get the entities without any cost of change tracker.
+
+//The Queries with AsNoTracking method are read-only. We can't update or delete the entities which are retrieved by AsNoTracking method.
+
+
+
+#endregion
+
+#region AsNoTrackingWithIdentifyResolution
+
+#endregion
+
+#region AsTracking
+
+#endregion
+
+#region UseQueryTrackingBehavior
+
+#endregion
+
+Console.WriteLine("BreakPoint for runtime values");
+
 public class ECommerceDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
