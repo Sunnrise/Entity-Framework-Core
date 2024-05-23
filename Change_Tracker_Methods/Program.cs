@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Internal;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Reflection.Emit;
 ECommerceDbContext context = new();
 
@@ -14,6 +16,16 @@ ECommerceDbContext context = new();
 //with AsNoTracking method, we can get the entities without tracking them. So, we can get the entities without any cost of change tracker.
 
 //The Queries with AsNoTracking method are read-only. We can't update or delete the entities which are retrieved by AsNoTracking method.
+
+var users=await context.Users.AsNoTracking().ToListAsync();
+foreach(var user in users)
+{
+    Console.WriteLine(user.Name);
+    user.Name= $"Updated {user.Name}";
+
+}
+await context.SaveChangesAsync();// No update operation will be done because of AsNoTracking method.
+
 
 
 
@@ -32,6 +44,7 @@ ECommerceDbContext context = new();
 #endregion
 
 Console.WriteLine("BreakPoint for runtime values");
+
 
 public class ECommerceDbContext : DbContext
 {
