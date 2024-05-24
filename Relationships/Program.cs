@@ -12,11 +12,11 @@ Console.WriteLine();
 #endregion
 
 #region Foreign Key
-
+//Principle entity and dependent entity are connected with the foreign key. DepartmentId is the foreign key in the below example.
 #endregion
 
 #region Principal Key
-
+// The primary key of the principal entity is called the principal key. Id is the principal key in the below example. 
 #endregion
 
 class Employee
@@ -25,18 +25,22 @@ class Employee
     public string EmployeeName { get; set; }
     public int DepartmentId { get; set; }
 
-    public Department Departments { get; set; }
+    public Department Department { get; set; }// Navigation Property
 }
 class Department
 {
     public int Id { get; set; }
     public string DepartmentName { get; set; }
 
-    public List<Employee> Employees { get; set; }
+    public List<Employee> Employees { get; set; }// Navigation Property
 }
+//Navigation properties are used to define the relationship between two entities. In the above example, the Department property in the Employee entity is a navigation property. 
 #endregion
 
 #region What is an Navigation Property 
+//Navigation property is a property in an entity that allows you to navigate from one entity to another entity. In the above example, the Department property in the Employee entity is a navigation property.
+// Navigation properties are used to define the relationship between two entities.
+//It's type must be the same as the related entity.
 #endregion
 
 #region Relationships
@@ -76,4 +80,4 @@ class Department
 #region WithMany
 #endregion
 #endregion
-#endregion 
+#endregion
