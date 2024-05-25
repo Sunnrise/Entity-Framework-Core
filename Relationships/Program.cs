@@ -68,6 +68,8 @@ class Department
 #endregion
 
 #region Data Annotations Attributes
+//Entities can be configured using data annotation attributes.[ForeignKey] attribute is used to configure the relationship between two entities.
+//[key]
 #endregion
 
 #region Fluent API
