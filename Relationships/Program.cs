@@ -77,15 +77,19 @@ class Department
 //More control over the relationship.
 
 #region HasOne
+// HasOne method is used to configure the start one-to-one or one-to-many relationship.
 #endregion
 
 #region HasMany
+// HasMany method is used to configure the start many to one or many-to-many relationship.
 #endregion
 
 #region WithOne
+// HasOne or HasMany method is used to configure the end of the relationship.
 #endregion
 
 #region WithMany
+// HasOne or HasMany method is used to configure the end of the relationship.
 #endregion
 #endregion
 #endregion
