@@ -45,11 +45,13 @@ class Department
 
 #region Relationships
 #region One to One
-
+//Employee and EmployeeAddress are related to each other in a one-to-one relationship.
+//for example, one employee has only one address and one address belongs to only one employee.
 #endregion
 
 #region One to Many
-
+//Employee and Department are related to each other in a one-to-many relationship. 
+// Mom and children relationship 
 #endregion
 
 #region Many to Many
