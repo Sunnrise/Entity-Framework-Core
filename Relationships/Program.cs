@@ -55,6 +55,8 @@ class Department
 #endregion
 
 #region Many to Many
+//employees and projects are related to each other in a many-to-many relationship.
+//siblings relationship
 #endregion
 #endregion
 
