@@ -73,7 +73,8 @@ class Department
 #endregion
 
 #region Fluent API
-
+//Fluent API is used to configure the relationship more flexibly than data annotation attributes.
+//More control over the relationship.
 
 #region HasOne
 #endregion
