@@ -62,8 +62,9 @@ class Department
 
 #region Relationship conf. in Entity Framework Core
 #region Default Conventions
+// default entity framework core conventions are used to configure the relationship between two entities.
 
-
+//It use Navigation property for the relationship.
 #endregion
 
 #region Data Annotations Attributes
