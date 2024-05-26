@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Emit;
 
 ECommerceDbContext context = new();
-
 #region Default Convention
 //Each 2 entities refer to each other by a navigation property
 //In one to one relationship, which entity is the principal and which is the dependent? In the default convention, the entity that contains the foreign key is the dependent entity.
@@ -48,7 +47,8 @@ ECommerceDbContext context = new();
 //}
 #endregion
 #region Fluent API
-
+// Navigation property must be defined.
+// onModelCreating method is used to configure the relationship between entities. We desing the relationship between entities by using the HasOne, WithOne, HasForeignKey methods.
 class Employee
 {
     public int Id { get; set; }
