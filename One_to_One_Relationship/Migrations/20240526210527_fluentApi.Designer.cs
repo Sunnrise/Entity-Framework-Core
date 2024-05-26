@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace One_to_One_Relationship.Migrations
 {
     [DbContext(typeof(ECommerceDbContext))]
-    [Migration("20240526142001_mig_2")]
-    partial class mig_2
+    [Migration("20240526210527_fluentApi")]
+    partial class fluentApi
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,9 +48,6 @@ namespace One_to_One_Relationship.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

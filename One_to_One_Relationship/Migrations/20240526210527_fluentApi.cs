@@ -5,7 +5,7 @@
 namespace One_to_One_Relationship.Migrations
 {
     /// <inheritdoc />
-    public partial class mig_1 : Migration
+    public partial class fluentApi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,7 +28,6 @@ namespace One_to_One_Relationship.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    EmployeeID = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>

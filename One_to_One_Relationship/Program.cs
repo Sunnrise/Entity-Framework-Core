@@ -31,24 +31,6 @@ ECommerceDbContext context = new();
 //Foreign key column is not necessary
 //In 1 to 1 relationship, we dont need to extra foreign key column in the dependent entity. so we can use ıd column as a primary key and foreign key.
 
-class Employee
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-
-    public EmployeeAddress EmployeeAddress { get; set; }
-}
-class EmployeeAddress
-{
-    [Key,ForeignKey(nameof(Employee))] 
-    public int Id { get; set; }
-    public string Address { get; set; }
-
-    public Employee Employee { get; set; }
-}
-#endregion
-#region Fluent API
-
 //class Employee
 //{
 //    public int Id { get; set; }
@@ -58,11 +40,29 @@ class EmployeeAddress
 //}
 //class EmployeeAddress
 //{
+//    [Key,ForeignKey(nameof(Employee))] 
 //    public int Id { get; set; }
 //    public string Address { get; set; }
 
 //    public Employee Employee { get; set; }
 //}
+#endregion
+#region Fluent API
+
+class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+
+    public EmployeeAddress EmployeeAddress { get; set; }
+}
+class EmployeeAddress
+{
+    public int Id { get; set; }
+    public string Address { get; set; }
+
+    public Employee Employee { get; set; }
+}
 #endregion
 class ECommerceDbContext : DbContext
 {
@@ -72,7 +72,7 @@ class ECommerceDbContext : DbContext
     {
         optionsBuilder.UseSqlServer("Server=localhost, 1433;Database=ECommerceDb;User Id=sa;Password=Password1;TrustServerCertificate=True");
     }
-   
+    //Model's(entity's) configuration is done in OnModelCreating method.
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<EmployeeAddress>()
