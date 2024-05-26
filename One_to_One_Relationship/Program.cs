@@ -7,6 +7,29 @@ using System.Reflection.Emit;
 ECommerceDbContext context = new();
 
 #region Default Convention
+//Each 2 entities refer to each other by a navigation property
+//In one to one relationship, which entity is the principal and which is the dependent? In the default convention, the entity that contains the foreign key is the dependent entity.
+//class Employee
+//{
+//    public int Id { get; set; }
+//    public string Name { get; set; }
+
+//    public EmployeeAddress EmployeeAddress { get; set; }
+//}
+//class EmployeeAddress
+//{
+//    public int Id { get; set; }//Primary Key
+//    public int EmployeeId { get; set; }//Foreign Key
+//    public string Address { get; set; }
+
+//    public Employee Employee { get; set; }
+//}
+#endregion
+#region Data Annotations
+//Navigation property must be defined.
+//Foreing Column name can be except the default convention, we use ForeignKey attribute to specify the foreign key column name.
+//Foreign key column is not necessary
+//In 1 to 1 relationship, we dont need to extra foreign key column in the dependent entity. so we can use ıd column as a primary key and foreign key.
 
 class Employee
 {
@@ -17,30 +40,12 @@ class Employee
 }
 class EmployeeAddress
 {
-    public int Id { get; set; }//Primary Key
-    public int EmployeeId { get; set; }//Foreign Key
+    [Key,ForeignKey(nameof(Employee))] 
+    public int Id { get; set; }
     public string Address { get; set; }
 
     public Employee Employee { get; set; }
 }
-#endregion
-#region Data Annotations
-
-//class Employee
-//{
-//    public int Id { get; set; }
-//    public string Name { get; set; }
-
-//    public EmployeeAddress EmployeeAddress { get; set; }
-//}
-//class EmployeeAddress
-//{
-//    [Key, ForeignKey(nameof(Employee))]
-//    public int Id { get; set; }
-//    public string Address { get; set; }
-
-//    public Employee Employee { get; set; }
-//}
 #endregion
 #region Fluent API
 
