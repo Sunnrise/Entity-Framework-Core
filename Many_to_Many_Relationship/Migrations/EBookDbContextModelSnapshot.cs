@@ -39,15 +39,15 @@ namespace Many_to_Many_Relationship.Migrations
 
             modelBuilder.Entity("AuthorBook", b =>
                 {
-                    b.Property<int>("AuthorsId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BooksId")
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.HasKey("AuthorsId", "BooksId");
+                    b.HasKey("AuthorId", "BookId");
 
-                    b.HasIndex("BooksId");
+                    b.HasIndex("BookId");
 
                     b.ToTable("AuthorBook");
                 });
@@ -71,17 +71,31 @@ namespace Many_to_Many_Relationship.Migrations
 
             modelBuilder.Entity("AuthorBook", b =>
                 {
-                    b.HasOne("Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorsId")
+                    b.HasOne("Author", "Author")
+                        .WithMany("Books")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
+                    b.HasOne("Book", "Book")
+                        .WithMany("Authors")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("Author", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("Book", b =>
+                {
+                    b.Navigation("Authors");
                 });
 #pragma warning restore 612, 618
         }
