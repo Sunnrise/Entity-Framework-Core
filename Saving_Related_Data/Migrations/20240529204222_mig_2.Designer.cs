@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Saving_Related_Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240529191344_mig_1")]
-    partial class mig_1
+    [Migration("20240529204222_mig_2")]
+    partial class mig_2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,21 +23,7 @@ namespace Saving_Related_Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PersonAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Addresses");
-                });
-
-            modelBuilder.Entity("Person", b =>
+            modelBuilder.Entity("Blog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,21 +40,42 @@ namespace Saving_Related_Data.Migrations
                     b.ToTable("Persons");
                 });
 
-            modelBuilder.Entity("Address", b =>
+            modelBuilder.Entity("Post", b =>
                 {
-                    b.HasOne("Person", "Person")
-                        .WithOne("Address")
-                        .HasForeignKey("Address", "Id")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("Post", b =>
+                {
+                    b.HasOne("Blog", "Blog")
+                        .WithMany("Posts")
+                        .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Person");
+                    b.Navigation("Blog");
                 });
 
-            modelBuilder.Entity("Person", b =>
+            modelBuilder.Entity("Blog", b =>
                 {
-                    b.Navigation("Address")
-                        .IsRequired();
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }
