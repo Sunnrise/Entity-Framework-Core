@@ -119,42 +119,79 @@ ApplicationDbContext context = new();
 #region Adding Data in Many to Many Relational scenarios 
 #region 1. Method
 //n to n relationship is created by default convention
-Book book = new() { 
-    BookName = "Book1",
-    Authors=new HashSet<Author>()
-    {
-        new () { AuthorName = "Author1" },
-        new () { AuthorName = "Author2" },
-        new () { AuthorName = "Author3" }
-    }
+//Book book = new() { 
+//    BookName = "Book1",
+//    Authors=new HashSet<Author>()
+//    {
+//        new () { AuthorName = "Author1" },
+//        new () { AuthorName = "Author2" },
+//        new () { AuthorName = "Author3" }
+//    }
 
+//};
+//await context.AddAsync(book);
+//await context.SaveChangesAsync();
+//class Book
+//{
+//    public Book()
+//    {
+//        Authors = new HashSet<Author>();
+//    }
+//    public int Id { get; set; }
+//    public string BookName { get; set; }
+//    public ICollection<Author> Authors { get; set; }
+//}
+
+//class Author
+//{
+//    public Author()
+//    {
+//        Books = new HashSet<Book>();
+//    }
+//    public int Id { get; set; }
+//    public string AuthorName { get; set; }
+//    public ICollection<Book> Books { get; set; }
+//}
+#endregion
+#region 2. Method
+//n to n relationship is created by fluent api
+Author author = new() 
+{ 
+    AuthorName = "Author4",
+    Books = new HashSet<AuthorBook>()
+    {
+        new () { BookId=1 },
+        new () { Book = new Book { BookName = "Book4" } }
+    }
 };
-await context.AddAsync(book);
-await context.SaveChangesAsync();
 class Book
 {
     public Book()
     {
-        Authors = new HashSet<Author>();
+        Authors = new HashSet<AuthorBook>();
     }
     public int Id { get; set; }
     public string BookName { get; set; }
-    public ICollection<Author> Authors { get; set; }
+    public ICollection<AuthorBook> Authors { get; set; }
 }
-
+class AuthorBook
+{
+    public int BookId { get; set; }
+    public int AuthorId { get; set; }
+    public Book Book { get; set; }
+    public Author Author { get; set; }
+}
 class Author
 {
     public Author()
     {
-        Books = new HashSet<Book>();
+        Books = new HashSet<AuthorBook>();
     }
     public int Id { get; set; }
     public string AuthorName { get; set; }
-    public ICollection<Book> Books { get; set; }
+    public ICollection<AuthorBook> Books { get; set; }
 }
-#endregion
-#region 2. Method
-//n to n relationship is created by fluent api
+
 #endregion
 
 class ApplicationDbContext : DbContext
@@ -164,6 +201,19 @@ class ApplicationDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=localhost, 1433;Database=ECommerceDb;User Id=sa;Password=Password1;TrustServerCertificate=True");
+    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<AuthorBook>()
+            .HasKey(ba => new { ba.BookId, ba.AuthorId });
+        modelBuilder.Entity<AuthorBook>()
+            .HasOne(ba => ba.Book)
+            .WithMany(b => b.Authors)
+            .HasForeignKey(ba => ba.BookId);
+        modelBuilder.Entity<AuthorBook>()
+            .HasOne(ba => ba.Author)
+            .WithMany(a => a.Books)
+            .HasForeignKey(ba => ba.AuthorId);
     }
 }
 #endregion
