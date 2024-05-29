@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Many_to_Many_Relationship.Migrations
 {
     [DbContext(typeof(EBookDbContext))]
-    [Migration("20240529140109_mig_1")]
+    [Migration("20240529142310_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
