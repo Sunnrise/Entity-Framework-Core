@@ -82,6 +82,7 @@ class Author
     public ICollection<AuthorBook> Books { get; set; }
 }
 #endregion
+
 class EBookDbContext : DbContext
 {
     public DbSet<Book> Books { get; set; }
