@@ -76,20 +76,28 @@ ApplicationDbContext context = new();
 ////we run the code once and see that the data is saved in the database.
 #endregion
 #region 1. State => Change the dependent entity data which connected to the principal entity
-Blog? blog=await context.Blogs
-    .Include(b => b.Posts)
-    .FirstOrDefaultAsync(b => b.Id == 1);
+//Blog? blog=await context.Blogs
+//    .Include(b => b.Posts)
+//    .FirstOrDefaultAsync(b => b.Id == 1);
 
-Post? deletePost=blog.Posts.FirstOrDefault(p=>p.Id == 2);
-blog.Posts.Remove(deletePost);
+//Post? deletePost=blog.Posts.FirstOrDefault(p=>p.Id == 2);
+//blog.Posts.Remove(deletePost);
 
-blog.Posts.Add(new() { Title="Post3"});
-blog.Posts.Add(new() { Title = "Post4" });
-await context.SaveChangesAsync();
+//blog.Posts.Add(new() { Title="Post3"});
+//blog.Posts.Add(new() { Title = "Post" });
+//await context.SaveChangesAsync();
 #endregion
-
 #region 2. State => Change the principal entity data which connected to the dependent entity
+Post? post = await context.Posts.FindAsync(4);
+post.Blog= new()
+{
+    Name = "Blog2"
+};
+await context.SaveChangesAsync();
 
+Post? post2=await context.Posts.FindAsync(5);
+Blog? blog = await context.Blogs.FindAsync(2);
+post2.Blog = blog;
 #endregion
 #endregion
 
