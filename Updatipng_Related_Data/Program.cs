@@ -76,35 +76,60 @@ ApplicationDbContext context = new();
 ////we run the code once and see that the data is saved in the database.
 #endregion
 #region 1. State => Change the dependent entity data which connected to the principal entity
-//Blog? blog=await context.Blogs
+//Blog? blog = await context.Blogs
 //    .Include(b => b.Posts)
 //    .FirstOrDefaultAsync(b => b.Id == 1);
 
-//Post? deletePost=blog.Posts.FirstOrDefault(p=>p.Id == 2);
+//Post? deletePost = blog.Posts.FirstOrDefault(p => p.Id == 2);
 //blog.Posts.Remove(deletePost);
 
-//blog.Posts.Add(new() { Title="Post3"});
+//blog.Posts.Add(new() { Title = "Post3" });
 //blog.Posts.Add(new() { Title = "Post" });
 //await context.SaveChangesAsync();
 #endregion
 #region 2. State => Change the principal entity data which connected to the dependent entity
-Post? post = await context.Posts.FindAsync(4);
-post.Blog= new()
-{
-    Name = "Blog2"
-};
-await context.SaveChangesAsync();
+//Post? post = await context.Posts.FindAsync(4);
+//post.Blog= new()
+//{
+//    Name = "Blog2"
+//};
+//await context.SaveChangesAsync();
 
-Post? post2=await context.Posts.FindAsync(5);
-Blog? blog = await context.Blogs.FindAsync(2);
-post2.Blog = blog;
+//Post? post2=await context.Posts.FindAsync(5);
+//Blog? blog = await context.Blogs.FindAsync(2);
+//post2.Blog = blog;
 #endregion
 #endregion
 
 #region Updating Data in Many to Many Relational scenarios 
 #region Saving
+//Book book1 = new() { BookName="1. Book"};
+//Book book2 = new() { BookName = "2. Book" };
+//Book book3 = new() { BookName = "3. Book" };
+//Author author1 = new() { AuthorName = "1. Author" };
+//Author author2 = new() { AuthorName = "2. Author" };
+//Author author3 = new() { AuthorName = "3. Author" };
 
+//book1.Authors.Add(author1);
+//book1.Authors.Add(author2);
+
+//book2.Authors.Add(author1);
+//book2.Authors.Add(author2);
+//book2.Authors.Add(author3);
+
+//book3.Authors.Add(author3);
+
+//await context.AddAsync(book1);
+//await context.AddAsync(book2);
+//await context.AddAsync(book3);
+//await context.SaveChangesAsync();
+////we run the code once and see that the data is saved in the database.
 #endregion
+#region 1. State => Add new author to the book
+Book? book= await context.Books.FindAsync(1);
+Author? author = await context.Authors.FindAsync(3);
+book.Authors.Add(author);
+await context.SaveChangesAsync();
 #endregion
 
 class Person
