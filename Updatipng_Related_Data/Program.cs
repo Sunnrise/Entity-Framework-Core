@@ -24,43 +24,71 @@ ApplicationDbContext context = new();
 ////we run the code once and see that the data is saved in the database.
 #endregion
 #region 1. State => Change the dependent entity data which connected to the principal entity
-Person? person=await context.Persons
-    .Include(p => p.Address)
-    .FirstOrDefaultAsync(p=>p.Id==1);
+//Person? person=await context.Persons
+//    .Include(p => p.Address)
+//    .FirstOrDefaultAsync(p=>p.Id==1);
 
-context.Addresses.Remove(person.Address);
-person.Address = new()
-{
-    PersonAddress = "Antalya/Döşemealtı"
-};
-await context.SaveChangesAsync();
+//context.Addresses.Remove(person.Address);
+//person.Address = new()
+//{
+//    PersonAddress = "Antalya/Döşemealtı"
+//};
+//await context.SaveChangesAsync();
 #endregion
 
 #region 2. State => Change the principal entity data which connected to the dependent entity
 //Address? address = await context.Addresses.FindAsync(1);
 //address.Id = 2;// we can not change the primary key value
 
-Address? address = await context.Addresses.FindAsync(1);
-context.Addresses.Remove(address);
-await context.SaveChangesAsync();
-Person? person1 = await context.Persons.FindAsync(2);
-address.Person = person1;
-context.Addresses.Add(address);
-await context.SaveChangesAsync();
-
-
+//Address? address = await context.Addresses.FindAsync(1);
+//context.Addresses.Remove(address);
+//await context.SaveChangesAsync();
+//Person? person1 = await context.Persons.FindAsync(2);
+//address.Person = person1;
+//context.Addresses.Add(address);
+//await context.SaveChangesAsync();
 #endregion
-
 #endregion
 
 #region Updating Data in One to Many Relational scenarios 
 #region Saving
-
+//Blog blog = new()
+//{
+//    Name = "Blog1",
+//    Posts = new List<Post>
+//    {
+//        new Post
+//        {
+//            Title = "Post1"
+//        },
+//        new Post
+//        {
+//            Title = "Post2"
+//        },
+//        new Post
+//        {
+//            Title = "Post3"
+//        }
+//    }
+//};
+//await context.Blogs.AddAsync(blog);
+//await context.SaveChangesAsync();
+////we run the code once and see that the data is saved in the database.
 #endregion
-#region 1. State => Dependent Entity data 
+#region 1. State => Change the dependent entity data which connected to the principal entity
+Blog? blog=await context.Blogs
+    .Include(b => b.Posts)
+    .FirstOrDefaultAsync(b => b.Id == 1);
+
+Post? deletePost=blog.Posts.FirstOrDefault(p=>p.Id == 2);
+blog.Posts.Remove(deletePost);
+
+blog.Posts.Add(new() { Title="Post3"});
+blog.Posts.Add(new() { Title = "Post4" });
+await context.SaveChangesAsync();
 #endregion
 
-#region 2. State => 
+#region 2. State => Change the principal entity data which connected to the dependent entity
 
 #endregion
 #endregion
