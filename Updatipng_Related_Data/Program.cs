@@ -126,10 +126,23 @@ ApplicationDbContext context = new();
 ////we run the code once and see that the data is saved in the database.
 #endregion
 #region 1. State => Add new author to the book
-Book? book= await context.Books.FindAsync(1);
-Author? author = await context.Authors.FindAsync(3);
-book.Authors.Add(author);
+//Book? book= await context.Books.FindAsync(1);
+//Author? author = await context.Authors.FindAsync(3);
+//book.Authors.Add(author);
+//await context.SaveChangesAsync();
+#endregion
+#region 2. State => Remove author from the book
+Author? author = await context.Authors
+    .Include(a => a.Books)
+    .FirstOrDefaultAsync(a => a.Id == 3);
+foreach (var book in author.Books)
+{
+    if (book.Id != 1)
+       author.Books.Remove(book);
+        
+}
 await context.SaveChangesAsync();
+#endregion
 #endregion
 
 class Person
