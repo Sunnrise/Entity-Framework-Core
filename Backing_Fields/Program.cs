@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 BackingFieldDbContext context = new();
 var person = await context.People.FindAsync(1);
@@ -43,6 +44,8 @@ class Person
 #endregion
 
 #region Field And Property Access
+// By default, EF Core uses the property access mode to access the properties of an entity.
+// However, we can change this behavior to use the field access mode by setting the -"UsePropertyAccessMode"- method on the model builder.
 
 #endregion
 
@@ -61,7 +64,20 @@ class BackingFieldDbContext : DbContext
     {
         modelBuilder.Entity<Person>()
             .Property(p => p.Name)
-            .HasField(nameof(Person.name));
+            .HasField(nameof(Person.name))
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        //Field, if we want to access the data we have to use the field, if we cannot access the field, an exception will be thrown.
+
+        //FieldDuringConstruction, if we want to access the data while constructing the object, we have to use the field, if we cannot access the field, an exception will be thrown.
+
+        //Property, if we want to access the data, we have to use the property, if we cannot access the property,(readonly, writeonly) an exception will be thrown.
+
+        //PreferField,
+
+        //PreferFieldDuringConstruction,
+
+        //PreferProperty
     }
 
 }
