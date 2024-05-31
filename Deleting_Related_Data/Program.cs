@@ -22,29 +22,32 @@ ApplicationDbContext context = new ();
 #endregion
 
 #region Data Delete in Many to Many relational scenarios 
-Book? book=await context.Books
-    .Include(b => b.Authors)
-    .FirstOrDefaultAsync(b => b.Id == 1);
-Author? author = book.Authors.FirstOrDefault(a => a.Id == 2);
-//context.Authors.Remove(author);// Remove author from the book !!!! we need to delete relation not the author
-book.Authors.Remove(author);
-await context.SaveChangesAsync();
+//Book? book=await context.Books
+//    .Include(b => b.Authors)
+//    .FirstOrDefaultAsync(b => b.Id == 1);
+//Author? author = book.Authors.FirstOrDefault(a => a.Id == 2);
+////context.Authors.Remove(author);// Remove author from the book !!!! we need to delete relation not the author
+//book.Authors.Remove(author);
+//await context.SaveChangesAsync();
 #endregion
 
 #region Cascade Delete
-
-
+// this is the default behavior of EF Core. Fluent api provides the following options to configure the delete behavior.
 #region Cascade
+//Deleted data which belongs to the principal entity, deletes the related data in the dependent entity.
+Blog? blog=await context.Blogs.FindAsync(1);
+context.Blogs.Remove(blog);
+await context.SaveChangesAsync();
 
 #endregion
 
 #region SetNull
-
+//Deleted data which belongs to the principal entity, sets the  dependent entity values to null.
 #endregion
 
-#region Restrict
+#region Restr   ict
+//Deleted data which belongs to the principal entity, if there is data in the dependent entity, Restrict will throw an exception.
 #endregion
-
 #endregion
 
 #region Saving Data
@@ -122,7 +125,13 @@ class ApplicationDbContext : DbContext
         modelBuilder.Entity<Address>()
             .HasOne(a => a.Person)
             .WithOne(p => p.Address)
-            .HasForeignKey<Address>(a => a.Id);
+            .HasForeignKey<Address>(a => a.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Post>()
+            .HasOne(p => p.Blog)
+            .WithMany(b => b.Posts)
+            .OnDelete(DeleteBehavior.Cascade );
     }
 
 }

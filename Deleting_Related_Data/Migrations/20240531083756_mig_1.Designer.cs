@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Deleting_Related_Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240530090213_mig_1")]
+    [Migration("20240531083756_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
