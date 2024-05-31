@@ -13,16 +13,22 @@ ApplicationDbContext context = new ();
 #endregion
 
 #region Data Delete in One to Many relational scenarios 
-Blog? blog = await context.Blogs
-    .Include(b => b.Posts)
-    .FirstOrDefaultAsync(b => b.Id == 1);
-Post? post=blog.Posts.FirstOrDefault(p => p.Id == 2);
-context.Posts.Remove(post);
-await context.SaveChangesAsync();
+//Blog? blog = await context.Blogs
+//    .Include(b => b.Posts)
+//    .FirstOrDefaultAsync(b => b.Id == 1);
+//Post? post=blog.Posts.FirstOrDefault(p => p.Id == 2);
+//context.Posts.Remove(post);
+//await context.SaveChangesAsync();
 #endregion
 
 #region Data Delete in Many to Many relational scenarios 
-
+Book? book=await context.Books
+    .Include(b => b.Authors)
+    .FirstOrDefaultAsync(b => b.Id == 1);
+Author? author = book.Authors.FirstOrDefault(a => a.Id == 2);
+//context.Authors.Remove(author);// Remove author from the book !!!! we need to delete relation not the author
+book.Authors.Remove(author);
+await context.SaveChangesAsync();
 #endregion
 
 #region Cascade Delete
