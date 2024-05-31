@@ -35,17 +35,21 @@ ApplicationDbContext context = new ();
 // this is the default behavior of EF Core. Fluent api provides the following options to configure the delete behavior.
 #region Cascade
 //Deleted data which belongs to the principal entity, deletes the related data in the dependent entity.
-Blog? blog=await context.Blogs.FindAsync(1);
-context.Blogs.Remove(blog);
-await context.SaveChangesAsync();
+//Blog? blog=await context.Blogs.FindAsync(1);
+//context.Blogs.Remove(blog);
+//await context.SaveChangesAsync();
 
 #endregion
 
 #region SetNull
 //Deleted data which belongs to the principal entity, sets the  dependent entity values to null.
+//In one to one scenarios, if primary key and foreign key are the same, We cannot use SetNull.
+Blog? blog = await context.Blogs.FindAsync(1);
+context.Blogs.Remove(blog);
+await context.SaveChangesAsync();
 #endregion
 
-#region Restr   ict
+#region Restrict
 //Deleted data which belongs to the principal entity, if there is data in the dependent entity, Restrict will throw an exception.
 #endregion
 #endregion
@@ -62,7 +66,7 @@ class Person
 }
 class Address
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
     public string PersonAddress { get; set; }
 
     public Person Person { get; set; }
@@ -81,7 +85,7 @@ class Blog
 class Post
 {
     public int Id { get; set; }
-    public int BlogId { get; set; }
+    public int? BlogId { get; set; }
     public string Title { get; set; }
 
     public Blog Blog { get; set; }
@@ -125,13 +129,14 @@ class ApplicationDbContext : DbContext
         modelBuilder.Entity<Address>()
             .HasOne(a => a.Person)
             .WithOne(p => p.Address)
-            .HasForeignKey<Address>(a => a.Id)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey<Address>(a => a.Id);
+            
 
         modelBuilder.Entity<Post>()
             .HasOne(p => p.Blog)
             .WithMany(b => b.Posts)
-            .OnDelete(DeleteBehavior.Cascade );
+            .OnDelete(DeleteBehavior.SetNull)
+            .IsRequired(false);
     }
 
 }
