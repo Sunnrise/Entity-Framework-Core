@@ -44,13 +44,16 @@ ApplicationDbContext context = new ();
 #region SetNull
 //Deleted data which belongs to the principal entity, sets the  dependent entity values to null.
 //In one to one scenarios, if primary key and foreign key are the same, We cannot use SetNull.
-Blog? blog = await context.Blogs.FindAsync(1);
-context.Blogs.Remove(blog);
-await context.SaveChangesAsync();
+//Blog? blog = await context.Blogs.FindAsync(1);
+//context.Blogs.Remove(blog);
+//await context.SaveChangesAsync();
 #endregion
 
 #region Restrict
 //Deleted data which belongs to the principal entity, if there is data in the dependent entity, Restrict will throw an exception.
+Blog? blog = await context.Blogs.FindAsync(1);
+context.Blogs.Remove(blog);
+await context.SaveChangesAsync();
 #endregion
 #endregion
 
@@ -135,7 +138,7 @@ class ApplicationDbContext : DbContext
         modelBuilder.Entity<Post>()
             .HasOne(p => p.Blog)
             .WithMany(b => b.Posts)
-            .OnDelete(DeleteBehavior.SetNull)
+            .OnDelete(DeleteBehavior.Restrict)
             .IsRequired(false);
     }
 
