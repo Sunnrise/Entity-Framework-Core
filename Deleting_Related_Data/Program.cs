@@ -5,15 +5,20 @@ using Microsoft.EntityFrameworkCore;
 ApplicationDbContext context = new ();
 
 #region Data Delete in One to One relational scenarios 
-Person? person = await context.Persons
-    .Include(p => p.Address)
-    .FirstOrDefaultAsync(p => p.Id == 1);
-context.Addresses.Remove(person.Address);
-await context.SaveChangesAsync();
+//Person? person = await context.Persons
+//    .Include(p => p.Address)
+//    .FirstOrDefaultAsync(p => p.Id == 1);
+//context.Addresses.Remove(person.Address);
+//await context.SaveChangesAsync();
 #endregion
 
 #region Data Delete in One to Many relational scenarios 
-
+Blog? blog = await context.Blogs
+    .Include(b => b.Posts)
+    .FirstOrDefaultAsync(b => b.Id == 1);
+Post? post=blog.Posts.FirstOrDefault(p => p.Id == 2);
+context.Posts.Remove(post);
+await context.SaveChangesAsync();
 #endregion
 
 #region Data Delete in Many to Many relational scenarios 
