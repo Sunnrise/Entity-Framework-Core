@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 BackingFieldDbContext context = new();
+var person = await context.People.FindAsync(1);
 
 Console.Read();
 
@@ -18,19 +19,27 @@ Console.Read();
 #endregion
 
 #region BackingField Attributes
+//class Person
+//{
+//    public string Id { get; set; }
+//    public string name;
+//    [BackingField(nameof(name))]
+//    public string Name { get; set; }
+//    public string Department { get; set; }
+
+//}
+#endregion
+
+#region HasField Fluent API 
+// In fluent API, we can use the HasField method to specify the backing field for a property.
 class Person
 {
     public string Id { get; set; }
     public string name;
-    [BackingField(nameof(name))]
     public string Name { get; set; }
     public string Department { get; set; }
 
 }
-#endregion
-
-#region HasField Fluent API 
-
 #endregion
 
 #region Field And Property Access
@@ -48,5 +57,11 @@ class BackingFieldDbContext : DbContext
     {
         optionsBuilder.UseSqlServer("Server=localhost, 1433;Database=ApplicationDb;User Id=sa;Password=Password1;TrustServerCertificate=True");
     }
-   
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Person>()
+            .Property(p => p.Name)
+            .HasField(nameof(Person.name));
+    }
+
 }
