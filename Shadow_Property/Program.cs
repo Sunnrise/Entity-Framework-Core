@@ -5,7 +5,7 @@ ApplicationbDbContext context = new();
 
 
 
-Console.Read();
+//Console.Read();
 
 
 #region Shadow Properties
@@ -16,7 +16,10 @@ Console.Read();
 
 
 #region Foreign Key-Shadow Properties
-
+// Shadow properties can be used to define foreign keys in EF Core. 
+// In relational scenarios, EF Core will automatically create shadow properties to represent foreign keys in the dependent entity.
+var blogs =await context.Blogs.Include(b=>b.Posts).ToListAsync();
+Console.WriteLine();
 #endregion
 
 #region Create Shadow Property
