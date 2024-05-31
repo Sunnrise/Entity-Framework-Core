@@ -37,7 +37,12 @@ ApplicationbDbContext context = new();
 #region Accessing Shadow Properties
 
 #region  Access with ChangeTracker 
-
+var blog =await context.Blogs.FirstAsync();
+var createDate = context.Entry(blog).Property("CreatedDate");
+Console.WriteLine(createDate.CurrentValue);
+Console.WriteLine(createDate.OriginalValue);
+createDate.CurrentValue = DateTime.Now;
+await context.SaveChangesAsync();
 #endregion
 
 #region Access with EF. Property
