@@ -33,14 +33,14 @@ Console.Read();
 
 #region HasField Fluent API 
 // In fluent API, we can use the HasField method to specify the backing field for a property.
-class Person
-{
-    public string Id { get; set; }
-    public string name;
-    public string Name { get; set; }
-    public string Department { get; set; }
+//class Person
+//{
+//    public string Id { get; set; }
+//    public string name;
+//    public string Name { get; set; }
+//    public string Department { get; set; }
 
-}
+//}
 #endregion
 
 #region Field And Property Access
@@ -51,6 +51,17 @@ class Person
 
 #region Field-Only Properties
 
+//Field-Only Properties, Field-Only Properties are properties that do not have a getter or setter. we use the field access mode to access the data of these properties.
+class Person
+{
+    public string Id { get; set; }
+    public string name;
+    public string Department { get; set; }
+
+    public string GetName() => name;
+    public void SetName(string value) => name = value;
+
+}
 #endregion
 
 class BackingFieldDbContext : DbContext
@@ -62,10 +73,10 @@ class BackingFieldDbContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Person>()
-            .Property(p => p.Name)
-            .HasField(nameof(Person.name))
-            .UsePropertyAccessMode(PropertyAccessMode.Field);
+        //modelBuilder.Entity<Person>()
+        //    .Property(p => p.Name)
+        //    .HasField(nameof(Person.name))
+        //    .UsePropertyAccessMode(PropertyAccessMode.Field);
 
         //Field, if we want to access the data we have to use the field, if we cannot access the field, an exception will be thrown.
 
@@ -78,6 +89,10 @@ class BackingFieldDbContext : DbContext
         //PreferFieldDuringConstruction,
 
         //PreferProperty
+        modelBuilder.Entity<Person>()
+            .Property(nameof(Person.name));
+            
+            
     }
 
 }
