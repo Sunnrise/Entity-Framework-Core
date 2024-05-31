@@ -6,18 +6,27 @@ Console.Read();
 
 #region Backing Fields
 // we represent a entity with a backing field not a property
-class Person 
-{
-    public string Id { get; set; }
-    public string name;
+//class Person 
+//{
+//    public string Id { get; set; }
+//    public string name;
 
-    public string Name { get=>name.Substring(0,3); set=>name= value.Substring(0, 3); }
-    public string Department { get; set; }
+//    public string Name { get=>name.Substring(0,3); set=>name= value.Substring(0, 3); }
+//    public string Department { get; set; }
 
-}
+//}
 #endregion
 
 #region BackingField Attributes
+class Person
+{
+    public string Id { get; set; }
+    public string name;
+    [BackingField(nameof(name))]
+    public string Name { get; set; }
+    public string Department { get; set; }
+
+}
 #endregion
 
 #region HasField Fluent API 
