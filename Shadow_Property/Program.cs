@@ -18,11 +18,20 @@ ApplicationbDbContext context = new();
 #region Foreign Key-Shadow Properties
 // Shadow properties can be used to define foreign keys in EF Core. 
 // In relational scenarios, EF Core will automatically create shadow properties to represent foreign keys in the dependent entity.
-var blogs =await context.Blogs.Include(b=>b.Posts).ToListAsync();
-Console.WriteLine();
+//var blogs =await context.Blogs.Include(b=>b.Posts).ToListAsync();
+//Console.WriteLine();
 #endregion
 
 #region Create Shadow Property
+// Shadow properties are not defined in your entity class. They are defined in the EF Core model using the Fluent API.
+//protected override void OnModelCreating(ModelBuilder modelBuilder)
+//{
+//    modelBuilder.Entity<Blog>()
+//        .Property<DateTime>("CreatedDate");
+
+
+//}
+// We have to override the OnModelCreating method of the DbContext class and use the modelBuilder.Entity<T>() method to define the shadow property.
 #endregion
 
 #region Accessing Shadow Properties
@@ -57,5 +66,12 @@ class ApplicationbDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=localhost, 1433;Database=ApplicationDb;User Id=sa;Password=Password1;TrustServerCertificate=True");
+    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Blog>()
+            .Property<DateTime>("CreatedDate");
+
+
     }
 }
