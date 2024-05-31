@@ -37,15 +37,20 @@ ApplicationbDbContext context = new();
 #region Accessing Shadow Properties
 
 #region  Access with ChangeTracker 
-var blog =await context.Blogs.FirstAsync();
-var createDate = context.Entry(blog).Property("CreatedDate");
-Console.WriteLine(createDate.CurrentValue);
-Console.WriteLine(createDate.OriginalValue);
-createDate.CurrentValue = DateTime.Now;
-await context.SaveChangesAsync();
+//var blog =await context.Blogs.FirstAsync();
+//var createDate = context.Entry(blog).Property("CreatedDate");
+//Console.WriteLine(createDate.CurrentValue);
+//Console.WriteLine(createDate.OriginalValue);
+//createDate.CurrentValue = DateTime.Now;
+//await context.SaveChangesAsync();
 #endregion
 
 #region Access with EF. Property
+//Especially LINQ queries, you can use the EF.Property method to access the shadow property.
+var blogs=context.Blogs.OrderBy(b => EF.Property<DateTime>(b, "CreatedDate")).ToListAsync();
+var blogs2=context.Blogs.Where(b => EF.Property<DateTime>(b, "CreatedDate").Year>2020).ToListAsync();
+
+Console.WriteLine(  );
 #endregion
 
 #endregion
