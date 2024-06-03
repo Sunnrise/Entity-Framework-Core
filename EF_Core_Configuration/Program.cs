@@ -3,12 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 ApplicationDbContext context = new ApplicationDbContext();
 #region Why do we need Configuration in EF Core
-
+// Sometimes, the default conventions are not enough to define the database schema as we want. In this case, we need to use the Fluent API or Data Annotations to configure the model.
+// We need to configure the model in EF Core to define the database schema, table names, column names, data types, and relationships between entities.
 #endregion
 
 #region OnModelCreating Method
-
+// The OnModelCreating method is used to configure the model using the Fluent API. This method is called when the model is created for the first time.
+// The OnModelCreating method is defined in the DbContext class as Virtual and is used to configure the model using the "Fluent API" so we need to override this method in the DbContext class.
+#region GetEntityTypes
+// The GetEntityTypes method is used to get all the entity types in the model. It returns a collection of all the entity types in the model.
 #endregion
+#endregion
+
 #region Configurations | Data Annotations & Fluent API
 #region Table - ToTable
 
@@ -145,7 +151,11 @@ class ApplicationDbContext: DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+        var entities=modelBuilder.Model.GetEntityTypes();
+        foreach (var entity in entities)
+        {
+            Console.WriteLine(entity.Name);
+        }
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
