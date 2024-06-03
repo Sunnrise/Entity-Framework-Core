@@ -22,6 +22,10 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region Column - HasColumnName, HasColumnType, HasColumOrder
+//The Column attribute is used to specify the column name, data type, and order for the property in the database table.
+//The HasColumnName method is used to specify the column name for the property using the Fluent API.
+//The HasColumnType method is used to specify the data type for the property using the Fluent API.
+//The HasColumnOrder method is used to specify the order of the column in the database table using the Fluent API.
 
 #endregion
 
@@ -126,11 +130,12 @@ ApplicationDbContext context = new ApplicationDbContext();
 
 #endregion
 
-[Table("PersonFirst")]
+//[Table("PersonFirst")]
 class Person
 {
     public int Id { get; set; }
     public string DepartmentId { get; set; }
+    [Column("FullName",TypeName ="Text",Order =7)]
     public string Name { get; set; }
     public string Surname { get; set; }
     public string Salary { get; set; }
@@ -161,8 +166,16 @@ class ApplicationDbContext: DbContext
         //}
         #endregion
         #region ToTable
-        modelBuilder.Entity<Person>().ToTable("newPersonTableName2");
+        //modelBuilder.Entity<Person>().ToTable("newPersonTableName2");
         #endregion
+        #region Column
+        modelBuilder.Entity<Person>()
+            .Property(p => p.Name)
+            .HasColumnName("FullName2")
+            .HasColumnType("Text2")
+            .HasColumnOrder(7);
+        #endregion
+
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
