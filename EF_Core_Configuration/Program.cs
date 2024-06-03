@@ -17,7 +17,8 @@ ApplicationDbContext context = new ApplicationDbContext();
 
 #region Configurations | Data Annotations & Fluent API
 #region Table - ToTable
-
+//The Table attribute is used to specify the table name for the entity. It is used to map the entity to a specific table in the database.
+//The ToTable method is used to specify the table name for the entity using the Fluent API.
 #endregion
 
 #region Column - HasColumnName, HasColumnType, HasColumOrder
@@ -125,6 +126,7 @@ ApplicationDbContext context = new ApplicationDbContext();
 
 #endregion
 
+[Table("PersonFirst")]
 class Person
 {
     public int Id { get; set; }
@@ -151,11 +153,16 @@ class ApplicationDbContext: DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var entities=modelBuilder.Model.GetEntityTypes();
-        foreach (var entity in entities)
-        {
-            Console.WriteLine(entity.Name);
-        }
+        #region GetEntityTypes
+        //var entities = modelBuilder.Model.GetEntityTypes();
+        //foreach (var entity in entities)
+        //{
+        //    Console.WriteLine(entity.Name);
+        //}
+        #endregion
+        #region ToTable
+        modelBuilder.Entity<Person>().ToTable("newPersonTableName2");
+        #endregion
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
