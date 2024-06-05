@@ -30,7 +30,11 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region ForeingKey - HasForeignKey
+// in relational table design, a foreign key is a field in a relational table that matches the primary key column of another table.
+// EF Core uses the default convention to create foreign key relationships between entities based on the navigation properties.
 
+// we can use the ForeignKey attribute to specify the foreign key property in the dependent entity.
+//But if we want to configure the foreign key relationship using the Fluent API, we can use the HasForeignKey method
 #endregion
 
 #region NotMapped - Ignore
@@ -134,11 +138,13 @@ ApplicationDbContext context = new ApplicationDbContext();
 class Person
 {
     public int Id { get; set; }
-    public string DepartmentId { get; set; }
-    [Column("FullName",TypeName ="Text",Order =7)]
+    [ForeignKey(nameof(Department))]
+    public int AlperenId { get; set; }
+    //public string DepartmentId { get; set; }
+    //[Column("FullName",TypeName ="Text",Order =7)]
     public string Name { get; set; }
     public string Surname { get; set; }
-    public string Salary { get; set; }
+    public decimal Salary { get; set; }
 
     public DateTime CreatedDate { get; set; }
     public Department Department { get; set; }
@@ -169,11 +175,17 @@ class ApplicationDbContext: DbContext
         //modelBuilder.Entity<Person>().ToTable("newPersonTableName2");
         #endregion
         #region Column
+        //modelBuilder.Entity<Person>()
+        //    .Property(p => p.Name)
+        //    .HasColumnName("FullName2")
+        //    .HasColumnType("Text2")
+        //    .HasColumnOrder(7);
+        #endregion
+        #region ForeignKey
         modelBuilder.Entity<Person>()
-            .Property(p => p.Name)
-            .HasColumnName("FullName2")
-            .HasColumnType("Text2")
-            .HasColumnOrder(7);
+            .HasOne(p => p.Department)
+            .WithMany(d => d.Persons)
+            .HasForeignKey(p => p.AlperenId);
         #endregion
 
     }

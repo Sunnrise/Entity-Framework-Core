@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF_Core_Configuration.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240603205725_mig_4")]
-    partial class mig_4
+    [Migration("20240605205531_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,25 +49,18 @@ namespace EF_Core_Configuration.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AlperenId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DepartmentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DepartmentId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("Text2")
-                        .HasColumnName("FullName2")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("Salary")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -75,7 +68,7 @@ namespace EF_Core_Configuration.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId1");
+                    b.HasIndex("AlperenId");
 
                     b.ToTable("Persons");
                 });
@@ -84,7 +77,7 @@ namespace EF_Core_Configuration.Migrations
                 {
                     b.HasOne("Department", "Department")
                         .WithMany("Persons")
-                        .HasForeignKey("DepartmentId1")
+                        .HasForeignKey("AlperenId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
