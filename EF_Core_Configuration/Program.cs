@@ -69,12 +69,8 @@ ApplicationDbContext context = new ApplicationDbContext();
 
 #endregion
 
-#region MaxLength - HasMaxLength
-
-#endregion
-
-#region StringLength - HasMaxLength
-
+#region MaxLength - StringLength - HasMaxLength
+// The MaxLength attribute is used to specify the maximum length of a string or byte array property in the database.
 #endregion
 
 #region Precision - HasPrecision
@@ -175,7 +171,9 @@ class Person
     public string DepartmentId { get; set; }
     //[Column("FullName",TypeName ="Text",Order =7)]
     public string Name { get; set; }
-    [Required]
+    //[Required]
+    [MaxLength(50)]
+    [StringLength(50)]
     public string? Surname { get; set; }
     public decimal Salary { get; set; }
     //[NotMapped] 
@@ -240,10 +238,15 @@ class ApplicationDbContext: DbContext
         //    .IsRowVersion();
         #endregion
         #region IsRequired
+        //modelBuilder.Entity<Person>()
+        //    .Property(p => p.Surname)
+        //    .IsRequired();
+        #endregion
+        #region HasMaxLength
         modelBuilder.Entity<Person>()
             .Property(p => p.Surname)
-            .IsRequired();
-        #endregion
+            .HasMaxLength(30);
+        #endregion 
 
 
 
