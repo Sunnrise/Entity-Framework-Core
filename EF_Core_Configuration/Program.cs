@@ -38,6 +38,9 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region NotMapped - Ignore
+// EF Core uses the default convention to map the entity properties to the database columns.
+// If we want to ignore a property in the entity and not map it to the database table, we can use the NotMapped attribute.
+// The Ignore method is used to ignore a property in the entity and not map it to the database table using the Fluent API.
 
 #endregion
 
@@ -145,6 +148,10 @@ class Person
     public string Name { get; set; }
     public string Surname { get; set; }
     public decimal Salary { get; set; }
+    [NotMapped] 
+    public int NotMappedProperty { get; set; }
+    //we create a property that is not mapped to the database table using the NotMapped attribute
+    //for the aim of using it in the application.
 
     public DateTime CreatedDate { get; set; }
     public Department Department { get; set; }
@@ -182,11 +189,17 @@ class ApplicationDbContext: DbContext
         //    .HasColumnOrder(7);
         #endregion
         #region ForeignKey
-        modelBuilder.Entity<Person>()
-            .HasOne(p => p.Department)
-            .WithMany(d => d.Persons)
-            .HasForeignKey(p => p.AlperenId);
+        //modelBuilder.Entity<Person>()
+        //    .HasOne(p => p.Department)
+        //    .WithMany(d => d.Persons)
+        //    .HasForeignKey(p => p.AlperenId);
         #endregion
+        #region Ignore
+        modelBuilder.Entity<Person>()
+             .Ignore(p => p.NotMappedProperty);
+
+
+
 
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
