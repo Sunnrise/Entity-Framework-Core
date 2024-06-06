@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 ApplicationDbContext context = new ApplicationDbContext();
@@ -45,7 +46,10 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region Key - HasKey
-
+//in EF core, the name of the property is used as the primary key by default.(EntityID, EntityId, Id,ID) 
+//If we want to specify a property as the primary key explicitly, we can use the Key attribute.
+//One entity have to have a property that is marked as a primary key. If we don't specify a property as a primary key, the migration will fail.
+//If the table has not a primary key, we specify  that.
 #endregion
 
 #region Timestamp - IsRowVersion
@@ -120,7 +124,7 @@ ApplicationDbContext context = new ApplicationDbContext();
 #region HasField
 #endregion
 
-#region HasIndex
+#region HasNoKey
 #endregion
 
 #region HasIndex
@@ -140,15 +144,16 @@ ApplicationDbContext context = new ApplicationDbContext();
 //[Table("PersonFirst")]
 class Person
 {
-    public int Id { get; set; }
-    [ForeignKey(nameof(Department))]
-    public int AlperenId { get; set; }
-    //public string DepartmentId { get; set; }
+    [Key]
+    public int PrimaryKeyProperty { get; set; }
+    //[ForeignKey(nameof(Department))]
+    //public int AlperenId { get; set; }
+    public string DepartmentId { get; set; }
     //[Column("FullName",TypeName ="Text",Order =7)]
     public string Name { get; set; }
     public string Surname { get; set; }
     public decimal Salary { get; set; }
-    [NotMapped] 
+    //[NotMapped] 
     public int NotMappedProperty { get; set; }
     //we create a property that is not mapped to the database table using the NotMapped attribute
     //for the aim of using it in the application.
@@ -195,9 +200,13 @@ class ApplicationDbContext: DbContext
         //    .HasForeignKey(p => p.AlperenId);
         #endregion
         #region Ignore
+        //modelBuilder.Entity<Person>()
+        //     .Ignore(p => p.NotMappedProperty);
+        #endregion
+        #region PrimaryKey
         modelBuilder.Entity<Person>()
-             .Ignore(p => p.NotMappedProperty);
-
+            .HasKey(p => p.PrimaryKeyProperty);
+        #endregion
 
 
 
