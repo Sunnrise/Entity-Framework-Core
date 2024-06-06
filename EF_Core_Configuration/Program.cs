@@ -53,7 +53,8 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region Timestamp - IsRowVersion
-
+// The Timestamp attribute is used to specify that a property is a row version column in the database.
+// The IsRowVersion method is used to specify that a property is a row version column in the database using the Fluent API.
 #endregion
 
 #region Required - IsRequired
@@ -142,11 +143,24 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 //[Table("PersonFirst")]
+
+Person p = new Person();
+p.Department = new Department { Name = "IT" };
+p.Name = "Alperen";
+p.Surname = "Güneş";
+await context.Persons.AddAsync(p);
+await context.SaveChangesAsync();
+
+var person = await context.Persons.FindAsync(1);
+
+Console.WriteLine();
+
 class Person
 {
-    [Key]
-    public int PrimaryKeyProperty { get; set; }
-    //[ForeignKey(nameof(Department))]
+    //[Key]
+    //public int PrimaryKeyProperty { get; set; }
+    //[ForeignKey(nameof(Department))]   
+    public int Id { get; set; }
     //public int AlperenId { get; set; }
     public string DepartmentId { get; set; }
     //[Column("FullName",TypeName ="Text",Order =7)]
@@ -154,7 +168,9 @@ class Person
     public string Surname { get; set; }
     public decimal Salary { get; set; }
     //[NotMapped] 
-    public int NotMappedProperty { get; set; }
+    //public int NotMappedProperty { get; set; }
+
+    public byte[] RowVersion { get; set; }
     //we create a property that is not mapped to the database table using the NotMapped attribute
     //for the aim of using it in the application.
 
@@ -204,8 +220,13 @@ class ApplicationDbContext: DbContext
         //     .Ignore(p => p.NotMappedProperty);
         #endregion
         #region PrimaryKey
+        //modelBuilder.Entity<Person>()
+        //    .HasKey(p => p.PrimaryKeyProperty);
+        #endregion
+        #region IsRowVersion
         modelBuilder.Entity<Person>()
-            .HasKey(p => p.PrimaryKeyProperty);
+            .Property(p => p.RowVersion)
+            .IsRowVersion();
         #endregion
 
 
