@@ -102,19 +102,17 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region HasDefaultSchema
-
+//The HasDefaultSchema method is used to specify the default schema for the database. It is used to set the default schema for the database using the Fluent API.
 #endregion
 
 #region Property
-
 #region HasDefaultValue
-
+//The HasDefaultValue method is used to specify the default value for a property in the database.
 #endregion
 
 #region HasDefaultValueSql
-
+//The HasDefaultValueSql method is used to specify the default value for a property in the database using SQL.
 #endregion
-
 #endregion
 
 #region HasComputedColumnSql
@@ -172,7 +170,7 @@ class Person
     //[ForeignKey(nameof(Department))]   
     public int Id { get; set; }
     //public int AlperenId { get; set; }
-    public int Id2 { get; set; }
+    //public int Id2 { get; set; }
     public string DepartmentId { get; set; }
     //[Column("FullName",TypeName ="Text",Order =7)]
     public string Name { get; set; }
@@ -282,8 +280,23 @@ class ApplicationDbContext: DbContext
         #endregion
         //Configure the model using the Fluent API
         #region Composite Key
-        modelBuilder.Entity<Person>().HasKey("Id", "Id2");
-        modelBuilder.Entity<Person>().HasKey(p => new { p.Id, p.Id2 });
+        //modelBuilder.Entity<Person>().HasKey("Id", "Id2");
+        //modelBuilder.Entity<Person>().HasKey(p => new { p.Id, p.Id2 });
+        #endregion
+        #region HasDefaultSchema
+        //modelBuilder.HasDefaultSchema("DefaultSchema");
+        #endregion
+        #region Property
+        #region HasDefaultValue
+        modelBuilder.Entity<Person>()
+           .Property(p => p.Salary)
+           .HasDefaultValue(1000);
+        #endregion
+        #region HasDefaultValueSql
+        modelBuilder.Entity<Person>()
+           .Property(p => p.Salary)
+           .HasDefaultValueSql("GETDATE()");
+        #endregion
         #endregion
 
 
