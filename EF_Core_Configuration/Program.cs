@@ -175,8 +175,9 @@ class Person
     //[Required]
     //[MaxLength(50)]
     //[StringLength(50)]
+    [Unicode]
     public string? Surname { get; set; }
-    [Precision(4,2)]
+    //[Precision(4,2)]
     public decimal Salary { get; set; }
     //[NotMapped] 
     //public int NotMappedProperty { get; set; }
@@ -250,10 +251,16 @@ class ApplicationDbContext: DbContext
         //    .HasMaxLength(30);
         #endregion
         #region Precision
-        modelBuilder.Entity<Person>()
-            .Property(p => p.Salary)
-            .HasPrecision(4, 2);
+        //modelBuilder.Entity<Person>()
+        //    .Property(p => p.Salary)
+        //    .HasPrecision(4, 2);
         #endregion
+        #region Unicode
+        modelBuilder.Entity<Person>()
+            .Property(p => p.Surname)
+            .IsUnicode();
+        #endregion
+
 
 
 
