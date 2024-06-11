@@ -72,8 +72,9 @@ ApplicationDbContext context = new ApplicationDbContext();
 #region MaxLength - StringLength - HasMaxLength
 // The MaxLength attribute is used to specify the maximum length of a string or byte array property in the database.
 #endregion
-
+//
 #region Precision - HasPrecision
+//The Precision attribute is used to specify the precision of a decimal or double property in the database.
 #endregion
 
 #region Unicode - IsUnicode
@@ -172,9 +173,10 @@ class Person
     //[Column("FullName",TypeName ="Text",Order =7)]
     public string Name { get; set; }
     //[Required]
-    [MaxLength(50)]
-    [StringLength(50)]
+    //[MaxLength(50)]
+    //[StringLength(50)]
     public string? Surname { get; set; }
+    [Precision(4,2)]
     public decimal Salary { get; set; }
     //[NotMapped] 
     //public int NotMappedProperty { get; set; }
@@ -243,10 +245,15 @@ class ApplicationDbContext: DbContext
         //    .IsRequired();
         #endregion
         #region HasMaxLength
+        //modelBuilder.Entity<Person>()
+        //    .Property(p => p.Surname)
+        //    .HasMaxLength(30);
+        #endregion
+        #region Precision
         modelBuilder.Entity<Person>()
-            .Property(p => p.Surname)
-            .HasMaxLength(30);
-        #endregion 
+            .Property(p => p.Salary)
+            .HasPrecision(4, 2);
+        #endregion
 
 
 
