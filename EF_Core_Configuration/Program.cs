@@ -86,7 +86,7 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region ConcurrencyCheck - IsConcurrencyToken
-
+// The ConcurrencyCheck attribute is used to specify that a property should be included in the WHERE clause of the UPDATE and DELETE statements for optimistic concurrency control.
 #endregion
 
 #region InverseProperty
@@ -177,14 +177,16 @@ class Person
     //[Required]
     //[MaxLength(50)]
     //[StringLength(50)]
-    [Unicode]
+    //[Unicode]
     public string? Surname { get; set; }
     //[Precision(4,2)]
     public decimal Salary { get; set; }
     //[NotMapped] 
     //public int NotMappedProperty { get; set; }
-    [Comment("This is a row version column")]
+    //[Comment("This is a row version column")]
     public byte[] RowVersion { get; set; }
+    [ConcurrencyCheck]
+    public int ConcurrencyCheck { get; set; }
     //we create a property that is not mapped to the database table using the NotMapped attribute
     //for the aim of using it in the application.
 
@@ -265,18 +267,16 @@ class ApplicationDbContext: DbContext
         //    .IsUnicode();
         #endregion
         #region HasComment
-        modelBuilder.Entity<Person>()
-            .HasComment("This is a person table")
-            .Property(p => p.RowVersion)
-            .HasComment("This is a row version column");
-         
-
-
+        //modelBuilder.Entity<Person>()
+        //    .HasComment("This is a person table")
+        //    .Property(p => p.RowVersion)
+        //    .HasComment("This is a row version column");
         #endregion
-
-
-
-
+        #region IsConcurrencyToken
+        modelBuilder.Entity<Person>()
+            .Property(p => p.ConcurrencyCheck)
+            .IsConcurrencyToken();
+        #endregion
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
