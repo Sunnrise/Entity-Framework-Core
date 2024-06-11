@@ -78,9 +78,11 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region Unicode - IsUnicode
+// The Unicode attribute is used to specify that a string property should be stored as Unicode in the database.
 #endregion
 
 #region Comment - HasComment
+// The Comment attribute is used to specify the comment for a property in the database.
 #endregion
 
 #region ConcurrencyCheck - IsConcurrencyToken
@@ -181,8 +183,8 @@ class Person
     public decimal Salary { get; set; }
     //[NotMapped] 
     //public int NotMappedProperty { get; set; }
-
-    //public byte[] RowVersion { get; set; }
+    [Comment("This is a row version column")]
+    public byte[] RowVersion { get; set; }
     //we create a property that is not mapped to the database table using the NotMapped attribute
     //for the aim of using it in the application.
 
@@ -199,9 +201,11 @@ class ApplicationDbContext: DbContext
 {
     public DbSet<Person> Persons { get; set; }
     public DbSet<Department> Departments { get; set; }
+
     //public Dbset<Flight> Flights { get; set; }
     //public Dbset<Airport> Airports { get; set; }
 
+    [Obsolete]
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region GetEntityTypes
@@ -255,10 +259,19 @@ class ApplicationDbContext: DbContext
         //    .Property(p => p.Salary)
         //    .HasPrecision(4, 2);
         #endregion
-        #region Unicode
+        #region IsUnicode
+        //modelBuilder.Entity<Person>()
+        //    .Property(p => p.Surname)
+        //    .IsUnicode();
+        #endregion
+        #region HasComment
         modelBuilder.Entity<Person>()
-            .Property(p => p.Surname)
-            .IsUnicode();
+            .HasComment("This is a person table")
+            .Property(p => p.RowVersion)
+            .HasComment("This is a row version column");
+         
+
+
         #endregion
 
 
