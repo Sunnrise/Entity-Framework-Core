@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF_Core_Configuration.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240606202803_mig_3")]
-    partial class mig_3
+    [Migration("20240611111045_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,31 +44,42 @@ namespace EF_Core_Configuration.Migrations
             modelBuilder.Entity("Person", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("Id2")
+                        .HasColumnType("int");
 
-                    b.Property<int>("AlperenId")
+                    b.Property<int>("ConcurrencyCheck")
+                        .IsConcurrencyToken()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DepartmentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DepartmentId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "Id2");
 
-                    b.HasIndex("AlperenId");
+                    b.HasIndex("DepartmentId1");
 
                     b.ToTable("Persons");
                 });
@@ -77,7 +88,7 @@ namespace EF_Core_Configuration.Migrations
                 {
                     b.HasOne("Department", "Department")
                         .WithMany("Persons")
-                        .HasForeignKey("AlperenId")
+                        .HasForeignKey("DepartmentId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

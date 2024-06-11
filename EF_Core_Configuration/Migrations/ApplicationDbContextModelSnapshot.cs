@@ -41,10 +41,14 @@ namespace EF_Core_Configuration.Migrations
             modelBuilder.Entity("Person", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("Id2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ConcurrencyCheck")
+                        .IsConcurrencyToken()
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -60,14 +64,17 @@ namespace EF_Core_Configuration.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Surname")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "Id2");
 
                     b.HasIndex("DepartmentId1");
 

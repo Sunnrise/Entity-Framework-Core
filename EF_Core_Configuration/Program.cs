@@ -98,6 +98,7 @@ ApplicationDbContext context = new ApplicationDbContext();
 #region Configurations| Fluent API
 
 #region Composite Key
+//If we want to specify a composite key for an entity, we can use the HasKey method with multiple properties.
 #endregion
 
 #region HasDefaultSchema
@@ -171,6 +172,7 @@ class Person
     //[ForeignKey(nameof(Department))]   
     public int Id { get; set; }
     //public int AlperenId { get; set; }
+    public int Id2 { get; set; }
     public string DepartmentId { get; set; }
     //[Column("FullName",TypeName ="Text",Order =7)]
     public string Name { get; set; }
@@ -201,10 +203,10 @@ class Department
 }
 class ApplicationDbContext: DbContext
 {
-    //public DbSet<Person> Persons { get; set; }
-    //public DbSet<Department> Departments { get; set; }
-    public DbSet<Flight> Flights { get; set; }
-    public DbSet<Airport> Airports { get; set; }
+    public DbSet<Person> Persons { get; set; }
+    public DbSet<Department> Departments { get; set; }
+    //public DbSet<Flight> Flights { get; set; }
+    //public DbSet<Airport> Airports { get; set; }
 
     
 
@@ -278,31 +280,39 @@ class ApplicationDbContext: DbContext
             .Property(p => p.ConcurrencyCheck)
             .IsConcurrencyToken();
         #endregion
+        //Configure the model using the Fluent API
+        #region Composite Key
+        modelBuilder.Entity<Person>().HasKey("Id", "Id2");
+        modelBuilder.Entity<Person>().HasKey(p => new { p.Id, p.Id2 });
+        #endregion
+
+
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=localhost, 1433;Database=ApplicationDb;User Id=sa;Password=Password1;TrustServerCertificate=True");
     }  
 }
-public class Flight
-{
-    public int FlightID { get; set; }
-    public int DepartureAirportId { get; set; }
-    public int ArrivalAirportId { get; set; }
-    public string Name { get; set; }
-    public Airport DepartureAirport { get; set; }
-    public Airport ArrivalAirport { get; set; }
-}
-public class Airport
-{
-    public int AirportID { get; set; }
-    public string Name { get; set; }
-    [InverseProperty(nameof(Flight.DepartureAirport))]
-    public virtual ICollection<Flight> DepartingFlights { get; set; }
+//public class Flight
+//{
+//    public int FlightID { get; set; }
+//    public int DepartureAirportId { get; set; }
+//    public int ArrivalAirportId { get; set; }
+//    public string Name { get; set; }
+//    public Airport DepartureAirport { get; set; }
+//    public Airport ArrivalAirport { get; set; }
+//}
+//public class Airport
+//{
+//    public int AirportID { get; set; }
+//    public string Name { get; set; }
+//    [InverseProperty(nameof(Flight.DepartureAirport))]
+//    public virtual ICollection<Flight> DepartingFlights { get; set; }
 
-    [InverseProperty(nameof(Flight.ArrivalAirport))]
-    public virtual ICollection<Flight> ArrivingFlights { get; set; }
-}
+//    [InverseProperty(nameof(Flight.ArrivalAirport))]
+//    public virtual ICollection<Flight> ArrivingFlights { get; set; }
+//}
+
 
 
 
