@@ -116,6 +116,7 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region HasComputedColumnSql
+//The HasComputedColumnSql method is used to specify the computed column SQL expression for a property in the database. 
 #endregion
 
 #region HasConstraintName
@@ -199,14 +200,22 @@ class Department
     public string Name { get; set; }
     public ICollection<Person> Persons { get; set; }
 }
+class Example
+{
+    public int Id { get; set; }
+    public int x { get; set; }
+    public int y { get; set; }
+    public int Computed { get; set; }
+}
 class ApplicationDbContext: DbContext
 {
     public DbSet<Person> Persons { get; set; }
     public DbSet<Department> Departments { get; set; }
     //public DbSet<Flight> Flights { get; set; }
     //public DbSet<Airport> Airports { get; set; }
+    public DbSet<Example> Examples { get; set; }
 
-    
+
 
     [Obsolete]
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -288,15 +297,20 @@ class ApplicationDbContext: DbContext
         #endregion
         #region Property
         #region HasDefaultValue
-        modelBuilder.Entity<Person>()
-           .Property(p => p.Salary)
-           .HasDefaultValue(1000);
+        //modelBuilder.Entity<Person>()
+        //   .Property(p => p.Salary)
+        //   .HasDefaultValue(1000);
         #endregion
         #region HasDefaultValueSql
-        modelBuilder.Entity<Person>()
-           .Property(p => p.Salary)
-           .HasDefaultValueSql("GETDATE()");
+        //modelBuilder.Entity<Person>()
+        //   .Property(p => p.Salary)
+        //   .HasDefaultValueSql("GETDATE()");
         #endregion
+        #endregion
+        #region HasComputedColumnSql
+        modelBuilder.Entity<Example>()
+            .Property(e => e.Computed)
+            .HasComputedColumnSql("[x] + [y]");
         #endregion
 
 
