@@ -90,7 +90,7 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region InverseProperty
-
+// The InverseProperty attribute is used to specify the inverse navigation property in a relationship.
 #endregion
 
 #endregion
@@ -201,11 +201,12 @@ class Department
 }
 class ApplicationDbContext: DbContext
 {
-    public DbSet<Person> Persons { get; set; }
-    public DbSet<Department> Departments { get; set; }
+    //public DbSet<Person> Persons { get; set; }
+    //public DbSet<Department> Departments { get; set; }
+    public DbSet<Flight> Flights { get; set; }
+    public DbSet<Airport> Airports { get; set; }
 
-    //public Dbset<Flight> Flights { get; set; }
-    //public Dbset<Airport> Airports { get; set; }
+    
 
     [Obsolete]
     protected override void OnModelCreating(ModelBuilder modelBuilder)
