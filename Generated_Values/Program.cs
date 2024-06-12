@@ -63,6 +63,17 @@ ApplicationDbContext context = new();
 
 #endregion
 
+Person o = new()
+{
+    Name = "Alperen",
+    Surname = "Gunes",
+    Premium = 100,
+    TotalGain = 200,
+    PersonCode = 1
+
+};
+await context.Persons.AddAsync(o);
+await context.SaveChangesAsync();
 
 
 class Person
@@ -84,7 +95,8 @@ class ApplicationDbContext : DbContext
     {
        modelBuilder.Entity<Person>()
             .Property(p => p.Salary)
-            .HasDefaultValue(100);
+            .HasDefaultValueSql("FLOOR(RAND() * 1000)");
+        //.HasDefaultValue(100);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
