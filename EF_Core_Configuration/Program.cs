@@ -116,11 +116,11 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region HasComputedColumnSql
-//The HasComputedColumnSql method is used to specify the computed column SQL expression for a property in the database. 
+//The HasComputedColumnSql method is used to specify the computed column SQL expression for a property in the database.   
 #endregion
 
 #region HasConstraintName
-
+//The HasConstraintName method is used to specify the name of the constraint in the database.
 #endregion
 
 #region HasData
@@ -172,7 +172,7 @@ class Person
     public int Id { get; set; }
     //public int AlperenId { get; set; }
     //public int Id2 { get; set; }
-    public string DepartmentId { get; set; }
+    public int DepartmentId { get; set; }
     //[Column("FullName",TypeName ="Text",Order =7)]
     public string Name { get; set; }
     //[Required]
@@ -308,9 +308,16 @@ class ApplicationDbContext: DbContext
         #endregion
         #endregion
         #region HasComputedColumnSql
-        modelBuilder.Entity<Example>()
-            .Property(e => e.Computed)
-            .HasComputedColumnSql("[x] + [y]");
+        //modelBuilder.Entity<Example>()
+        //    .Property(e => e.Computed)
+        //    .HasComputedColumnSql("[x] + [y]");
+        #endregion
+        #region HasConstraintName
+        modelBuilder.Entity<Person>()
+            .HasOne(p => p.Department)
+            .WithMany(d => d.Persons)
+            .HasForeignKey(p=>p.DepartmentId)
+            .HasConstraintName("foreignkeyname"); 
         #endregion
 
 
