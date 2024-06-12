@@ -147,6 +147,7 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region HasQueryFilter
+//The HasQueryFilter method is used to configure a query filter for an entity.
 #endregion
 
 #region HasValue
@@ -368,8 +369,12 @@ class ApplicationDbContext: DbContext
         //    .HasNoKey();
         #endregion
         #region HasIndex
+        //modelBuilder.Entity<Person>()
+        //    .HasIndex(p=>new { p.Name, p.Surname });
+        #endregion
+        #region HasQueryFilter
         modelBuilder.Entity<Person>()
-            .HasIndex(p=>new { p.Name, p.Surname });
+            .HasQueryFilter(p=> p.CreatedDate.Year==DateTime.Now.Year);
         #endregion
 
 
