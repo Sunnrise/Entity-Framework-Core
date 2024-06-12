@@ -143,6 +143,7 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region HasIndex
+//The HasIndex method is used to configure an index for a property in the database.
 #endregion
 
 #region HasQueryFilter
@@ -363,8 +364,12 @@ class ApplicationDbContext: DbContext
         //    .HasField(nameof(Person._name));
         #endregion
         #region HasNoKEy
-        modelBuilder.Entity<Example>()
-            .HasNoKey();
+        //modelBuilder.Entity<Example>()
+        //    .HasNoKey();
+        #endregion
+        #region HasIndex
+        modelBuilder.Entity<Person>()
+            .HasIndex(p=>new { p.Name, p.Surname });
         #endregion
 
 
