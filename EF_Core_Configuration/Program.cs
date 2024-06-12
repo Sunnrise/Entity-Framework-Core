@@ -128,6 +128,10 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region HasDiscriminator
+//The HasDiscriminator method is used to configure the discriminator column for a table-per-hierarchy inheritance mapping.
+#region HasValue
+
+#endregion
 #endregion
 
 #region HasField
@@ -208,8 +212,23 @@ class Example
     public int y { get; set; }
     public int Computed { get; set; }
 }
+abstract class Entity
+{
+    public int Id { get; set; }
+    public string X { get; set; }
+}
+class A : Entity
+{
+    public string Y { get; set; }
+}
+class B : Entity
+{
+    public string Z { get; set; }
+}
 class ApplicationDbContext: DbContext
 {
+    public DbSet<A> As{ get; set; }
+    public DbSet<B> Bs{ get; set; }
     public DbSet<Person> Persons { get; set; }
     public DbSet<Department> Departments { get; set; }
     //public DbSet<Flight> Flights { get; set; }
@@ -321,12 +340,20 @@ class ApplicationDbContext: DbContext
         //    .HasConstraintName("foreignkeyname"); 
         #endregion
         #region HasData
-        modelBuilder.Entity<Person>().HasData(
+        //modelBuilder.Entity<Person>().HasData(
+
+        //    new Person { Id = 1, Name = "Alperen", Surname = "Güneş", Salary = 1000, CreatedDate = DateTime.Now, DepartmentId = 1 },
+        //    new Person { Id = 2, Name = "Alperen", Surname = "Güneş", Salary = 1000, CreatedDate = DateTime.Now, DepartmentId = 1 }
+        //    );
+
+        #endregion
+        #region HasDiscriminator
+        modelBuilder.Entity<Entity>()
+            .HasDiscriminator<int>("DiscriminatorNew")
+            .HasValue<A>(1)
+            .HasValue<B>(2)
+            .HasValue<Entity>(3);
             
-            new Person { Id = 1, Name = "Alperen", Surname = "Güneş", Salary = 1000, CreatedDate = DateTime.Now, DepartmentId = 1 },
-            new Person { Id = 2, Name = "Alperen", Surname = "Güneş", Salary = 1000, CreatedDate = DateTime.Now, DepartmentId = 1 }
-            );
-       
         #endregion
 
 

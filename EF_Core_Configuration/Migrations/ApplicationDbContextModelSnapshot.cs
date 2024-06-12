@@ -38,6 +38,30 @@ namespace EF_Core_Configuration.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("Entity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DiscriminatorNew")
+                        .HasColumnType("int");
+
+                    b.Property<string>("X")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Entity");
+
+                    b.HasDiscriminator<int>("DiscriminatorNew").HasValue(3);
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("Example", b =>
                 {
                     b.Property<int>("Id")
@@ -93,28 +117,28 @@ namespace EF_Core_Configuration.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Persons");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ConcurrencyCheck = 0,
-                            CreatedDate = new DateTime(2024, 6, 12, 16, 35, 32, 609, DateTimeKind.Local).AddTicks(3532),
-                            DepartmentId = 1,
-                            Name = "Alperen",
-                            Salary = 1000m,
-                            Surname = "Güneş"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ConcurrencyCheck = 0,
-                            CreatedDate = new DateTime(2024, 6, 12, 16, 35, 32, 609, DateTimeKind.Local).AddTicks(3558),
-                            DepartmentId = 1,
-                            Name = "Alperen",
-                            Salary = 1000m,
-                            Surname = "Güneş"
-                        });
+            modelBuilder.Entity("A", b =>
+                {
+                    b.HasBaseType("Entity");
+
+                    b.Property<string>("Y")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("B", b =>
+                {
+                    b.HasBaseType("Entity");
+
+                    b.Property<string>("Z")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(2);
                 });
 
             modelBuilder.Entity("Person", b =>

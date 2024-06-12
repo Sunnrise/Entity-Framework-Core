@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF_Core_Configuration.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240611195447_mig2")]
-    partial class mig2
+    [Migration("20240612142710_mig3")]
+    partial class mig3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,30 @@ namespace EF_Core_Configuration.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("Entity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DiscriminatorNew")
+                        .HasColumnType("int");
+
+                    b.Property<string>("X")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Entity");
+
+                    b.HasDiscriminator<int>("DiscriminatorNew").HasValue(3);
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("Example", b =>
                 {
                     b.Property<int>("Id")
@@ -50,9 +74,7 @@ namespace EF_Core_Configuration.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Computed")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("int")
-                        .HasComputedColumnSql("[x] + [y]");
+                        .HasColumnType("int");
 
                     b.Property<int>("x")
                         .HasColumnType("int");
@@ -80,20 +102,12 @@ namespace EF_Core_Configuration.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DepartmentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DepartmentId1")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
@@ -103,16 +117,38 @@ namespace EF_Core_Configuration.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId1");
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Persons");
+                });
+
+            modelBuilder.Entity("A", b =>
+                {
+                    b.HasBaseType("Entity");
+
+                    b.Property<string>("Y")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("B", b =>
+                {
+                    b.HasBaseType("Entity");
+
+                    b.Property<string>("Z")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(2);
                 });
 
             modelBuilder.Entity("Person", b =>
                 {
                     b.HasOne("Department", "Department")
                         .WithMany("Persons")
-                        .HasForeignKey("DepartmentId1")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

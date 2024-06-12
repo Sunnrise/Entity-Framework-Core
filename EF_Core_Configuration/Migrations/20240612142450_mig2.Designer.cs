@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF_Core_Configuration.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240611111045_mig1")]
-    partial class mig1
+    [Migration("20240612142450_mig2")]
+    partial class mig2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,13 +41,61 @@ namespace EF_Core_Configuration.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("Entity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DiscriminatorNew")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
+
+                    b.Property<string>("X")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Entity");
+
+                    b.HasDiscriminator<string>("DiscriminatorNew").HasValue("Entity");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("Example", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Computed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("x")
+                        .HasColumnType("int");
+
+                    b.Property<int>("y")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Examples");
+                });
+
             modelBuilder.Entity("Person", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Id2")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ConcurrencyCheck")
                         .IsConcurrencyToken()
@@ -56,20 +104,12 @@ namespace EF_Core_Configuration.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DepartmentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DepartmentId1")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
@@ -77,18 +117,40 @@ namespace EF_Core_Configuration.Migrations
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id", "Id2");
+                    b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId1");
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Persons");
+                });
+
+            modelBuilder.Entity("A", b =>
+                {
+                    b.HasBaseType("Entity");
+
+                    b.Property<string>("Y")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("A");
+                });
+
+            modelBuilder.Entity("B", b =>
+                {
+                    b.HasBaseType("Entity");
+
+                    b.Property<string>("Z")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("B");
                 });
 
             modelBuilder.Entity("Person", b =>
                 {
                     b.HasOne("Department", "Department")
                         .WithMany("Persons")
-                        .HasForeignKey("DepartmentId1")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

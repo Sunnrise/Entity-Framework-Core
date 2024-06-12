@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF_Core_Configuration.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240612133533_mig3")]
-    partial class mig3
+    [Migration("20240612141746_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,48 @@ namespace EF_Core_Configuration.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("A", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("X")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Y")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("As");
+                });
+
+            modelBuilder.Entity("B", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("X")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Z")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bs");
+                });
 
             modelBuilder.Entity("Department", b =>
                 {
@@ -102,7 +144,7 @@ namespace EF_Core_Configuration.Migrations
                         {
                             Id = 1,
                             ConcurrencyCheck = 0,
-                            CreatedDate = new DateTime(2024, 6, 12, 16, 35, 32, 609, DateTimeKind.Local).AddTicks(3532),
+                            CreatedDate = new DateTime(2024, 6, 12, 17, 17, 46, 234, DateTimeKind.Local).AddTicks(7907),
                             DepartmentId = 1,
                             Name = "Alperen",
                             Salary = 1000m,
@@ -112,7 +154,7 @@ namespace EF_Core_Configuration.Migrations
                         {
                             Id = 2,
                             ConcurrencyCheck = 0,
-                            CreatedDate = new DateTime(2024, 6, 12, 16, 35, 32, 609, DateTimeKind.Local).AddTicks(3558),
+                            CreatedDate = new DateTime(2024, 6, 12, 17, 17, 46, 234, DateTimeKind.Local).AddTicks(7935),
                             DepartmentId = 1,
                             Name = "Alperen",
                             Salary = 1000m,
