@@ -135,6 +135,7 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region HasField
+//BackingField is a field that is used to store the value of a property in an entity class. HasField method is used to configure the backing field for a property in the entity class.
 #endregion
 
 #region HasNoKey
@@ -179,7 +180,8 @@ class Person
     //public int Id2 { get; set; }
     public int DepartmentId { get; set; }
     //[Column("FullName",TypeName ="Text",Order =7)]
-    public string Name { get; set; }
+    public string _name;
+    public string Name { get=> _name; set=>_name=value; }
     //[Required]
     //[MaxLength(50)]
     //[StringLength(50)]
@@ -227,13 +229,13 @@ class B : Entity
 }
 class ApplicationDbContext: DbContext
 {
-    public DbSet<A> As{ get; set; }
-    public DbSet<B> Bs{ get; set; }
-    public DbSet<Person> Persons { get; set; }
+    //public DbSet<A> As{ get; set; }
+    //public DbSet<B> Bs{ get; set; }
+    //public DbSet<Person> Persons { get; set; }
     public DbSet<Department> Departments { get; set; }
     //public DbSet<Flight> Flights { get; set; }
     //public DbSet<Airport> Airports { get; set; }
-    public DbSet<Example> Examples { get; set; }
+    //public DbSet<Example> Examples { get; set; }
 
 
 
@@ -348,12 +350,16 @@ class ApplicationDbContext: DbContext
 
         #endregion
         #region HasDiscriminator
-        modelBuilder.Entity<Entity>()
-            .HasDiscriminator<int>("DiscriminatorNew")
-            .HasValue<A>(1)
-            .HasValue<B>(2)
-            .HasValue<Entity>(3);
-            
+        //modelBuilder.Entity<Entity>()
+        //    .HasDiscriminator<int>("DiscriminatorNew")
+        //    .HasValue<A>(1)
+        //    .HasValue<B>(2)
+        //    .HasValue<Entity>(3);
+        #endregion
+        #region HasField
+        modelBuilder.Entity<Person>()
+            .Property(p => p.Name)
+            .HasField(nameof(Person._name));
         #endregion
 
 
