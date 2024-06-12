@@ -139,6 +139,7 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region HasNoKey
+//The HasNoKey method is used to specify that the entity does not have a primary key.
 #endregion
 
 #region HasIndex
@@ -209,7 +210,7 @@ class Department
 }
 class Example
 {
-    public int Id { get; set; }
+    
     public int x { get; set; }
     public int y { get; set; }
     public int Computed { get; set; }
@@ -231,11 +232,11 @@ class ApplicationDbContext: DbContext
 {
     //public DbSet<A> As{ get; set; }
     //public DbSet<B> Bs{ get; set; }
-    //public DbSet<Person> Persons { get; set; }
+    public DbSet<Person> Persons { get; set; }
     public DbSet<Department> Departments { get; set; }
     //public DbSet<Flight> Flights { get; set; }
     //public DbSet<Airport> Airports { get; set; }
-    //public DbSet<Example> Examples { get; set; }
+    public DbSet<Example> Examples { get; set; }
 
 
 
@@ -357,9 +358,13 @@ class ApplicationDbContext: DbContext
         //    .HasValue<Entity>(3);
         #endregion
         #region HasField
-        modelBuilder.Entity<Person>()
-            .Property(p => p.Name)
-            .HasField(nameof(Person._name));
+        //modelBuilder.Entity<Person>()
+        //    .Property(p => p.Name)
+        //    .HasField(nameof(Person._name));
+        #endregion
+        #region HasNoKEy
+        modelBuilder.Entity<Example>()
+            .HasNoKey();
         #endregion
 
 
