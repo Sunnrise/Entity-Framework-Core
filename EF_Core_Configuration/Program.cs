@@ -124,6 +124,7 @@ ApplicationDbContext context = new ApplicationDbContext();
 #endregion
 
 #region HasData
+//The HasData method is used to seed data into the database when the database is created or migrated. We have to give the primary key value of the entity.
 #endregion
 
 #region HasDiscriminator
@@ -185,7 +186,7 @@ class Person
     //[NotMapped] 
     //public int NotMappedProperty { get; set; }
     //[Comment("This is a row version column")]
-    public byte[] RowVersion { get; set; }
+    //public byte[] RowVersion { get; set; }
     [ConcurrencyCheck]
     public int ConcurrencyCheck { get; set; }
     //we create a property that is not mapped to the database table using the NotMapped attribute
@@ -313,11 +314,19 @@ class ApplicationDbContext: DbContext
         //    .HasComputedColumnSql("[x] + [y]");
         #endregion
         #region HasConstraintName
-        modelBuilder.Entity<Person>()
-            .HasOne(p => p.Department)
-            .WithMany(d => d.Persons)
-            .HasForeignKey(p=>p.DepartmentId)
-            .HasConstraintName("foreignkeyname"); 
+        //modelBuilder.Entity<Person>()
+        //    .HasOne(p => p.Department)
+        //    .WithMany(d => d.Persons)
+        //    .HasForeignKey(p=>p.DepartmentId)
+        //    .HasConstraintName("foreignkeyname"); 
+        #endregion
+        #region HasData
+        modelBuilder.Entity<Person>().HasData(
+            
+            new Person { Id = 1, Name = "Alperen", Surname = "Güneş", Salary = 1000, CreatedDate = DateTime.Now, DepartmentId = 1 },
+            new Person { Id = 2, Name = "Alperen", Surname = "Güneş", Salary = 1000, CreatedDate = DateTime.Now, DepartmentId = 1 }
+            );
+       
         #endregion
 
 
