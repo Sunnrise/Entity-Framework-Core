@@ -22,7 +22,7 @@ ApplicationDbContext context = new();
 #region Computed Columns
 
 #region HasComputedColumnSql
-
+//SQL query that will be executed to get the computed value.
 #endregion
 
 #endregion
@@ -30,7 +30,7 @@ ApplicationDbContext context = new();
 #region Value Generation
 
 #region Primary Keys
-
+//Primary keys are the unique identifiers of the rows in a table.
 #endregion
 
 #region Identity
@@ -97,6 +97,9 @@ class ApplicationDbContext : DbContext
             .Property(p => p.Salary)
             .HasDefaultValueSql("FLOOR(RAND() * 1000)");
         //.HasDefaultValue(100);
+        modelBuilder.Entity<Person>()
+            .Property(p => p.TotalGain)
+            .HasComputedColumnSql("([Premium] + [Salary])*10"); 
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
