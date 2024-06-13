@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -14,14 +15,13 @@ namespace Generated_Values.Migrations
                 name: "Persons",
                 columns: table => new
                 {
-                    PersonId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PersonId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Premium = table.Column<int>(type: "int", nullable: false),
-                    Salary = table.Column<int>(type: "int", nullable: false, defaultValue: 100),
-                    TotalGain = table.Column<int>(type: "int", nullable: false),
-                    PersonCode = table.Column<int>(type: "int", nullable: false)
+                    Salary = table.Column<int>(type: "int", nullable: false, defaultValueSql: "FLOOR(RAND() * 1000)"),
+                    TotalGain = table.Column<int>(type: "int", nullable: false, computedColumnSql: "([Premium] + [Salary])*10"),
+                    PersonCode = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()")
                 },
                 constraints: table =>
                 {
