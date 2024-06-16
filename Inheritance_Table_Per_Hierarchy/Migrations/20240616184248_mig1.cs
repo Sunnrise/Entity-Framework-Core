@@ -20,6 +20,7 @@ namespace Inheritance_Table_Per_Hierarchy.Migrations
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    A = table.Column<int>(type: "int", nullable: true),
                     Department = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Branch = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },

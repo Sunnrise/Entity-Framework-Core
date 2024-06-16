@@ -83,37 +83,39 @@ ApplicationDbContext context = new();
 #endregion
 
 #region Deleting Data With TPH
-// we can delete data from the database using the TPH pattern in the same way as we delete data from the database without using the TPH pattern.
-var employee = await context.Employees.FirstOrDefaultAsync();
-context.Employees.Remove(employee);
-await context.SaveChangesAsync();
+//// we can delete data from the database using the TPH pattern in the same way as we delete data from the database without using the TPH pattern.
+//var employee = await context.Employees.FirstOrDefaultAsync();
+//context.Employees.Remove(employee);
+//await context.SaveChangesAsync();
 
-var customers=await context.Customers.ToListAsync();
-context.Customers.RemoveRange(customers);
-await context.SaveChangesAsync();
+//var customers=await context.Customers.ToListAsync();
+//context.Customers.RemoveRange(customers);
+//await context.SaveChangesAsync();
 #endregion
 
 #region Updating Data With TPH
-Employee updateEmployee= await context.Employees.FindAsync(4);
-updateEmployee.Name = "Updated Employee Name";
-updateEmployee.Surname = "Updated Employee Surname";
-updateEmployee.Department = "Updated Employee Department";
-await context.SaveChangesAsync();
+//Employee updateEmployee= await context.Employees.FindAsync(4);
+//updateEmployee.Name = "Updated Employee Name";
+//updateEmployee.Surname = "Updated Employee Surname";
+//updateEmployee.Department = "Updated Employee Department";
+//await context.SaveChangesAsync();
 
 #endregion
 
 #region Data Querying With TPH
+var employees = await context.Employees.ToListAsync();
+var technicians = await context.Technicians.ToListAsync();
+// we can query data from the database using the TPH pattern in the same way as we query data from the database without using the TPH pattern.
+
+//If the query is based on the base class, the result will include all the derived classes
+
+//EF core will automatically add the WHERE clause to the query to filter the result based on the Discriminator column value.
 
 #endregion
 
 #region Same column name in the different entities
-
+// we can have the same column name in the different entities when we use the TPH pattern.
 #endregion
-
-#region IsComplete Configuration
-
-#endregion
-
 
 abstract class Person
 {
@@ -123,6 +125,7 @@ abstract class Person
 }
 class Employee : Person
 {
+    public int A { get; set; }
     public string? Department { get; set; }
 }
 class Customer : Person
@@ -132,7 +135,7 @@ class Customer : Person
 }
 class Technician : Employee
 {
-    
+    public int A { get; set; }
     public string? Branch { get; set; }
 }
 

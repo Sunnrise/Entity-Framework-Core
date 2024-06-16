@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inheritance_Table_Per_Hierarchy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240616180337_mig1")]
+    [Migration("20240616184248_mig1")]
     partial class mig1
     {
         /// <inheritdoc />
@@ -64,6 +64,9 @@ namespace Inheritance_Table_Per_Hierarchy.Migrations
             modelBuilder.Entity("Employee", b =>
                 {
                     b.HasBaseType("Person");
+
+                    b.Property<int>("A")
+                        .HasColumnType("int");
 
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");

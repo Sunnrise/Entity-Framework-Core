@@ -62,6 +62,9 @@ namespace Inheritance_Table_Per_Hierarchy.Migrations
                 {
                     b.HasBaseType("Person");
 
+                    b.Property<int>("A")
+                        .HasColumnType("int");
+
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");
 
