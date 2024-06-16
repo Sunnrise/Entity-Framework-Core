@@ -28,7 +28,7 @@ namespace Inheritance_Table_Per_Hierarchy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DiscriminatorColumn")
+                    b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
@@ -43,7 +43,7 @@ namespace Inheritance_Table_Per_Hierarchy.Migrations
 
                     b.ToTable("Persons");
 
-                    b.HasDiscriminator<string>("DiscriminatorColumn").HasValue("Person");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Person");
 
                     b.UseTphMappingStrategy();
                 });

@@ -20,28 +20,85 @@ ApplicationDbContext context = new();
 //Fistly we need to override the OnModelCreating method in the DbContext class.
 //Then we can use the HasDiscriminator method in base class to change the Discriminator column name.
 #endregion
-Employee Employee = new()
-{
-    Name = "Employee Name",
-    Surname = "Employee Surname",
-    Department = "Employee Department"
-};
-await context.Employees.AddAsync(Employee);
-await context.SaveChangesAsync();
+//Employee Employee = new()
+//{
+//    Name = "Employee Name",
+//    Surname = "Employee Surname",
+//    Department = "Employee Department"
+//};
+//await context.Employees.AddAsync(Employee);
+//await context.SaveChangesAsync();
 
 #region How can we change the Discriminator Column Value
 //We can use the HasValue method in the OnModelCreating method to change the Discriminator column value.
 #endregion
 
 #region Adding Data With TPH
-
+// we can add data to the database using the TPH pattern in the same way as we add data to the database without using the TPH pattern.
+//Employee e1 = new()
+//{
+//    Name = "Employee Name",
+//    Surname = "Employee Surname",
+//    Department = "Employee Department"
+//};
+//Employee e2 = new()
+//{
+//    Name = "Employee Name2",
+//    Surname = "Employee Surname2",
+//    Department = "Employee Department2"
+//};
+//Customer c1 = new()
+//{
+//    Name = "Customer Name",
+//    Surname = "Customer Surname",
+//    CompanyName = "Customer CompanyName"
+//};
+//Customer c2 = new()
+//{
+//    Name = "Customer Name2",
+//    Surname = "Customer Surname2",
+//    CompanyName = "Customer CompanyName2"
+//};
+//Technician t1 = new()
+//{
+//    Name = "Technician Name",
+//    Surname = "Technician Surname",
+//    Department = "Technician Department",
+//    Branch = "Technician Branch"
+//};
+//Technician t2 = new()
+//{
+//    Name = "Technician Name2",
+//    Surname = "Technician Surname2",
+//    Department = "Technician Department2",
+//    Branch = "Technician Branch2"
+//};
+//await context.Employees.AddAsync(e1);
+//await context.Employees.AddAsync(e2);
+//await context.Customers.AddAsync(c1);
+//await context.Customers.AddAsync(c2);
+//await context.Technicians.AddAsync(t1);
+//await context.Technicians.AddAsync(t2);
+//await context.SaveChangesAsync();
 #endregion
 
 #region Deleting Data With TPH
+// we can delete data from the database using the TPH pattern in the same way as we delete data from the database without using the TPH pattern.
+var employee = await context.Employees.FirstOrDefaultAsync();
+context.Employees.Remove(employee);
+await context.SaveChangesAsync();
 
+var customers=await context.Customers.ToListAsync();
+context.Customers.RemoveRange(customers);
+await context.SaveChangesAsync();
 #endregion
 
 #region Updating Data With TPH
+Employee updateEmployee= await context.Employees.FindAsync(4);
+updateEmployee.Name = "Updated Employee Name";
+updateEmployee.Surname = "Updated Employee Surname";
+updateEmployee.Department = "Updated Employee Department";
+await context.SaveChangesAsync();
 
 #endregion
 
@@ -87,12 +144,12 @@ class ApplicationDbContext : DbContext
     public DbSet<Technician> Technicians { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Person>()
-            .HasDiscriminator<string>("DiscriminatorColumn")
-            .HasValue<Person>("A")
-            .HasValue<Employee>("B")
-            .HasValue<Customer>("C")
-            .HasValue<Technician>("D");
+        //modelBuilder.Entity<Person>()
+        //    .HasDiscriminator<string>("DiscriminatorColumn")
+        //    .HasValue<Person>("A")
+        //    .HasValue<Employee>("B")
+        //    .HasValue<Customer>("C")
+        //    .HasValue<Technician>("D");
             
 
     }

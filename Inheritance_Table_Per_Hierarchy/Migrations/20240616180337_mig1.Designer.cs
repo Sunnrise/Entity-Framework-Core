@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inheritance_Table_Per_Hierarchy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240616174914_mig1")]
+    [Migration("20240616180337_mig1")]
     partial class mig1
     {
         /// <inheritdoc />
@@ -31,7 +31,7 @@ namespace Inheritance_Table_Per_Hierarchy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DiscriminatorColumn")
+                    b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
@@ -46,7 +46,7 @@ namespace Inheritance_Table_Per_Hierarchy.Migrations
 
                     b.ToTable("Persons");
 
-                    b.HasDiscriminator<string>("DiscriminatorColumn").HasValue("Person");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Person");
 
                     b.UseTphMappingStrategy();
                 });
