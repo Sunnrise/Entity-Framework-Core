@@ -3,23 +3,34 @@ using Microsoft.EntityFrameworkCore;
 ApplicationDbContext context = new();
 
 #region What is the Table Per Hierarchy (TPH) 
-
+//Inheritance is a mechanism in which a new class is created (derived class) that inherits the properties from the existing class (base class).
 #endregion
 
 #region How to implement Table Per Hierarchy (TPH) in EF Core
-
+//In EF Core, the Table Per Hierarchy (TPH) pattern is implemented by default when we use the inheritance in the entity classes.
+// So we don't need to do anything to implement the TPH pattern in EF Core.
 #endregion
 
 #region What is the Discriminator Column
-
+//The Discriminator column is used to store the type of the entity.
+//The Discriminator column is added to the table by default when we use the inheritance in the entity classes.
 #endregion
 
 #region How can we change the Discriminator Column Name
-
+//Fistly we need to override the OnModelCreating method in the DbContext class.
+//Then we can use the HasDiscriminator method in base class to change the Discriminator column name.
 #endregion
+Employee Employee = new()
+{
+    Name = "Employee Name",
+    Surname = "Employee Surname",
+    Department = "Employee Department"
+};
+await context.Employees.AddAsync(Employee);
+await context.SaveChangesAsync();
 
 #region How can we change the Discriminator Column Value
-
+//We can use the HasValue method in the OnModelCreating method to change the Discriminator column value.
 #endregion
 
 #region Adding Data With TPH
@@ -59,12 +70,12 @@ class Employee : Person
 }
 class Customer : Person
 {
-    public int A { get; set; }
+    
     public string? CompanyName { get; set; }
 }
 class Technician : Employee
 {
-    public int A { get; set; }
+    
     public string? Branch { get; set; }
 }
 
@@ -76,6 +87,14 @@ class ApplicationDbContext : DbContext
     public DbSet<Technician> Technicians { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Person>()
+            .HasDiscriminator<string>("DiscriminatorColumn")
+            .HasValue<Person>("A")
+            .HasValue<Employee>("B")
+            .HasValue<Customer>("C")
+            .HasValue<Technician>("D");
+            
+
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
