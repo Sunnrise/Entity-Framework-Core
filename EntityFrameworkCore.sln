@@ -47,7 +47,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inheritance_Table_Per_Concr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constraints", "Constraints\Constraints.csproj", "{54367C06-EE54-41F3-BC94-194EE825D8B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indexes", "Indexes\Indexes.csproj", "{A8BF87E3-A0E5-429C-A3EB-D0039B5C7343}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indexes", "Indexes\Indexes.csproj", "{A8BF87E3-A0E5-429C-A3EB-D0039B5C7343}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sequences", "Sequences\Sequences.csproj", "{093DF553-BF0A-4616-9A4F-360945B5F4B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,6 +149,10 @@ Global
 		{A8BF87E3-A0E5-429C-A3EB-D0039B5C7343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8BF87E3-A0E5-429C-A3EB-D0039B5C7343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8BF87E3-A0E5-429C-A3EB-D0039B5C7343}.Release|Any CPU.Build.0 = Release|Any CPU
+		{093DF553-BF0A-4616-9A4F-360945B5F4B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093DF553-BF0A-4616-9A4F-360945B5F4B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093DF553-BF0A-4616-9A4F-360945B5F4B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093DF553-BF0A-4616-9A4F-360945B5F4B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
