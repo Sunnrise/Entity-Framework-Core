@@ -12,17 +12,27 @@ ApplicationDbContext context = new();
 //To apply TPC, we need to use the UseTpcMappingStrategy method in the OnModelCreating method of the DbContext class. 
 #endregion
 #region Adding data in TPC
+//await context.Technicians.AddAsync(new() { Name= "Alperen", Surname= "Güneş", Branch="CS", Department="IT"});
+//await context.SaveChangesAsync();
 await context.Technicians.AddAsync(new() { Name= "Alperen", Surname= "Güneş", Branch="CS", Department="IT"});
 await context.SaveChangesAsync();
 #endregion
 #region Deleting data in TPC
-
+Technician delete = await context.Technicians.FindAsync(1);
+context.Technicians.Remove(delete);
+await context.SaveChangesAsync();
 #endregion
 #region Update data in TPC
-
+Technician? update = await context.Technicians.FindAsync(1);
+if (update != null)
+{
+    update.Branch = "IT";
+    await context.SaveChangesAsync();
+}
 #endregion
 #region Querying data in TPC
-
+var data = await context.Technicians.ToListAsync();
+Console.WriteLine("bp");
 #endregion
 abstract class Person
 {
