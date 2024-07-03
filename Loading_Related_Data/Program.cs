@@ -35,21 +35,28 @@ ApplicationDbContext context = new();
 #region Filtered Include
 //In querying , we can filter the related entities with the Where method.  
 
-var regions = await context.Regions.Include(r => r.Employees.Where(e => e.Name.Contains("a")).OrderByDescending(e=> e.Surname)).ToListAsync();
+//var regions = await context.Regions.Include(r => r.Employees.Where(e => e.Name.Contains("a")).OrderByDescending(e=> e.Surname)).ToListAsync();
 
 //Supported Methods: where, OrderBy, Thenby, Skip, Take
 
 //If change tracker is enabled, the filtered include method will be applied to the entities that are already loaded in the context. It causes to load all entities from the database. If we want to apply the filtered include method to the entities that are already loaded in the context, we should use AsNoTracking method.
 #endregion
 #region Critical Info for Eager Loading
+//EF Core, can use the queries which  generated before 
+var orders = await context.Orders.ToListAsync();
 
-
+var employees= await context.Employees.ToListAsync();
+// It gives the employees order list from the memory. It does not make a query to the database.
 #endregion
 #region AutoInclude - EF Core 6
+//AutoInclude method is used to load related entities automatically. It is a new feature of EF Core 6.0.
+
+var employees2 = await context.Employees.ToListAsync();
 
 #endregion
 #region IgnoreAutoIncludes
-
+// It provides to ignore the AutoInclude method for a specific query.
+var employees3 = await context.Employees.IgnoreAutoIncludes().ToListAsync();
 #endregion
 #region Include Between Derived Entities
 
@@ -128,7 +135,10 @@ class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-       
+        modelBuilder.Entity<Employee>()
+            .Navigation(e=> e.Region)
+            .AutoInclude();
+
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
