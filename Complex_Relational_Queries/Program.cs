@@ -179,36 +179,52 @@ ApplicationDbContext context = new();
 #endregion
 
 #region Cross Join
-var query1 = from person in context.Persons
-            from order in context.Orders
-            select new
-            {
-                person,
-                order
-            };
-var datas1 = await query1.ToListAsync();
+//var query1 = from person in context.Persons
+//            from order in context.Orders
+//            select new
+//            {
+//                person,
+//                order
+//            };
+//var datas1 = await query1.ToListAsync();
 #endregion
 
 #region Where using on Collection Selector
 
-var query2 = from order in context.Orders
-             from person in context.Persons.Where(p => p.PersonId == order.PersonId)
+//var query2 = from order in context.Orders
+//             from person in context.Persons.Where(p => p.PersonId == order.PersonId)
 
-             select new
-            {
-                person,
-                order
-            };
-var datas2 = await query2.ToListAsync();
-// In the above query, the Where clause is applied to the collection selector. It pretends to be a join operation but it is not.
+//             select new
+//            {
+//                person,
+//                order
+//            };
+//var datas2 = await query2.ToListAsync();
+//// In the above query, the Where clause is applied to the collection selector. It pretends to be a join operation but it is not.
 #endregion
 
 #region Cross Apply
-
+//Like Inner Join
+var query1 = from person in context.Persons
+             from order in context.Orders.Select(o => o.Person.Name)
+             select new
+             {
+                 person,
+                 order
+             };
+var datas1 = await query1.ToListAsync();
 #endregion
 
 #region Outer Apply
-
+//Like Left Join
+var query2 = from person in context.Persons
+             from order in context.Orders.Select(o => o.Person.Name).DefaultIfEmpty()
+             select new
+             {
+                 person,
+                 order
+             };
+var datas2 = await query2.ToListAsync();
 #endregion
 #endregion
 Console.WriteLine();
