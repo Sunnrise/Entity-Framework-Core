@@ -112,7 +112,18 @@ var datas2=await query2.ToListAsync();
 #endregion
 
 #region Group Join - Not GroupBy!
-
+var query = from person in context.Persons
+            join order in context.Orders
+                on person.PersonId equals order.PersonId into personOrders
+            //from order in personOrders
+            select new
+            {
+                person.Name,
+                Count =personOrders.Count()
+                
+                //order.Description
+            };
+var datas = await query.ToListAsync();  
 #endregion
 #endregion
 
