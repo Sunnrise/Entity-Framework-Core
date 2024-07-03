@@ -55,6 +55,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loading_Related_Data_Eager_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loading_Related_Data_Explicit_Loading", "Loading_Related_Data_Explicit_Loading\Loading_Related_Data_Explicit_Loading.csproj", "{374DFB1C-456C-4E34-953D-46C734A9E38F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loading_Related_Data_Lazy_Loading", "Loading_Related_Data_Lazy_Loading\Loading_Related_Data_Lazy_Loading.csproj", "{80968CFF-0F06-45B3-9100-F93F9A8CFF41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +167,10 @@ Global
 		{374DFB1C-456C-4E34-953D-46C734A9E38F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{374DFB1C-456C-4E34-953D-46C734A9E38F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{374DFB1C-456C-4E34-953D-46C734A9E38F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80968CFF-0F06-45B3-9100-F93F9A8CFF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80968CFF-0F06-45B3-9100-F93F9A8CFF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80968CFF-0F06-45B3-9100-F93F9A8CFF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80968CFF-0F06-45B3-9100-F93F9A8CFF41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
