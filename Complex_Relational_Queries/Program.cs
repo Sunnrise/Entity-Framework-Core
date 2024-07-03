@@ -130,33 +130,52 @@ ApplicationDbContext context = new();
 //DefaultIfEmpty() is used for Left Join operation
 
 #region Left Join
-var query1 = from person in context.Persons
-            join order in context.Orders
-                on person.PersonId equals order.PersonId into personOrders
-            from order in personOrders.DefaultIfEmpty()
-            select new
-            {
-                person.Name,
-                order.Description
-            };
-var datas1= await query1.ToListAsync();
+//var query1 = from person in context.Persons
+//            join order in context.Orders
+//                on person.PersonId equals order.PersonId into personOrders
+//            from order in personOrders.DefaultIfEmpty()
+//            select new
+//            {
+//                person.Name,
+//                order.Description
+//            };
+//var datas1= await query1.ToListAsync();
 #endregion
 //In EF Core, Right Join is not supported. But you can use Left Join and change the order of the tables.
 #region Right Join
-var query2 = from order in context.Orders
-            join person in context.Persons
-                on order.PersonId equals person.PersonId into orderPeople
-            from person in orderPeople.DefaultIfEmpty()
-            select new
-            {
-                person.Name,
-                order.Description
-            };
-var datas2 = await query2.ToListAsync();
+//var query2 = from order in context.Orders
+//            join person in context.Persons
+//                on order.PersonId equals person.PersonId into orderPeople
+//            from person in orderPeople.DefaultIfEmpty()
+//            select new
+//            {
+//                person.Name,
+//                order.Description
+//            };
+//var datas2 = await query2.ToListAsync();
 #endregion
 
 #region Full Join
-
+var leftQuery = from person in context.Persons
+                join order in context.Orders
+                    on person.PersonId equals order.PersonId into personOrders
+                from order in personOrders.DefaultIfEmpty()
+                select new
+                {
+                    person.Name,
+                    order.Description
+                };
+var rightQuery = from order in context.Orders
+                join person in context.Persons
+                    on order.PersonId equals person.PersonId into orderPeople
+                from person in orderPeople.DefaultIfEmpty()
+                select new
+                {
+                    person.Name,
+                    order.Description
+                };
+var fullJoin = leftQuery.Union(rightQuery);
+var datas = await fullJoin.ToListAsync();
 #endregion
 
 #region Cross Join
