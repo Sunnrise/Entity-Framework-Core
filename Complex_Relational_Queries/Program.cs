@@ -38,46 +38,76 @@ ApplicationDbContext context = new();
 #region Multiple Columns Join
 
 #region Query Syntax
-var query1= from photo in context.Photos
-            join person in context.Persons
-                on new {photo.PersonId, photo.Url }equals new {person.PersonId,Url=person.Name }
-            select new
-            {
-               person.Name,
-               photo.Url
-            };
-var datas1 = await query1.ToListAsync();
+//var query1= from photo in context.Photos
+//            join person in context.Persons
+//                on new {photo.PersonId, photo.Url }equals new {person.PersonId,Url=person.Name }
+//            select new
+//            {
+//               person.Name,
+//               photo.Url
+//            };
+//var datas1 = await query1.ToListAsync();
 #endregion
 
+#region Method Syntax
+//var query2 = context.Photos
+//    .Join(context.Persons,
+//    photo=> new 
+//    { 
+//        photo.PersonId, 
+//        photo.Url 
+//    },
+//    person=> new
+//    {
+//        person.PersonId,
+//        Url = person.Name
+//    },
+//    (photo, person) =>new
+//    {
+//        person.Name,
+//        photo.Url
+//    });
+//var datas2 = await query2.ToListAsync();
+#endregion
+#endregion
+
+#region Join with more than 2 tables
+
+#region Query Syntax
+var query1 = from photo in context.Photos
+            join person in context.Persons
+                on photo.PersonId equals person.PersonId
+            join order in context.Orders
+                on person.PersonId equals order.PersonId
+            select new
+                {
+                    person.Name,
+                    photo.Url,
+                    order.Description
+                };
+var datas1 = await query1.ToListAsync();
+#endregion
 #region Method Syntax
 var query2 = context.Photos
     .Join(context.Persons,
-    photo=> new 
-    { 
-        photo.PersonId, 
-        photo.Url 
-    },
-    person=> new
+    photo=> photo.PersonId,
+    person=> person.PersonId,
+    (photo,person)=>new
     {
         person.PersonId,
-        Url = person.Name
-    },
-    (photo, person) =>new
-    {
         person.Name,
-        photo.Url
+        photo.Url 
+    })
+    .Join(context.Orders,
+    personPhotos => personPhotos.PersonId,
+    order => order.PersonId,
+    (personPhotos, order) => new
+    {
+        personPhotos.Name,
+        personPhotos.Url,
+        order.Description
     });
-var datas2 = await query2.ToListAsync();
-#endregion
-#endregion
-
-#region Tabloyla Join with more than 2 tables
-
-#region Query Syntax
-
-#endregion
-#region Method Syntax
-
+var datas2=await query2.ToListAsync();
 #endregion
 #endregion
 
