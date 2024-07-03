@@ -10,14 +10,27 @@ ApplicationDbContext context = new();
 #region Include
 // Include method is used to load related entities in the same query.
 
-//var employees = await context.Employees.Include("Orders").ToListAsync();
-var employees = await context.Employees
-    .Include(e=> e.Orders)
-    .Include(e=> e.Region)
-    .ToListAsync();
+////var employees = await context.Employees.Include("Orders").ToListAsync();
+//var employees = await context.Employees
+//    .Include(e=> e.Orders)
+//    .Where(e => e.Orders.Count > 2)
+//    .Include(e=> e.Region)
+//    .ToListAsync();
+//// in this sceneario it does not matter the order of Include method. If we change the order of Include or where methods, the result will be the same. 
 #endregion
 #region ThenInclude
+//var orders = await context.Orders
+//    .Include(o => o.Employee)
+//    .Include(o=>o.Employee.Region)
+//    .ToListAsync();
 
+//ThenInclude method is used to load related entities of related entities.
+
+
+var regions = await context.Regions
+    .Include(r => r.Employees)
+    .ThenInclude(e => e.Orders)
+    .ToListAsync();
 #endregion
 #region Filtered Include
 
