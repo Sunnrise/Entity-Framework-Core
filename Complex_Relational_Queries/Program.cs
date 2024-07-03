@@ -74,65 +74,85 @@ ApplicationDbContext context = new();
 #region Join with more than 2 tables
 
 #region Query Syntax
-var query1 = from photo in context.Photos
-            join person in context.Persons
-                on photo.PersonId equals person.PersonId
-            join order in context.Orders
-                on person.PersonId equals order.PersonId
-            select new
-                {
-                    person.Name,
-                    photo.Url,
-                    order.Description
-                };
-var datas1 = await query1.ToListAsync();
+//var query1 = from photo in context.Photos
+//            join person in context.Persons
+//                on photo.PersonId equals person.PersonId
+//            join order in context.Orders
+//                on person.PersonId equals order.PersonId
+//            select new
+//                {
+//                    person.Name,
+//                    photo.Url,
+//                    order.Description
+//                };
+//var datas1 = await query1.ToListAsync();
 #endregion
 #region Method Syntax
-var query2 = context.Photos
-    .Join(context.Persons,
-    photo=> photo.PersonId,
-    person=> person.PersonId,
-    (photo,person)=>new
-    {
-        person.PersonId,
-        person.Name,
-        photo.Url 
-    })
-    .Join(context.Orders,
-    personPhotos => personPhotos.PersonId,
-    order => order.PersonId,
-    (personPhotos, order) => new
-    {
-        personPhotos.Name,
-        personPhotos.Url,
-        order.Description
-    });
-var datas2=await query2.ToListAsync();
+//var query2 = context.Photos
+//    .Join(context.Persons,
+//    photo=> photo.PersonId,
+//    person=> person.PersonId,
+//    (photo,person)=>new
+//    {
+//        person.PersonId,
+//        person.Name,
+//        photo.Url 
+//    })
+//    .Join(context.Orders,
+//    personPhotos => personPhotos.PersonId,
+//    order => order.PersonId,
+//    (personPhotos, order) => new
+//    {
+//        personPhotos.Name,
+//        personPhotos.Url,
+//        order.Description
+//    });
+//var datas2=await query2.ToListAsync();
 #endregion
 #endregion
 
 #region Group Join - Not GroupBy!
-var query = from person in context.Persons
+//var query = from person in context.Persons
+//            join order in context.Orders
+//                on person.PersonId equals order.PersonId into personOrders
+//            //from order in personOrders
+//            select new
+//            {
+//                person.Name,
+//                Count =personOrders.Count()
+
+//                //order.Description
+//            };
+//var datas = await query.ToListAsync();  
+#endregion
+#endregion
+
+//DefaultIfEmpty() is used for Left Join operation
+
+#region Left Join
+var query1 = from person in context.Persons
             join order in context.Orders
                 on person.PersonId equals order.PersonId into personOrders
-            //from order in personOrders
+            from order in personOrders.DefaultIfEmpty()
             select new
             {
                 person.Name,
-                Count =personOrders.Count()
-                
-                //order.Description
+                order.Description
             };
-var datas = await query.ToListAsync();  
+var datas1= await query1.ToListAsync();
 #endregion
-#endregion
-
-#region Left Join
-
-#endregion
-
+//In EF Core, Right Join is not supported. But you can use Left Join and change the order of the tables.
 #region Right Join
-
+var query2 = from order in context.Orders
+            join person in context.Persons
+                on order.PersonId equals person.PersonId into orderPeople
+            from person in orderPeople.DefaultIfEmpty()
+            select new
+            {
+                person.Name,
+                order.Description
+            };
+var datas2 = await query2.ToListAsync();
 #endregion
 
 #region Full Join
