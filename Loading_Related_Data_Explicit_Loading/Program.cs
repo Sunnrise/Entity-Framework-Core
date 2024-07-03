@@ -16,22 +16,24 @@ ApplicationDbContext context = new();
 
 //In the Explicit Loading process, if the navigation property of the table to be added to the query relationally is a singular type, we can add this table to the query with reference.
 
-var employee = await context.Employees.FirstOrDefaultAsync(e => e.Id == 2);
-
-//second query will be added to the main query
-await context.Entry(employee).Reference(e => e.Region).LoadAsync();
-
-Console.WriteLine();
-#endregion
-
-#region Collection
-
-//Explicit Loading sürecinde ilişkisel olarak sorguya eklenmek istenen tablonun navigation propertysi eğer ki çoğul/koleksiyonel bir türse bu tabloyu Collection ile sorguya ekleyebilemkteyiz.
-
 //var employee = await context.Employees.FirstOrDefaultAsync(e => e.Id == 2);
 //...
 //...
 //...
+//await context.Entry(employee).Reference(e => e.Region).LoadAsync();
+//second query will be added to the main query
+
+//Console.WriteLine();
+#endregion
+
+#region Collection
+
+//In the Explicit Loading process, if the navigation property of the table to be added to the query relationally is a plural/collectional type, we can add this table to the query with Collection.
+
+//var employee = await context.Employees.FirstOrDefaultAsync(e => e.Id == 2);
+////...
+////...
+////...
 //await context.Entry(employee).Collection(e => e.Orders).LoadAsync();
 
 //Console.WriteLine();
@@ -44,13 +46,13 @@ Console.WriteLine();
 //...
 //var count = await context.Entry(employee).Collection(e => e.Orders).Query().CountAsync();
 Console.WriteLine();
-#endregion
+#endregion 
 #region Apply Filter on Collections
-//var employee = await context.Employees.FirstOrDefaultAsync(e => e.Id == 2);
-////...
-////...
-////...
-//var orders = await context.Entry(employee).Collection(e => e.Orders).Query().Where(q => q.OrderDate.Day == DateTime.Now.Day).ToListAsync();
+var employee = await context.Employees.FirstOrDefaultAsync(e => e.Id == 2);
+//...
+//...
+//...
+var orders = await context.Entry(employee).Collection(e => e.Orders).Query().Where(q => q.OrderDate.Day == DateTime.Now.Day).ToListAsync();
 #endregion
 #endregion
 
