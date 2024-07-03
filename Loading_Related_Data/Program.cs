@@ -43,31 +43,32 @@ ApplicationDbContext context = new();
 #endregion
 #region Critical Info for Eager Loading
 //EF Core, can use the queries which  generated before 
-var orders = await context.Orders.ToListAsync();
+//var orders = await context.Orders.ToListAsync();
 
-var employees= await context.Employees.ToListAsync();
+//var employees= await context.Employees.ToListAsync();
 // It gives the employees order list from the memory. It does not make a query to the database.
 #endregion
 #region AutoInclude - EF Core 6
 //AutoInclude method is used to load related entities automatically. It is a new feature of EF Core 6.0.
 
-var employees2 = await context.Employees.ToListAsync();
+//var employees2 = await context.Employees.ToListAsync();
 
 #endregion
 #region IgnoreAutoIncludes
 // It provides to ignore the AutoInclude method for a specific query.
-var employees3 = await context.Employees.IgnoreAutoIncludes().ToListAsync();
+
+//var employees3 = await context.Employees.IgnoreAutoIncludes().ToListAsync();
 #endregion
 #region Include Between Derived Entities
 
 #region Include with Cast Operand
-
+var persons1 =await  context.Persons.Include(p => ((Employee)p).Orders).ToListAsync();
 #endregion
 #region Include with as Operand
-
+var persons2 = await context.Persons.Include(p => (p as Employee).Orders).ToListAsync());
 #endregion
 #region Include with 2. Overload 
-
+var persons3 = await context.Persons.Include("Orders").ToListAsync();
 #endregion
 #endregion
 
@@ -99,9 +100,9 @@ public class Person
     public int Id { get; set; }
 
 }
-public class Employee
+public class Employee: Person
 {
-    public int Id { get; set; }
+    //public int Id { get; set; }
     public int RegionId { get; set; }
     public string? Name { get; set; }
     public string? Surname { get; set; }
@@ -128,7 +129,7 @@ public class Order
 
 class ApplicationDbContext : DbContext
 {
-    //public DbSet<Person> Persons { get; set; }
+    public DbSet<Person> Persons { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Region> Regions { get; set; }

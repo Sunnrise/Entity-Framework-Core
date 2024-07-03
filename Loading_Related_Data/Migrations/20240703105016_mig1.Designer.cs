@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Loading_Related_Data_Eager_Loading.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240703081833_mig1")]
+    [Migration("20240703105016_mig1")]
     partial class mig1
     {
         /// <inheritdoc />
@@ -23,67 +23,6 @@ namespace Loading_Related_Data_Eager_Loading.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RegionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Salary")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RegionId");
-
-                    b.ToTable("Employees");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Alperen",
-                            RegionId = 1,
-                            Salary = 1500,
-                            Surname = "Güneş"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Mehmet",
-                            RegionId = 2,
-                            Salary = 2000,
-                            Surname = "Yılmaz"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Ayşe",
-                            RegionId = 3,
-                            Salary = 2500,
-                            Surname = "Kara"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Fatma",
-                            RegionId = 4,
-                            Salary = 3000,
-                            Surname = "Kara"
-                        });
-                });
 
             modelBuilder.Entity("Order", b =>
                 {
@@ -110,50 +49,72 @@ namespace Loading_Related_Data_Eager_Loading.Migrations
                         {
                             Id = 1,
                             EmployeeId = 1,
-                            OrderDate = new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6720)
+                            OrderDate = new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5352)
                         },
                         new
                         {
                             Id = 2,
                             EmployeeId = 1,
-                            OrderDate = new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6735)
+                            OrderDate = new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5365)
                         },
                         new
                         {
                             Id = 3,
                             EmployeeId = 2,
-                            OrderDate = new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6736)
+                            OrderDate = new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5366)
                         },
                         new
                         {
                             Id = 4,
                             EmployeeId = 2,
-                            OrderDate = new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6737)
+                            OrderDate = new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5367)
                         },
                         new
                         {
                             Id = 5,
                             EmployeeId = 3,
-                            OrderDate = new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6738)
+                            OrderDate = new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5368)
                         },
                         new
                         {
                             Id = 6,
                             EmployeeId = 3,
-                            OrderDate = new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6739)
+                            OrderDate = new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5368)
                         },
                         new
                         {
                             Id = 7,
                             EmployeeId = 4,
-                            OrderDate = new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6739)
+                            OrderDate = new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5369)
                         },
                         new
                         {
                             Id = 8,
                             EmployeeId = 4,
-                            OrderDate = new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6740)
+                            OrderDate = new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5370)
                         });
+                });
+
+            modelBuilder.Entity("Person", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Persons");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Person");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Region", b =>
@@ -197,13 +158,57 @@ namespace Loading_Related_Data_Eager_Loading.Migrations
 
             modelBuilder.Entity("Employee", b =>
                 {
-                    b.HasOne("Region", "Region")
-                        .WithMany("Employees")
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasBaseType("Person");
 
-                    b.Navigation("Region");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RegionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Salary")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("RegionId");
+
+                    b.HasDiscriminator().HasValue("Employee");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Alperen",
+                            RegionId = 1,
+                            Salary = 1500,
+                            Surname = "Güneş"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Mehmet",
+                            RegionId = 2,
+                            Salary = 2000,
+                            Surname = "Yılmaz"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Ayşe",
+                            RegionId = 3,
+                            Salary = 2500,
+                            Surname = "Kara"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Fatma",
+                            RegionId = 4,
+                            Salary = 3000,
+                            Surname = "Kara"
+                        });
                 });
 
             modelBuilder.Entity("Order", b =>
@@ -219,12 +224,23 @@ namespace Loading_Related_Data_Eager_Loading.Migrations
 
             modelBuilder.Entity("Employee", b =>
                 {
-                    b.Navigation("Orders");
+                    b.HasOne("Region", "Region")
+                        .WithMany("Employees")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Region");
                 });
 
             modelBuilder.Entity("Region", b =>
                 {
                     b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("Employee", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

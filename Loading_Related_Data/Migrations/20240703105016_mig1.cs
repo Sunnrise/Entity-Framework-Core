@@ -27,21 +27,22 @@ namespace Loading_Related_Data_Eager_Loading.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employees",
+                name: "Persons",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RegionId = table.Column<int>(type: "int", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
+                    RegionId = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Salary = table.Column<int>(type: "int", nullable: false)
+                    Salary = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.PrimaryKey("PK_Persons", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employees_Regions_RegionId",
+                        name: "FK_Persons_Regions_RegionId",
                         column: x => x.RegionId,
                         principalTable: "Regions",
                         principalColumn: "Id",
@@ -61,9 +62,9 @@ namespace Loading_Related_Data_Eager_Loading.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Employees_EmployeeId",
+                        name: "FK_Orders_Persons_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        principalTable: "Persons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -80,14 +81,14 @@ namespace Loading_Related_Data_Eager_Loading.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Employees",
-                columns: new[] { "Id", "Name", "RegionId", "Salary", "Surname" },
+                table: "Persons",
+                columns: new[] { "Id", "Discriminator", "Name", "RegionId", "Salary", "Surname" },
                 values: new object[,]
                 {
-                    { 1, "Alperen", 1, 1500, "Güneş" },
-                    { 2, "Mehmet", 2, 2000, "Yılmaz" },
-                    { 3, "Ayşe", 3, 2500, "Kara" },
-                    { 4, "Fatma", 4, 3000, "Kara" }
+                    { 1, "Employee", "Alperen", 1, 1500, "Güneş" },
+                    { 2, "Employee", "Mehmet", 2, 2000, "Yılmaz" },
+                    { 3, "Employee", "Ayşe", 3, 2500, "Kara" },
+                    { 4, "Employee", "Fatma", 4, 3000, "Kara" }
                 });
 
             migrationBuilder.InsertData(
@@ -95,25 +96,25 @@ namespace Loading_Related_Data_Eager_Loading.Migrations
                 columns: new[] { "Id", "EmployeeId", "OrderDate" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6720) },
-                    { 2, 1, new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6735) },
-                    { 3, 2, new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6736) },
-                    { 4, 2, new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6737) },
-                    { 5, 3, new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6738) },
-                    { 6, 3, new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6739) },
-                    { 7, 4, new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6739) },
-                    { 8, 4, new DateTime(2024, 7, 3, 11, 18, 32, 790, DateTimeKind.Local).AddTicks(6740) }
+                    { 1, 1, new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5352) },
+                    { 2, 1, new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5365) },
+                    { 3, 2, new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5366) },
+                    { 4, 2, new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5367) },
+                    { 5, 3, new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5368) },
+                    { 6, 3, new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5368) },
+                    { 7, 4, new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5369) },
+                    { 8, 4, new DateTime(2024, 7, 3, 13, 50, 16, 36, DateTimeKind.Local).AddTicks(5370) }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Employees_RegionId",
-                table: "Employees",
-                column: "RegionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_EmployeeId",
                 table: "Orders",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Persons_RegionId",
+                table: "Persons",
+                column: "RegionId");
         }
 
         /// <inheritdoc />
@@ -123,7 +124,7 @@ namespace Loading_Related_Data_Eager_Loading.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Persons");
 
             migrationBuilder.DropTable(
                 name: "Regions");
