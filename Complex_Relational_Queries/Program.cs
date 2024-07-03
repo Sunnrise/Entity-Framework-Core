@@ -156,34 +156,51 @@ ApplicationDbContext context = new();
 #endregion
 
 #region Full Join
-var leftQuery = from person in context.Persons
-                join order in context.Orders
-                    on person.PersonId equals order.PersonId into personOrders
-                from order in personOrders.DefaultIfEmpty()
-                select new
-                {
-                    person.Name,
-                    order.Description
-                };
-var rightQuery = from order in context.Orders
-                join person in context.Persons
-                    on order.PersonId equals person.PersonId into orderPeople
-                from person in orderPeople.DefaultIfEmpty()
-                select new
-                {
-                    person.Name,
-                    order.Description
-                };
-var fullJoin = leftQuery.Union(rightQuery);
-var datas = await fullJoin.ToListAsync();
+//var leftQuery = from person in context.Persons
+//                join order in context.Orders
+//                    on person.PersonId equals order.PersonId into personOrders
+//                from order in personOrders.DefaultIfEmpty()
+//                select new
+//                {
+//                    person.Name,
+//                    order.Description
+//                };
+//var rightQuery = from order in context.Orders
+//                join person in context.Persons
+//                    on order.PersonId equals person.PersonId into orderPeople
+//                from person in orderPeople.DefaultIfEmpty()
+//                select new
+//                {
+//                    person.Name,
+//                    order.Description
+//                };
+//var fullJoin = leftQuery.Union(rightQuery);
+//var datas = await fullJoin.ToListAsync();
 #endregion
 
 #region Cross Join
-
+var query1 = from person in context.Persons
+            from order in context.Orders
+            select new
+            {
+                person,
+                order
+            };
+var datas1 = await query1.ToListAsync();
 #endregion
 
 #region Where using on Collection Selector
 
+var query2 = from order in context.Orders
+             from person in context.Persons.Where(p => p.PersonId == order.PersonId)
+
+             select new
+            {
+                person,
+                order
+            };
+var datas2 = await query2.ToListAsync();
+// In the above query, the Where clause is applied to the collection selector. It pretends to be a join operation but it is not.
 #endregion
 
 #region Cross Apply
