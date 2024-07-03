@@ -27,13 +27,19 @@ ApplicationDbContext context = new();
 //ThenInclude method is used to load related entities of related entities.
 
 
-var regions = await context.Regions
-    .Include(r => r.Employees)
-    .ThenInclude(e => e.Orders)
-    .ToListAsync();
+//var regions = await context.Regions
+//    .Include(r => r.Employees)
+//    .ThenInclude(e => e.Orders)
+//    .ToListAsync();
 #endregion
 #region Filtered Include
+//In querying , we can filter the related entities with the Where method.  
 
+var regions = await context.Regions.Include(r => r.Employees.Where(e => e.Name.Contains("a")).OrderByDescending(e=> e.Surname)).ToListAsync();
+
+//Supported Methods: where, OrderBy, Thenby, Skip, Take
+
+//If change tracker is enabled, the filtered include method will be applied to the entities that are already loaded in the context. It causes to load all entities from the database. If we want to apply the filtered include method to the entities that are already loaded in the context, we should use AsNoTracking method.
 #endregion
 #region Critical Info for Eager Loading
 
