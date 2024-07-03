@@ -1,6 +1,8 @@
-﻿using Loading_Related_Data_Eager_Loading.Configurations;
+﻿using Loading_Related_Data_Explicit_Loading.Configurations;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Reflection.Emit;
 
 ApplicationDbContext context = new();
 #region Loading Related Data
@@ -62,10 +64,10 @@ ApplicationDbContext context = new();
 #region Include Between Derived Entities
 
 #region Include with Cast Operand
-var persons1 =await  context.Persons.Include(p => ((Employee)p).Orders).ToListAsync();
+var persons1 = await context.Persons.Include(p => ((Employee)p).Orders).ToListAsync();
 #endregion
 #region Include with as Operand
-var persons2 = await context.Persons.Include(p => (p as Employee).Orders).ToListAsync());
+var persons2 = await context.Persons.Include(p => (p as Employee).Orders).ToListAsync();
 #endregion
 #region Include with 2. Overload 
 var persons3 = await context.Persons.Include("Orders").ToListAsync();
@@ -100,7 +102,7 @@ public class Person
     public int Id { get; set; }
 
 }
-public class Employee: Person
+public class Employee : Person
 {
     //public int Id { get; set; }
     public int RegionId { get; set; }
@@ -137,7 +139,7 @@ class ApplicationDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         modelBuilder.Entity<Employee>()
-            .Navigation(e=> e.Region)
+            .Navigation(e => e.Region)
             .AutoInclude();
 
     }
