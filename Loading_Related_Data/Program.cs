@@ -6,11 +6,15 @@ ApplicationDbContext context = new();
 #region Loading Related Data
 
 #region Eager Loading
-
-
+//Eager Loading, a method that loads the main entity and its related entities in a single query. 
 #region Include
+// Include method is used to load related entities in the same query.
 
-
+//var employees = await context.Employees.Include("Orders").ToListAsync();
+var employees = await context.Employees
+    .Include(e=> e.Orders)
+    .Include(e=> e.Region)
+    .ToListAsync();
 #endregion
 #region ThenInclude
 
@@ -40,7 +44,6 @@ ApplicationDbContext context = new();
 
 #endregion
 #endregion
-
 
 Console.WriteLine();
 #endregion
