@@ -11,36 +11,63 @@ ApplicationDbContext context = new();
 #region Join
 
 #region Query Syntax
-var query1= from photo in context.Photos
-           join person in context.Persons
-           on photo.PersonId equals person.PersonId
-           select new
-           {
-               person.Name,
-               photo.Url
-           };
-var datas=await query1.ToListAsync();
+//var query1= from photo in context.Photos
+//           join person in context.Persons
+//           on photo.PersonId equals person.PersonId
+//           select new
+//           {
+//               person.Name,
+//               photo.Url
+//           };
+//var datas=await query1.ToListAsync();
 #endregion
+
 #region Method Syntax
-var query2 = context.Photos
-    .Join(context.Persons,
-    photo => photo.PersonId,
-    person => person.PersonId,
-    (photo, person) => new
-    {
-        person.Name,
-        photo.Url
-    });
-var datas2 = await query2.ToListAsync();
+//var query2 = context.Photos
+//    .Join(context.Persons,
+//    photo => photo.PersonId,
+//    person => person.PersonId,
+//    (photo, person) => new
+//    {
+//        person.Name,
+//        photo.Url
+//    });
+//var datas2 = await query2.ToListAsync();
 #endregion
 
 #region Multiple Columns Join
 
 #region Query Syntax
-
+var query1= from photo in context.Photos
+            join person in context.Persons
+                on new {photo.PersonId, photo.Url }equals new {person.PersonId,Url=person.Name }
+            select new
+            {
+               person.Name,
+               photo.Url
+            };
+var datas1 = await query1.ToListAsync();
 #endregion
-#region Method Syntax
 
+#region Method Syntax
+var query2 = context.Photos
+    .Join(context.Persons,
+    photo=> new 
+    { 
+        photo.PersonId, 
+        photo.Url 
+    },
+    person=> new
+    {
+        person.PersonId,
+        Url = person.Name
+    },
+    (photo, person) =>new
+    {
+        person.Name,
+        photo.Url
+    });
+var datas2 = await query2.ToListAsync();
 #endregion
 #endregion
 
