@@ -29,13 +29,23 @@ var people = await context.Persons.FromSqlRaw($"SELECT * FROM Persons Where {col
 //But If you want to use FromSqlRaw method, you should be careful about SQL injection attacks. Because the parameters are passed to the query as a string, not as a parameter. The developer responsible for the query should be careful about this.
 #endregion
 #region SqlQuery - Non Entity Scalar Queries- Non Entity - EF Core 7.0
-
+// If you want to execute a query that does not return an entity, you can use the ExecuteSqlRaw method. This method is used to execute queries that do not return an entity.
+var data=await context.Database.SqlQuery<int>($"SELECT PersonId Value FROM Persons").
+    Where(x=> x>5).ToListAsync();
+//If we use linQ after the query, we can use the Where method to filter the data. We use Value property to access the data in the query result.
 #endregion
 #region ExecuteSql
-
+//Insert Update Delete
+await context.Database.ExecuteSqlAsync($"Update Persons SET Name= 'Fatma' WHERE PersonId=1");
 #endregion
 #region Constraints
 
+//Queries have to return all columns of the table. 
+var persons = await context.Persons.FromSql($"SELECT Name, PersonId FROM Persons").ToListAsync();
+
+//ColumnNames and PropertyNames must be the same.
+
+//Sql Queries cant contain Join, GroupBy, OrderBy, etc. clauses. If you want to use these clauses, you should use Include method.
 #endregion
 Console.WriteLine();
 public class Person
