@@ -11,20 +11,20 @@ namespace Stored_Procedures.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql($@"
-                CREATE PROCEDURE sp_GetPersonOrders
-                AS
-                    SELECT p.Name, COUNT(*) [Count] FROM Persons p
-                    JOIN Orders o 
-                        ON p.PersonId = o.PersonId
-                    GROUP BY p.Name
-                    ORDER BY COUNT(*) DESC
-                ");
+                        CREATE PROCEDURE sp_PersonOrders
+                        AS
+	                        SELECT p.Name, COUNT(*) [Count] FROM Persons p
+	                        JOIN Orders o
+		                        ON p.PersonId = o.PersonId
+	                        GROUP By p.Name
+	                        ORDER By COUNT(*) DESC
+                        ");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DROP PROCEDURE sp_GetPersonOrders");
+            migrationBuilder.Sql($@"DROP PROC sp_PersonOrders");
         }
     }
 }

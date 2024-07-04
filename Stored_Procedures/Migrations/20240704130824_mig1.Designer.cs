@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Stored_Procedures.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240704110528_mig1")]
+    [Migration("20240704130824_mig1")]
     partial class mig1
     {
         /// <inheritdoc />

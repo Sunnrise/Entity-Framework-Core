@@ -22,11 +22,20 @@ ApplicationDbContext context = new();
 // We create a entity and dbset  for the stored procedure and use the entity to get the data from the stored procedure.
 // then we use dbset property and then FromSql method to get the data from the stored procedure.
 #region FromSql
-var datas = await context.PersonOrders.FromSqlRaw($"EXECUTE sp_GetPersonOrders").ToListAsync();
+//var datas = await context.PersonOrders.FromSqlRaw($"EXECUTE sp_GetPersonOrders").ToListAsync();
 #endregion
 #endregion
+
 #region Return value Stored Procedure using
 
+SqlParameter countParameter = new()
+{
+    ParameterName = "@count",
+    SqlDbType = System.Data.SqlDbType.Int,
+    Direction = System.Data.ParameterDirection.Output
+};
+await context.Database.ExecuteSqlRawAsync($"EXEC @count = sp_bestSellingStaff", countParameter);
+Console.WriteLine(countParameter.Value);
 #endregion
 
 #region Parameters with Stored Procedure 
@@ -56,6 +65,7 @@ public class Order
 
     public Person Person { get; set; }
 }
+
 [NotMapped]
 public class PersonOrder
 {
@@ -70,8 +80,10 @@ class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.Entity<PersonOrder>()
+            .HasNoKey();
+        
 
-        modelBuilder.Entity<PersonOrder>().HasNoKey() ;
 
         modelBuilder.Entity<Person>()
             .HasMany(p => p.Orders)
