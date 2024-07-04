@@ -20,46 +20,13 @@ ApplicationDbContext context = new();
 //FormattableString name = $"Alperen";
 #endregion
 
-#region FromSql - EF Core 7.0
-// EF Core 7.0 introduces a new method called FromSql that allows you to execute raw SQL queries that return entity instances. This method is used to execute queries that are created by us and that contain parameters.
-
-#region Query Execute
-//var people = await context.Persons.FromSql($"SELECT * FROM Persons").ToListAsync();
-#endregion
-#region Stored Procedure Execute
-//var persons= await context.Persons.FromSql($"EXECUTE dbo.sp_GetAllPersons NULL").ToListAsync();
-#endregion
-#region Queries with Parameters
-
-#region Sample 1
-//int personId = 1;
-//var persons = await context.Persons.FromSql($"SELECT * FROM Persons WHERE PersonId={personId}").ToListAsync();
-//In sample 1, we have created a query that will return the person whose PersonId is 1.
-//personId variable will be transformed into a DbParameter in the query like sample 3.
-#endregion
-#region Sample 2
-//int personId = 2;
-//var persons = await context.Persons.FromSql($"EXECUTE dbo.sp_GetAllPersons {personId}").ToListAsync();
-#endregion
-#region Sample 3
-//SqlParameter personId = new("PersonId",3);
-//personId.DbType = System.Data.DbType.Int32;
-//personId.Direction = System.Data.ParameterDirection.Input; 
-//var persons = await context.Persons.FromSql($"SELECT * FROM Persons WHERE PersonId={personId}").ToListAsync();
-#endregion
-#region Sample 4
-//SqlParameter personId = new("PersonId", 3);
-//var persons = await context.Persons.FromSql($"EXECUTE dbo.sp_GetAllPersons {personId}").ToListAsync();
-#endregion
-#region Sample 5
-SqlParameter personId = new("PersonId", 3);
-var persons = await context.Persons.FromSql($"EXECUTE dbo.sp_GetAllPersons @PersonId={personId}").ToListAsync();
-#endregion
-#endregion
-#endregion
-
 #region Dynamic SQL Creation and Take Parameter - FromSqlRaw
+string columnName = "PersonId";
+SqlParameter value = new ("PersonId","3");
+var people = await context.Persons.FromSqlRaw($"SELECT * FROM Persons Where {columnName}=@PersonId",value).ToListAsync();
 
+//FromSql and FromSqlRaw methods are safe from SQL injection attacks. Because the parameters are passed to the query as parameters, not as a string.
+//But If you want to use FromSqlRaw method, you should be careful about SQL injection attacks. Because the parameters are passed to the query as a string, not as a parameter. The developer responsible for the query should be careful about this.
 #endregion
 #region SqlQuery - Non Entity Scalar Queries- Non Entity - EF Core 7.0
 
