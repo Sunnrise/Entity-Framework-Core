@@ -28,14 +28,14 @@ ApplicationDbContext context = new();
 
 #region Return value Stored Procedure using
 
-SqlParameter countParameter = new()
-{
-    ParameterName = "@count",
-    SqlDbType = System.Data.SqlDbType.Int,
-    Direction = System.Data.ParameterDirection.Output
-};
-await context.Database.ExecuteSqlRawAsync($"EXEC @count = sp_bestSellingStaff", countParameter);
-Console.WriteLine(countParameter.Value);
+//SqlParameter countParameter = new()
+//{
+//    ParameterName = "@count",
+//    SqlDbType = System.Data.SqlDbType.Int,
+//    Direction = System.Data.ParameterDirection.Output
+//};
+//await context.Database.ExecuteSqlRawAsync($"EXEC @count = sp_bestSellingStaff", countParameter);
+//Console.WriteLine(countParameter.Value);
 #endregion
 
 #region Parameters with Stored Procedure 
@@ -46,7 +46,15 @@ Console.WriteLine(countParameter.Value);
 #region Output Parameters with Stored Procedure
 
 #endregion
-
+SqlParameter nameParameter = new()
+{
+    ParameterName = "@name",
+    SqlDbType = System.Data.SqlDbType.NVarChar,
+    Size = 100,
+    Direction = System.Data.ParameterDirection.Output
+};
+await context.Database.ExecuteSqlRawAsync($"EXECUTE sp_PersonOrders2 5, @name OUTPUT", nameParameter);
+Console.WriteLine(nameParameter.Value);
 #endregion
 #endregion
 Console.WriteLine();
@@ -66,7 +74,7 @@ public class Order
     public Person Person { get; set; }
 }
 
-[NotMapped]
+
 public class PersonOrder
 {
     public string Name { get; set; }
@@ -82,7 +90,7 @@ class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         modelBuilder.Entity<PersonOrder>()
             .HasNoKey();
-        
+        modelBuilder.Ignore<PersonOrder>();
 
 
         modelBuilder.Entity<Person>()
