@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 
 ApplicationDbContext context = new();
 
-#region Owned Entity Types Nedir?
+#region What is Owned Entity Types?
 //EF Core allows us to split entity classes by hosting their properties in different classes as a set and combining all these classes in the relevant entity to work holistically.
 
 //Thus, an entity can be formed by the combination of more than one owned sub-class.
@@ -36,15 +36,14 @@ ApplicationDbContext context = new();
 
 //The basic difference of this relationship, which can normally be established as a Has relationship, is that while the Has relationship requires a DbSet property, the OwnsMany method allows us to do it without the need for DbSet.
 
-//var d = await context.Employees.ToListAsync();
-//Console.WriteLine();
+var d = await context.Employees.ToListAsync();
+Console.WriteLine();
 #endregion
-#endregion
-#region Nested Owned Entity Types
-
 #endregion
 #region Constraints
-
+// We dont need to DbSet for Owned Entity Types
+//We cant configure the Owned Entity Types in the OnModelCreating method with Entity<T> method
+//We cant use inheritance with Owned Entity Types
 #endregion
 
 class Employee
@@ -59,7 +58,13 @@ class Employee
 
     public EmployeeName EmployeeName { get; set; }
     public Address Adress { get; set; }
+    public ICollection<Order> Orders { get; set; }
 
+}
+class Order
+{
+    public string OrderDate { get; set; }
+    public int Price { get; set; }
 }
 //[Owned]
 class EmployeeName
@@ -87,8 +92,18 @@ class ApplicationDbContext : DbContext
         //});
         //modelBuilder.Entity<Employee>().OwnsOne(e => e.Adress);
         #endregion
+
         #region IEntityTypeConfiguration<T> Interface
         modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+        #endregion
+
+        #region OwnsMany Method
+        modelBuilder.Entity<Employee>().OwnsMany(e=>e.Orders, builder =>
+        {
+            builder.WithOwner().HasForeignKey("OwnedEmployeeId");
+            builder.Property<int>("Id");
+            builder.HasKey("Id");
+        });
         #endregion
 
     }

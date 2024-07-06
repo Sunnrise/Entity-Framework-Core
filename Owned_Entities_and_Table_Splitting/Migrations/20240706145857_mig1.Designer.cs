@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Owned_Entities_and_Table_Splitting.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240706142852_mig2")]
-    partial class mig2
+    [Migration("20240706145857_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,7 +77,8 @@ namespace Owned_Entities_and_Table_Splitting.Migrations
 
                             b1.Property<string>("Name")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Name");
 
                             b1.HasKey("EmployeeId");
 
@@ -87,11 +88,41 @@ namespace Owned_Entities_and_Table_Splitting.Migrations
                                 .HasForeignKey("EmployeeId");
                         });
 
+                    b.OwnsMany("Order", "Orders", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<string>("OrderDate")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("OwnedEmployeeId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Price")
+                                .HasColumnType("int");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("OwnedEmployeeId");
+
+                            b1.ToTable("Order");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OwnedEmployeeId");
+                        });
+
                     b.Navigation("Adress")
                         .IsRequired();
 
                     b.Navigation("EmployeeName")
                         .IsRequired();
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
