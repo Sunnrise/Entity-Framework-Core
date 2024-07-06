@@ -24,7 +24,7 @@ ApplicationDbContext context = new();
 
 #endregion
 #region Owned Attribute
-
+//We can use the Owned attribute to define a class as an owned
 #endregion
 #region IEntityTypeConfiguration<T> Interface
 
@@ -43,7 +43,7 @@ ApplicationDbContext context = new();
 #region Nested Owned Entity Types
 
 #endregion
-#region Sınırlılıklar
+#region Constraints
 
 #endregion
 
@@ -61,14 +61,15 @@ class Employee
     public Address Adress { get; set; }
 
 }
-
+//[Owned]
 class EmployeeName
 {
     public string Name { get; set; }
     public string MiddleName { get; set; } 
     public string LastName { get; set; }
-    
+
 }
+//[Owned]
 class Address
 {
     public string StreetAddress { get; set; }
@@ -80,18 +81,35 @@ class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region OwnsOne
-        modelBuilder.Entity<Employee>().OwnsOne(e => e.EmployeeName, builder =>
-        {
-            builder.Property(e => e.Name).HasColumnName("Name");
-        });
-        modelBuilder.Entity<Employee>().OwnsOne(e => e.Adress);
+        //modelBuilder.Entity<Employee>().OwnsOne(e => e.EmployeeName, builder =>
+        //{
+        //    builder.Property(e => e.Name).HasColumnName("Name");
+        //});
+        //modelBuilder.Entity<Employee>().OwnsOne(e => e.Adress);
         #endregion
+        #region IEntityTypeConfiguration<T> Interface
+        modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+        #endregion
+
     }
-protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=localhost, 1433;Database=ApplicationDb;User Id=sa;Password=Password1;TrustServerCertificate=True");
     }
+    class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
+    {
+        public void Configure(EntityTypeBuilder<Employee> builder)
+        {
+            builder.OwnsOne(e => e.EmployeeName,builder=>
+            {
+                builder.Property(e => e.Name).HasColumnName("Name");
+            });
+            builder.OwnsOne(e => e.Adress);
+        }
+            
+    }
 }
+
 
 
 
