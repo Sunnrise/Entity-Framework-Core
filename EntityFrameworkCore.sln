@@ -71,7 +71,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF_Core_AdoNet", "EF_Core_A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keyless_Entity_Types", "Keyless_Entity_Types\Keyless_Entity_Types.csproj", "{A3529F83-FD23-47A6-B6EF-8E07EF981BE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF_Core_Logging", "EF_Core_Logging\EF_Core_Logging.csproj", "{B8A522CC-F8C3-4259-A38B-55C18EE0A8CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EF_Core_Logging", "EF_Core_Logging\EF_Core_Logging.csproj", "{B8A522CC-F8C3-4259-A38B-55C18EE0A8CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Query_Log", "Query_Log\Query_Log.csproj", "{2B8FE366-61C5-459C-BC6C-A0FF51D8F95B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -219,6 +221,10 @@ Global
 		{B8A522CC-F8C3-4259-A38B-55C18EE0A8CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8A522CC-F8C3-4259-A38B-55C18EE0A8CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8A522CC-F8C3-4259-A38B-55C18EE0A8CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B8FE366-61C5-459C-BC6C-A0FF51D8F95B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B8FE366-61C5-459C-BC6C-A0FF51D8F95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B8FE366-61C5-459C-BC6C-A0FF51D8F95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B8FE366-61C5-459C-BC6C-A0FF51D8F95B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
