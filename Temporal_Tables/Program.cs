@@ -90,13 +90,35 @@ ApplicationDbContext context = new() ;
 #region TemporalFromTo
 //It returns the data of the table between the specified time range. Start and End time are not included.
 
+//var StartDate = new DateTime(2024, 07, 07, 09, 58, 58);
+//var EndDate = new DateTime(2024, 07, 07, 10, 01, 03);
+
+////2024-07-07 09:58:58.2379530
+////2024-07-07 10:01:03.4062148
+
+//var datas = await context.Persons.TemporalFromTo(StartDate,EndDate).Select(p => new
+//{
+//    p.Id,
+//    p.Name,
+//    PeriodStart = EF.Property<DateTime>(p, "PeriodStart"),
+//    PeriodEnd = EF.Property<DateTime>(p, "PeriodEnd")
+//}).ToListAsync();
+
+//foreach (var data in datas)
+//{
+//    System.Console.WriteLine($"Id: {data.Id}, Name: {data.Name}, PeriodStart: {data.PeriodStart}, PeriodEnd: {data.PeriodEnd}");
+//}
+#endregion
+#region TemporalBetween
+//It returns the data of the table between the specified time range. Start time is included however End time is not included.
+
 var StartDate = new DateTime(2024, 07, 07, 09, 58, 58);
 var EndDate = new DateTime(2024, 07, 07, 10, 01, 03);
 
 //2024-07-07 09:58:58.2379530
 //2024-07-07 10:01:03.4062148
 
-var datas = await context.Persons.TemporalFromTo(StartDate,EndDate).Select(p => new
+var datas = await context.Persons.TemporalFromTo(StartDate, EndDate).Select(p => new
 {
     p.Id,
     p.Name,
@@ -108,9 +130,6 @@ foreach (var data in datas)
 {
     System.Console.WriteLine($"Id: {data.Id}, Name: {data.Name}, PeriodStart: {data.PeriodStart}, PeriodEnd: {data.PeriodEnd}");
 }
-#endregion
-#region TemporalBetween
-
 #endregion
 #region TemporalContainedIn
 
