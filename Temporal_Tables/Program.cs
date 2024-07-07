@@ -134,30 +134,47 @@ ApplicationDbContext context = new() ;
 #region TemporalContainedIn
 //It returns the data of the table between the specified time range. Start time and End time are included.
 
-var StartDate = new DateTime(2024, 07, 07, 09, 58, 58);
-var EndDate = new DateTime(2024, 07, 07, 10, 01, 03);
+//var StartDate = new DateTime(2024, 07, 07, 09, 58, 58);
+//var EndDate = new DateTime(2024, 07, 07, 10, 01, 03);
 
-//2024-07-07 09:58:58.2379530
-//2024-07-07 10:01:03.4062148
+////2024-07-07 09:58:58.2379530
+////2024-07-07 10:01:03.4062148
 
-var datas = await context.Persons.TemporalContainedIn(StartDate, EndDate).Select(p => new
-{
-    p.Id,
-    p.Name,
-    PeriodStart = EF.Property<DateTime>(p, "PeriodStart"),
-    PeriodEnd = EF.Property<DateTime>(p, "PeriodEnd")
-}).ToListAsync();
+//var datas = await context.Persons.TemporalContainedIn(StartDate, EndDate).Select(p => new
+//{
+//    p.Id,
+//    p.Name,
+//    PeriodStart = EF.Property<DateTime>(p, "PeriodStart"),
+//    PeriodEnd = EF.Property<DateTime>(p, "PeriodEnd")
+//}).ToListAsync();
 
-foreach (var data in datas)
-{
-    System.Console.WriteLine($"Id: {data.Id}, Name: {data.Name}, PeriodStart: {data.PeriodStart}, PeriodEnd: {data.PeriodEnd}");
-}
+//foreach (var data in datas)
+//{
+//    System.Console.WriteLine($"Id: {data.Id}, Name: {data.Name}, PeriodStart: {data.PeriodStart}, PeriodEnd: {data.PeriodEnd}");
+//}
 #endregion
 #endregion
-#region Bringing Back the Historical Data with Temporal Table
+#region Bringing Back the Deleted Data with Temporal Table 
+//Fistly, We have to detect the date of the deleted data and then we can bring back the data with the Temporal Table feature. Then, we can get the past value of the deleted data with TemporalAsOf method. If we want, we can carry to the physical table with the Add method.
+
+//Deleting time: 2024-07-07 10:01:03.4062148
+var dateOfDelete=await context.Persons.TemporalAll()
+    .Where(p=>p.Id == 2)
+    .OrderByDescending(p => EF.Property<DateTime>(p, "PeriodEnd"))
+    .Select(p=>EF.Property<DateTime>(p, "PeriodEnd"))
+    .FirstAsync();
+
+var deletedPerson = await context.Persons.TemporalAsOf(dateOfDelete.AddMilliseconds(-1))
+    .FirstOrDefaultAsync(p=>p.Id==2);
+
+await context.Persons.AddAsync(deletedPerson);
+await context.Database.OpenConnectionAsync();
+await context.Database.ExecuteSqlInterpolatedAsync($"SET IDENTITY_INSERT dbo.Persons ON");
+await context.SaveChangesAsync();
+await context.Database.ExecuteSqlInterpolatedAsync($"SET IDENTITY_INSERT dbo.Persons OFF");
 
 #region SET IDENTITY_INSERT Configuration
-
+// If we want to insert the deleted data with Id to into the table, we have to set the IDENTITY_INSERT configuration to true. 
 #endregion
 #endregion
 
