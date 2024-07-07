@@ -54,9 +54,25 @@ ApplicationDbContext context = new() ;
 #region Querying Historical Data with Temporal Table
 
 #region TemporalAsOf
-//It returns the data of the table at the specified time.
+//It returns the updated data of the table at the specified time.
 
-var datas =await context.Persons.TemporalAsOf(DateTime.UtcNow).Select(p => new
+//var datas =await context.Persons.TemporalAsOf(DateTime.UtcNow).Select(p => new
+//{
+//    p.Id,
+//    p.Name,
+//    PeriodStart = EF.Property<DateTime>(p, "PeriodStart"),
+//    PeriodEnd = EF.Property<DateTime>(p, "PeriodEnd")
+//}).ToListAsync();
+
+//foreach (var data in datas)
+//{
+//    System.Console.WriteLine($"Id: {data.Id}, Name: {data.Name}, PeriodStart: {data.PeriodStart}, PeriodEnd: {data.PeriodEnd}");
+//}
+#endregion
+#region TemporalAll
+//It returns all the data(present and past) of the table at the specified time.
+
+var datas = await context.Persons.TemporalAll().Select(p => new
 {
     p.Id,
     p.Name,
@@ -68,9 +84,6 @@ foreach (var data in datas)
 {
     System.Console.WriteLine($"Id: {data.Id}, Name: {data.Name}, PeriodStart: {data.PeriodStart}, PeriodEnd: {data.PeriodEnd}");
 }
-#endregion
-#region TemporalAll
-
 #endregion
 #region TemporalFromTo
 
