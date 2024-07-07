@@ -54,23 +54,39 @@ ApplicationDbContext context = new();
 
 #endregion
 #region Using - ExecutionStrategy
-while (true)
-{
-    await Task.Delay(1000);
-    var persons = await context.Persons.ToListAsync();
-    persons.ForEach(p => Console.WriteLine(p.Name));
-    Console.WriteLine("***************");
-}
+//while (true)
+//{
+//    await Task.Delay(1000);
+//    var persons = await context.Persons.ToListAsync();
+//    persons.ForEach(p => Console.WriteLine(p.Name));
+//    Console.WriteLine("***************");
+//}
 #endregion
 
 #endregion
 
 #region When the connection is lost, all the work that needs to be executed must be reprocessed
+//If we want to reprocess all the work that needs to be executed when the connection is lost,
+// Execute and ExecuteAsync methods should be overridden in the CustomExecutionStrategy class. 
+
+//Execute method processes the work that needs to be executed synchronously until commit. If the connection is lost before commit, it will be reprocessed.
+var strategy = context.Database.CreateExecutionStrategy();
+await strategy.ExecuteAsync(async () =>
+{
+    using var transaction=  await context.Database.BeginTransactionAsync();
+    await context.Persons.AddAsync(new Person { Name = "Halil" });
+    await context.SaveChangesAsync();
+
+    await context.Persons.AddAsync(new Person { Name = "Kadir" });
+    await context.SaveChangesAsync();
+    
+    await transaction.CommitAsync();
+});
 
 #endregion
 
 #region Which Cases Should Execution Strategy Be Used?
-
+// Some databases password changes, network problems, and database server restarts can cause connection interruptions.
 #endregion
 #endregion
 
