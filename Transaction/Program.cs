@@ -24,26 +24,41 @@ ApplicationDbContext context = new();
 #endregion
 
 #region Manuel Transaction Control
-IDbContextTransaction transaction =await context.Database.BeginTransactionAsync();
+//IDbContextTransaction transaction =await context.Database.BeginTransactionAsync();
 
-//In EF Core, we can start a transaction manually with the BeginTransaction function.
+////In EF Core, we can start a transaction manually with the BeginTransaction function.
 
-Person p = new() { Name = "Alperen" };
-await context.Persons.AddAsync(p);
-await context.SaveChangesAsync();
-await transaction.CommitAsync();
+//Person p = new() { Name = "Alperen" };
+//await context.Persons.AddAsync(p);
+//await context.SaveChangesAsync();
+//await transaction.CommitAsync();
 #endregion  
 
 #region Savepoints
-
-
+//It comes with EF Core 5.0.
+//Savepoints are a feature that allows us to create a point in the transaction and roll back to that point if necessary.
+//Savepoints are not supported in all databases. It is supported in SQL Server, PostgreSQL, and SQLite.
+//We can use whatever we want in the database that supports Savepoints.
 #region CreateSavepoint
-
+//We can create a savepoint with the CreateSavepoint function.
 #endregion
+
 #region RollbackToSavepoint
-
+//We can roll back to the savepoint with the RollbackToSavepoint function.
 #endregion
 
+IDbContextTransaction transaction =await context.Database.BeginTransactionAsync();
+Person p10 =await context.Persons.FindAsync(10);
+Person p12 = await context.Persons.FindAsync(12);
+context.Persons.RemoveRange(p10, p12);
+await context.SaveChangesAsync();
+
+await transaction.CreateSavepointAsync("Savepoint1");
+Person p9= await context.Persons.FindAsync(9);
+context.Persons.Remove(p9);
+await context.SaveChangesAsync();
+transaction.RollbackToSavepoint("Savepoint1");
+await transaction.CommitAsync();
 #endregion
 
 #region TransactionScope  
