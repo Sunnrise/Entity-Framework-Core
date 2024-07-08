@@ -87,7 +87,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connection_Resiliency", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data_Concurrency", "Data_Concurrency\Data_Concurrency.csproj", "{F3A4C967-C38B-4D2A-9B52-0132B8A4AB2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Value_Conversions", "Value_Conversions\Value_Conversions.csproj", "{3C169A2B-9C16-4990-9DBB-1B09ADC90ADE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Value_Conversions", "Value_Conversions\Value_Conversions.csproj", "{3C169A2B-9C16-4990-9DBB-1B09ADC90ADE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transaction", "Transaction\Transaction.csproj", "{ABD52C13-26FF-4DF1-B6F5-CBE1F6F16CD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -267,6 +269,10 @@ Global
 		{3C169A2B-9C16-4990-9DBB-1B09ADC90ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C169A2B-9C16-4990-9DBB-1B09ADC90ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C169A2B-9C16-4990-9DBB-1B09ADC90ADE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABD52C13-26FF-4DF1-B6F5-CBE1F6F16CD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABD52C13-26FF-4DF1-B6F5-CBE1F6F16CD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABD52C13-26FF-4DF1-B6F5-CBE1F6F16CD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABD52C13-26FF-4DF1-B6F5-CBE1F6F16CD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
