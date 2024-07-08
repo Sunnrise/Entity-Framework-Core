@@ -97,7 +97,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF_Core_Efficient_Querying"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF_Core_7_Bulk_Update_And_Delete", "EF_Core_7_Bulk_Update_And_Delete\EF_Core_7_Bulk_Update_And_Delete.csproj", "{726C408E-793A-44F6-85CF-668E577CA3BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF_Core_Injecting_Services_Into_Entities", "EF_Core_Injecting_Services_Into_Entities\EF_Core_Injecting_Services_Into_Entities.csproj", "{B8DC64C3-717B-436B-A7FE-6D88D7D4AF0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF_Core_7_Injecting_Services_Into_Entities", "EF_Core_Injecting_Services_Into_Entities\EF_Core_7_Injecting_Services_Into_Entities.csproj", "{B8DC64C3-717B-436B-A7FE-6D88D7D4AF0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
