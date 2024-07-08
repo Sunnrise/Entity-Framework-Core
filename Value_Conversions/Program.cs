@@ -78,7 +78,7 @@ ApplicationDbContext context = new();
 //Console.WriteLine();
 #endregion
 #region .NET 6 - Value Converter For Nullable Fields
-//.NET 6'dan önce value converter'lar null değerlerin dönüşüşmünü desteklememekteydi. .NET 6 ile artık nul ldeğerler de dönüştürülebilmektedir.
+//Before .NET 6, value converters did not support the conversion of null values. With .NET 6, null values can now be converted.
 #endregion
 
 
