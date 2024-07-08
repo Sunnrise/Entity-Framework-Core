@@ -47,23 +47,29 @@ ApplicationDbContext context = new();
 //We can roll back to the savepoint with the RollbackToSavepoint function.
 #endregion
 
-IDbContextTransaction transaction =await context.Database.BeginTransactionAsync();
-Person p10 =await context.Persons.FindAsync(10);
-Person p12 = await context.Persons.FindAsync(12);
-context.Persons.RemoveRange(p10, p12);
-await context.SaveChangesAsync();
+//IDbContextTransaction transaction =await context.Database.BeginTransactionAsync();
+//Person p10 =await context.Persons.FindAsync(10);
+//Person p12 = await context.Persons.FindAsync(12);
+//context.Persons.RemoveRange(p10, p12);
+//await context.SaveChangesAsync();
 
-await transaction.CreateSavepointAsync("Savepoint1");
-Person p9= await context.Persons.FindAsync(9);
-context.Persons.Remove(p9);
-await context.SaveChangesAsync();
-transaction.RollbackToSavepoint("Savepoint1");
-await transaction.CommitAsync();
+//await transaction.CreateSavepointAsync("Savepoint1");
+//Person p9= await context.Persons.FindAsync(9);
+//context.Persons.Remove(p9);
+//await context.SaveChangesAsync();
+//transaction.RollbackToSavepoint("Savepoint1");
+//await transaction.CommitAsync();
 #endregion
 
 #region TransactionScope  
-
-
+// It provides to manage database processes as a group.
+//We use too with ADO.NET,
+using TransactionScope transactionScope = new();
+//Database Processes
+//.....
+//....
+transactionScope.Complete();// It is used to commit the transaction.
+//If the Complete function is not called, the transaction is rolled back. 
 #region Complete
 
 #endregion
