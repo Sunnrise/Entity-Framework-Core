@@ -1,6 +1,6 @@
 # Entity Framework Core 8.0 Project
 
-This repository contains the code for various Entity Framework Core 5.0 projects and topics that I have worked on, based on a comprehensive YouTube playlist and additional resources by [Gençay Yıldız](https://www.youtube.com/channel/UC8butISFwT-Wl7EV0hUK0BQ) and [@gncyyldz](https://github.com/gncyyldz).
+This repository contains the code for various Entity Framework Core 5.0 projects and topics that I have worked on, based on a comprehensive YouTube playlist and additional resources by [Gençay Yıldız](https://www.youtube.com/c/Gen%C3%A7ayY%C4%B1ld%C4%B1z) and [@gncyyldz](https://github.com/gncyyldz).
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ This project is built by following the YouTube playlist "[Entity Framework Core 
 ### Prerequisites
 
 Before you begin, ensure you have met the following requirements:
-- [.NET 5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0)
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) or [Visual Studio Code](https://code.visualstudio.com/)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (if your project uses a database)
 
