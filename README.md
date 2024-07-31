@@ -22,7 +22,7 @@ This project is built by following the YouTube playlist "[Entity Framework Core 
 
 Before you begin, ensure you have met the following requirements:
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) or [Visual Studio Code](https://code.visualstudio.com/)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) or [Visual Studio Code](https://code.visualstudio.com/)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (if your project uses a database)
 
 ### Installation
